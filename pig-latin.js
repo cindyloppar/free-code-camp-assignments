@@ -1,9 +1,4 @@
-<html>
-<title>
-    Translate the provided string to pig latin.
-</title>
 
-<script>
     function translateToPigLatin(str) {
         var vowels = ['a', 'e', 'i', 'o', 'u']
 
@@ -22,6 +17,3 @@
     }
     console.log("consolate")
 
-</script>
-
-</html>

@@ -1,25 +1,32 @@
-function pairing(str) {
-    var pairing = [];
-    var pairingElements = function (character) {
-        switch (character) {
-            case 'A':
-                pairing.push['A', 'T'];
-                break;
-            case 'T':
-                pairing.push['T', 'C'];
-                break;
-            case 'C':
-                pairing.push['C', 'G'];
-                break;
-            case 'G':
-                pairing.push['G', 'C']
-                break;
+function pairElement(str) {
 
-        };
-    }
-    for (var i = 0; i < str.lenth; i++) {
-        search(str[i]);
-    }
-    return pairing
+  var pairedElement = [];
 
+
+  var search = function(char) {
+    switch (char) {
+      case 'A':
+       pairedElement.push(['A', 'T']);
+        break;
+      case 'T':
+        pairedElement.push(['T', 'A']);
+        break;
+      case 'C':
+        pairedElement.push(['C', 'G']);
+        break;
+      case 'G':
+        pairedElement.push(['G', 'C']);
+        break;
+    }
+  };
+
+  // Loops through the input and pair.
+  for (var i = 0; i < str.length; i++) {
+    search(str[i]);
+  }
+
+  return pairedElement;
 }
+ 
+
+console.log(pairElement("GCG"));

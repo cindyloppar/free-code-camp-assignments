@@ -7,3 +7,4 @@ function booWho(bool){
     //     return false
     // }
 }
+console.log(booWho(null))
