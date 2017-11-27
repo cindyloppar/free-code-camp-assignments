@@ -25,3 +25,4 @@ function sumPrimes(num) {
 
 
 console.log(sumPrimes(10));
+
