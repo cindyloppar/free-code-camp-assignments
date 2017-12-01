@@ -15,8 +15,12 @@ function sumTwoArguments(firstArgument,secondArgument){
         }
     return function (secondArgument) {
         var answer = firstArgument + secondArgument;
-        if (typeof answer == "string") { return undefined; }
-        else { return answer; }
+        if (typeof answer == "string") { 
+            return undefined; 
+        }
+        else { 
+            return answer;
+         }
     };
 }
     
