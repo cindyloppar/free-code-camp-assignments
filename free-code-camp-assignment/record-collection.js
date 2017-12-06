@@ -33,13 +33,16 @@ function updateRecords(id, prop, value) {
   if (prop !== "tracks" && value !== '') {
     collection[id][prop] = value;
   }
-  else if(prop === "tracks" && !collection[id].hasownproperty("tracks")){
+  else if (prop === "tracks" && !collection[id].hasownproperty("tracks")) {
     collection[id][prop] = [];
     collection[id][prop].push(value);
   }
-   else if (prop === "tracks" && value !== "") {
+  else if (prop === "tracks" && value !== "") {
     collection[id][prop].push(value);
-  } 
+  }
+  else if (value === "") {
+    delete collection[id][prop];
+  }
 
   return collection;
 }
