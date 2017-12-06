@@ -32,7 +32,10 @@ var collectionCopy = JSON.parse(JSON.stringify(collection));
 function updateRecords(id, prop, value) {
   if (prop !== "tracks" && value !== '') {
     collection[id][prop] = value;
-
+  }
+  else if(prop === "tracks" && !collection[id].hasownproperty("tracks")){
+    collection[id][prop] = [];
+    collection[id][prop].push(value);
   }
 
   return collection;
