@@ -36,9 +36,13 @@ function generate(a, n = a.length) {
             i += 1;
         }
     }
-    return results.length;
+        var permutation = results.filter(function(letters){
+     return !letters.match(/(.)\1+/g);
+  });
+                                        
+                                         
+return permutation.length;
 }
-
 
 console.log(generate("ABCD"));
 
