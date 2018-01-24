@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Calculator</title>
+        </head>
+        <script>
+            function one() {
+                document.getElementById("answer").innerHTML += 1;
+            }
+            function two() {
+                document.getElementById("answer").innerHTML += 2;
+            }
+            function three(){
+                document.getElementById("answer").innerHTML += 3;
+            }
+
+            function four(){
+                document.getElementById("answer").innerHTML += 4;
+            }
+            function five(){
+                document.getElementById("answer").innerHTML += 5;
+            }
+            function six(){
+                document.getElementById("answer").innerHTML += 6;
+            }
+            function seven(){
+                document.getElementById("answer").innerHTML += 7;
+            }
+            function eight(){
+                document.getElementById("answer").innerHTML += 8;
+            }
+            function nine(){
+                document.getElementById("answer").innerHTML += 9;
+            }
+            function zero(){
+                document.getElementById("answer").innerHTML += 0;
+            }
+
+            function addition() {
+                document.getElementById("answer").innerHTML += "+";
+            }
+            function subtraction(){
+                document.getElementById("answer").innerHTML += "-";
+            }
+            function multiplication(){
+                document.getElementById("answer").innerHTML += "*";
+            }
+            function division(){
+                document.getElementById("answer").innerHTML += "/";
+            }
+
+            function clearing(){
+                document.getElementById("answer").innerHTML += "AC";
+            }
+
+            function comma(){
+                document.getElementById("answer").innerHTML += ".";
+            }
+
+            function equal(){
+  var calculation = document.getElementById("answer").innerHTML;
+  var finalAnswer = eval(calculation);
+  document.getElementById("answer").innerHTML = finalAnswer;
+}
+
+        </script>
+        <style>
+
+#calculator{
+  background-color:black;
+  width:10%;
+  margin:10%;
+  padding-left:40px;
+  padding-right:50px;
+  padding-bottom:20px;
+  padding-top: 10px;
+  border-radius:6px;
+
+}
+h3{
+  color:white;
+}
+
+button{
+  font-size:30px;
+  border-radius:70px;
+  }
+
+#answer{
+  border-radius:5%;
+  margin-bottom:4%;
+  width:110%;
+
+}
+
+#clear{
+  width:30%;
+  margin-bottom:4%;
+  color:darkorange;
+}
+
+#calc{
+  width:25%;
+  color:darkorange;
+}
+
+#operator{
+color:darkorange;
+}
+
+            </style>
+        <body>
+            <center>
+                <div id="calculator">
+                    <div class="flex-container">
+                        <h3> Calculator</h3>
+                        
+                        <textarea rows="1" id="answer"></textarea>
+                    </div>
+                </div>
+                
+                    <button id="clear" onclick="clearing()"> AC</button>
+
+                    <br>
+                        <button onclick="seven()">7 </button>
+                        <button onclick="eight()"> 8</button>
+                        <button onclick="nine()"> 9</button>
+                        <button id="operator" onclick="subtraction()">-</button>
+</br>
+                        <br>
+                            <button onclick="four()">4 </button>
+                            <button onclick="five()"> 5</button>
+                            <button onclick="six()"> 6</button>
+                            <button id="operator" onclick="addition()"> +</button>
+                            </br>
+                            <br>
+                                <button onclick="one()">1 </button>
+                                <button onclick="two()"> 2</button>
+                                <button onclick="three()"> 3</button>
+                                <button id="operator" onclick="multiplication()"> x</button>
+</br>
+                                <br>
+
+                                    <button onclick="zero()">0 </button>
+                                    <button onclick="comma()" >.</button>
+                                    <button id="calc" onclick="equal()"> =</button>
+                                    <button id="operator" onclick="division()">÷</button>
+
+                                    </br>
+                                            
+            </center>
+                
+                    
+  
+                </body>
+
+
+
+</html>
