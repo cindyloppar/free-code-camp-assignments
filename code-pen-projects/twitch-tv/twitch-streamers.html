@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>twitch</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+<link src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous">
+<link src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous">
+</head>
+    <script>
+        function getRequest() {
+            console.log
+
+            var value = document.getElementById("search").value;
+
+            $.ajax({
+                type: "GET",
+                url: "https://wind-bow.gomix.me/twitch-api/streams/" + value + "?callback=?",
+
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(data);
+                    if (data.stream === null) {
+
+                        $('#title').html(`${value}: offline<br/><br/>`);
+                    } else {
+
+                        $('#title').html(`${value}: online <br/>${data.stream.game}<br/> ${data.stream.viewers}<br/> <br/>`);
+
+                    }
+                }
+
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            var channels = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas"];
+
+            channels.forEach(function (value) {
+                var url = "https://wind-bow.gomix.me/twitch-api/streams/" + value + "?callback=?";
+                $.ajax({
+                    type: "GET",
+                    url: url,
+
+                    dataType: "jsonp",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.stream === null) {
+
+                            $('#status').append(`${value}: offline<br/><br/> `);
+                        }
+                        else {
+
+                            $('#status').append(`${value}: online <br/>${data.stream.game}<br/> ${data.stream.viewers}<br/> <br/> `);
+                        }
+                    }
+
+                })
+            })
+        })
+    </script>
+    <style>
+        p {
+            font-size: 25px;
+        }
+
+        .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 30px;
+        }
+
+        #searchbox {
+            background-color: lightpink;
+            padding-bottom: 20px;
+            padding-top: 20px;
+            border-radius: 10px;
+        }
+
+        p1 {
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+
+    <body>
+
+        <div class="container">
+            <p>Twitch Streamers</p>
+            <div class="col-md-12" id="searchbox">
+                <input type='text' id="search"></input>
+                <button onclick="getRequest()" id="buttonSearch">search</button>
+
+            </div>
+        </div>
+        <p1 id="title"></p1>
+        <p1 id="status"></p1>
+
+    </body>

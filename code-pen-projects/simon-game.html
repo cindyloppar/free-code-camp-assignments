@@ -1,0 +1,115 @@
+<html>
+
+<script>
+  var game = {
+    count: 0,
+    possibilities: ['#green', '#blue', '#red', '#yellow'],
+    currentGame: [],
+    player: [],
+    sound: {
+      blue: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
+      red: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
+      yellow: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
+      green: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
+    },
+    strict: false,
+  }
+
+  function generateMove() {
+
+    game.currentGame.push(game.possibilities[(Math.floor(Math.random() * 4))]);
+    //alert(game.currentGame.length);
+    showMoves();
+  }
+  function showMoves() {
+    var i = 0;
+    var moves = setInterval(function () {
+      playGame(game.currentGame[i]);
+      i++;
+      if (i >= game.currentGame.length) {
+        clearInterval(moves);
+      }
+    }, 600)
+
+    clearPlayer();
+  }
+
+</script>
+<style>
+  body {
+    background-color: coral;
+  }
+  /*   #0C090A */
+
+  h1 {
+    color: white;
+  }
+
+  #blue {
+    border-radius: 25px;
+    background: #81d8d0;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+  }
+
+  #green {
+    border-radius: 25px;
+    background: #29bf12;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    margin-left: 10cm;
+  }
+
+  #red {
+    border-radius: 25px;
+    background: #f21b3f;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    position: relative;
+    bottom: 150px;
+    right: 180px
+  }
+
+  #yellow {
+    border-radius: 25px;
+    background: #ff9914;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    bottom: 150px;
+    position: relative;
+  }
+
+  .buttons {
+    bottom: 350px;
+    position: relative;
+  }
+</style>
+
+<body>
+  <center>
+    <h1> Simon Game </h1>
+
+    <div class="fourTable">
+      <button id="blue" onclick="redButton()"></button>
+    </div>
+    <div class="fourTable">
+      <button id="green" onclick="redButton()"></button>
+    </div>
+    <div class="fourTable">
+      <button id="red" onclick="redButton()"></button>
+    </div>
+    <div class="fourTable">
+      <button id="yellow" onclick="yellowButton()"></button>
+    </div>
+    <div class="buttons">
+      <button id="startButton" onclick="startGame()">Start!</button>
+      <button class="btn btn-warning text-center" data-dismiss="modal" onClick="newGame()"> Reset!</button>
+    </div>
+  </center>
+</body>
+
+</html>

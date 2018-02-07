@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+        crossorigin="anonymous">
+    <link src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous">
+    <link src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous">
+    <link src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous">
+</head>
+<script>
+    $(document).ready(function () {
+
+        var quotes = [{
+            "attrib": "Lau Tzu",
+            "quote": "A journey of a thousand miles begins with a single step."
+        },
+        {
+            "attrib": "Tony robbin",
+            "quote": "Your current situation does not determine your future, Your future is determined by your decisions."
+        }, {
+            "attrib": "Family quotes",
+            "quote": "Is not how big the house is, Its how happy the house is."
+
+        }, {
+            "attrib": "William Feather",
+            "quote": "One way to make the most out of life, Is to look upon it as an adventure."
+        }, {
+            "attrib": "Handry Ford",
+            "quote": "Failure is simply the opportunity to begin again,this time more intelligently."
+        }];
+
+        function newQuote() {
+
+            var quoteID = Math.floor(Math.random() * (quotes.length));
+            $("#quote").html(quotes[quoteID].quote);
+            $("#attrib").html(quotes[quoteID].attrib);
+            $("#twitterButton").attr("href", "https://twitter.com/intent/tweet?text=" + quotes[quoteID].quote + " -" + quotes[quoteID].attrib);
+        }
+
+        $("#quoteButton").on("click", function () {
+            newQuote();
+
+        });
+    });
+
+</script>
+<style>
+    h1 {
+        color: black
+    }
+
+    p {
+        color: black
+    }
+
+    #quoteButton {
+        color: black
+    }
+
+    #quotation-mark {
+        font-weight: bold;
+        font-size: 100px;
+    }
+</style>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="row">
+                <h1>Random Quotes</h1>
+                <p>Click or tap the button for more new quotes.</p>
+                <div class="well">
+                    <blockquote>
+                        <p class="quotation-mark">
+                            "
+                        </p>
+                        <p id="quote"></p>
+                        <footer id="attrib"></footer>
+                    </blockquote>
+                    <a href="" target="_blank" id="twitterButton" class="btn btn-primary"><i class="fa fa-twitter"></i> Tweet </a>
+                </div>
+
+                <button id="quoteButton" class="btn btn-lg">New Quote</button>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

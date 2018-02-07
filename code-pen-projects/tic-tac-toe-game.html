@@ -1,0 +1,224 @@
+<html>
+
+<head>
+
+    <title>Building a game</title>
+    <script>
+        var player = 'X';
+        var secondPlayer = 'O';
+        var curPlayer = player;
+        var gameOver = false;
+        var lockIcon = false;
+        var moves = 9;
+
+        function onePlayer() {
+            playchoice = "one-player";
+            alert("You want to play as one play");
+        }
+
+        function twoPlayer() {
+            playchoice = "two-player";
+            alert("You want to play as two player");
+        }
+
+        function firstButton() {
+
+            document.getElementById("buttonOne").innerHTML = player[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+        }
+        function secondButton() {
+
+            document.getElementById("buttonTwo").innerHTML = secondPlayer[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+        }
+
+        function thirdButton() {
+
+            document.getElementById("buttonThree").innerHTML = player[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+        function fourthButton() {
+
+            document.getElementById("buttonFour").innerHTML = secondPlayer[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+        function fifthButton() {
+
+            document.getElementById("buttonFive").innerHTML = player[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+        function sixthButton() {
+
+            document.getElementById("buttonSix").innerHTML = secondPlayer[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+
+        function seventhButton() {
+
+            document.getElementById("buttonSeven").innerHTML = player[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+        function eighthButton() {
+
+            document.getElementById("buttonEight").innerHTML = secondPlayer[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+
+        }
+        function ninthButton() {
+
+            document.getElementById("buttonNine").innerHTML = player[Math.floor(Math.random())];
+            if (player === "X" || secondPlayer === "O") {
+                player = 'X';
+                secondPlayer = 'O';
+                lockIcon = true;
+
+            } else if (player === "X" || secondPlayer === "O") {
+                player = "X";
+                secondPlayer = "O";
+                lockIcon = true;
+            }
+        }
+
+
+        function reserting() {
+            document.getElementById("inputButtons").reset();
+        }
+    </script>
+
+    <style>
+        #inputButtons {
+            border-radius: 10px;
+            font-size: 10px;
+            padding-top: 15px;
+        }
+
+        table,
+        th,
+        td {
+            border: 50px solid black;
+        }
+
+        .row {
+            margin: 5px;
+        }
+
+        #playerButtons {
+            margin: 5px;
+        }
+    </style>
+
+    <body class="container-fluid">
+        <center>
+            <h1> Tic Tac Toe </h1>
+        </center>
+        <center>
+            <div id="playerButtons" class "row">
+                <div class="col-md-12">
+                    <button id="oneplayer" onclick="onePlayer()">one player</button>
+                    <button id="towplayer" onclick="twoPlayer()">two player</button>
+                </div>
+        </center>
+        <center>
+            <table id='inputButtons'>
+                <tr>
+                    <th id="buttonOne" onclick="firstButton()"></th>
+                    <th id="buttonTwo" onclick="secondButton()"></th>
+                    <th id="buttonThree" onclick="thirdButton()"></th>
+                </tr>
+                <tr>
+                    <th id="buttonFour" onclick="fourthButton()"></th>
+                    <th id="buttonFive" onclick="fifthButton()"></th>
+                    <th id="buttonSix" onclick="sixthButton()"></th>
+                </tr>
+                <tr>
+                    <th id="buttonSeven" onclick="seventhButton()"></th>
+                    <th id="buttonEight" onclick="eighthButton()"></th>
+                    <th id="buttonNine" onclick="ninthButton()"></th>
+                </tr>
+            </table>
+        </center>
+        <center>
+            <div class="row">
+                <button id="reset" class="btn-success btn span3" onclick="reserting()">Restart</button>
+            </div>
+            <center>
+    </body>
+
+</html>
