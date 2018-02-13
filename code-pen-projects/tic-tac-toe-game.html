@@ -6,9 +6,6 @@
     <script>
         var player = '';
         var secondPlayer = '';
-        // var curPlayer = player;
-        // var gameOver = false;
-        // var lockIcon = false;
 
         var moves = ["buttonOne", "buttonTwo", "buttonThree", "buttonFour", "buttonFive", "buttonSix", "buttonSeven", "buttonEight", "buttonNine"];
         var falsy = (val) => val !== id;
@@ -35,29 +32,29 @@
 
         function firstButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonOne' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonOne' && val !== computer;
             document.getElementById("buttonOne").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
         }
         function secondButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonTwo' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonTwo' && val !== computer;
             document.getElementById("buttonTwo").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
         }
 
         function thirdButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonThree' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonThree' && val !== computer;
             document.getElementById("buttonThree").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
 
@@ -65,30 +62,30 @@
         function fourthButton() {
 
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonFour' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonFour' && val !== computer;
             document.getElementById("buttonFour").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
 
         }
         function fifthButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonFive' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonFive' && val !== computer;
             document.getElementById("buttonFive").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
         }
         function sixthButton() {
 
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonSix' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonSix' && val !== computer;
             document.getElementById("buttonsix").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
 
@@ -105,19 +102,19 @@
         }
         function eighthButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonEight' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonEight' && val !== computer;
             document.getElementById("buttonEight").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
         }
         function ninthButton() {
             var random = Math.floor(Math.random() * moves.length)
-            var comp = moves[random];
-            var falsy = (val) => val !== 'buttonNine' && val !== comp;
+            var computer = moves[random];
+            var falsy = (val) => val !== 'buttonNine' && val !== computer;
             document.getElementById("buttonNine").innerHTML = player;
-            document.getElementById(comp).innerHTML = secondPlayer;
+            document.getElementById(computer).innerHTML = secondPlayer;
             moves = moves.filter(falsy);
             console.log('filtered list:', moves)
         }
