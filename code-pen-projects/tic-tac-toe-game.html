@@ -2,15 +2,27 @@
 
 <head>
 
-    <title>Building a game</title>
+    <title>Building a tic tac toe game</title>
     <script>
-        var player = 'X';
-        var secondPlayer = 'O';
-        var curPlayer = player;
-        var gameOver = false;
-        var lockIcon = false;
-        var moves = 9;
+        var player = '';
+        var secondPlayer = '';
+        // var curPlayer = player;
+        // var gameOver = false;
+        // var lockIcon = false;
 
+        var moves = ["buttonOne", "buttonTwo", "buttonThree", "buttonFour", "buttonFive", "buttonSix", "buttonSeven", "buttonEight", "buttonNine"];
+        var falsy = (val) => val !== id;
+        function XButton() {
+            player = "X";
+            secondPlayer = "O";
+            alert("You chose to play as X");
+        }
+
+        function OButton() {
+            player = "O";
+            secondPlayer = "X";
+            alert("You chose to play as O");
+        }
         function onePlayer() {
             playchoice = "one-player";
             alert("You want to play as one play");
@@ -22,143 +34,292 @@
         }
 
         function firstButton() {
-
-            document.getElementById("buttonOne").innerHTML = player[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonOne' && val !== comp;
+            document.getElementById("buttonOne").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
         function secondButton() {
-
-            document.getElementById("buttonTwo").innerHTML = secondPlayer[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonTwo' && val !== comp;
+            document.getElementById("buttonTwo").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
 
         function thirdButton() {
-
-            document.getElementById("buttonThree").innerHTML = player[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonThree' && val !== comp;
+            document.getElementById("buttonThree").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
 
         }
         function fourthButton() {
 
-            document.getElementById("buttonFour").innerHTML = secondPlayer[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonFour' && val !== comp;
+            document.getElementById("buttonFour").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
 
         }
         function fifthButton() {
-
-            document.getElementById("buttonFive").innerHTML = player[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
-
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonFive' && val !== comp;
+            document.getElementById("buttonFive").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
         function sixthButton() {
 
-            document.getElementById("buttonSix").innerHTML = secondPlayer[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonSix' && val !== comp;
+            document.getElementById("buttonsix").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
 
         }
 
         function seventhButton() {
-
-            document.getElementById("buttonSeven").innerHTML = player[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
-
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonSeven' && val !== comp;
+            document.getElementById("buttonSeven").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
         function eighthButton() {
-
-            document.getElementById("buttonEight").innerHTML = secondPlayer[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
-
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonEight' && val !== comp;
+            document.getElementById("buttonEight").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
         function ninthButton() {
-
-            document.getElementById("buttonNine").innerHTML = player[Math.floor(Math.random())];
-            if (player === "X" || secondPlayer === "O") {
-                player = 'X';
-                secondPlayer = 'O';
-                lockIcon = true;
-
-            } else if (player === "X" || secondPlayer === "O") {
-                player = "X";
-                secondPlayer = "O";
-                lockIcon = true;
-            }
+            var random = Math.floor(Math.random() * moves.length)
+            var comp = moves[random];
+            var falsy = (val) => val !== 'buttonNine' && val !== comp;
+            document.getElementById("buttonNine").innerHTML = player;
+            document.getElementById(comp).innerHTML = secondPlayer;
+            moves = moves.filter(falsy);
+            console.log('filtered list:', moves)
         }
+
+        // function checkWinnerOrLoser() {
+
+        //     // Horizontal check
+
+        //     if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonTwo").innerHTML && document.getElementById("buttonThree").innerHTML === "") {
+        //         if (document.getElementById("buttonOne").innerHTML === player) {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonTwo").innerHTML === document.getElementById("buttonThree").innerHTML && document.getElementById("buttonOne").innerHTML === "") {
+        //         if (document.getElementById("buttonTwo").innerHTML === player) {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonThree").innerHTML && document.getElementById("buttonTwo").innerHTML === "") {
+        //         if (document.getElementById("buttonOne").innerHTML === player) {
+        //             document.getElementById("buttonTwo").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonTwo").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+        //     if (document.getElementById("buttonFour").innerHTML === document.getElementById("buttonFive").innerHTML && document.getElementById("buttonSix").innerHTML === "") {
+        //         if (document.getElementById("buttonFour").innerHTML === player) {
+        //             document.getElementById("buttonSix").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonSix").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonFive").innerHTML === document.getElementById("buttonSix").innerHTML && document.getElementById("buttonFour").innerHTML === "") {
+        //         if (document.getElementById("buttonFive").innerHTML === player) {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonSix").innerHTML === document.getElementById("buttonFour").innerHTML && document.getElementById("buttonFive").innerHTML === "") {
+        //         if (document.getElementById("buttonSix").innerHTML === player) {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+
+        //     if (document.getElementById("buttonSeven").innerHTML === document.getElementById("buttonEight").innerHTML && document.getElementById("buttonNine").innerHTML === "") {
+        //         if (document.getElementById("buttonSeven").innerHTML === player) {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonEight").innerHTML === document.getElementById("buttonNine").innerHTML && document.getElementById("buttonSeven").innerHTML === "") {
+        //         if (document.getElementById("buttonEight").innerHTML === player) {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonNine").innerHTML === document.getElementById("buttonSeven").innerHTML && document.getElementById("buttonEight").innerHTML === "") {
+        //         if (document.getElementById("buttonNine").innerHTML === player) {
+        //             document.getElementById("buttonEight").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonEight").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+        //     // Vertical check
+
+        //      if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonFour").innerHTML && document.getElementById("buttonSeven").innerHTML === "") {
+        //         if (document.getElementById("buttonOne").innerHTML === player) {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonSeven").innerHTML === document.getElementById("buttonOne").innerHTML && document.getElementById("buttonFour").innerHTML === "") {
+        //         if (document.getElementById("buttonSeven").innerHTML === player) {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonFour").innerHTML === document.getElementById("buttonSeven").innerHTML && document.getElementById("buttonOne").innerHTML === "") {
+        //         if (document.getElementById("buttonFour").innerHTML === player) {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+        //     if (document.getElementById("buttonTwo").innerHTML === document.getElementById("buttonFive").innerHTML && document.getElementById("buttonEight").innerHTML === "") {
+        //         if (document.getElementById("buttonTwo").innerHTML === player) {
+        //             document.getElementById("buttonEight").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonEight").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonEight").innerHTML === document.getElementById("buttonOne").innerHTML && document.getElementById("buttonFour").innerHTML === "") {
+        //         if (document.getElementById("buttonSeven").innerHTML === player) {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFour").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonFour").innerHTML === document.getElementById("buttonSeven").innerHTML && document.getElementById("buttonOne").innerHTML === "") {
+        //         if (document.getElementById("buttonFour").innerHTML === player) {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+        //     if (document.getElementById("buttonThree").innerHTML === document.getElementById("buttonSix").innerHTML && document.getElementById("buttonNine").innerHTML === "") {
+        //         if (document.getElementById("buttonThree").innerHTML === player) {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonSix").innerHTML === document.getElementById("buttonNine").innerHTML && document.getElementById("buttonThree").innerHTML === "") {
+        //         if (document.getElementById("buttonSix").innerHTML === player) {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonNine").innerHTML === document.getElementById("buttonThree").innerHTML && document.getElementById("buttonSix").innerHTML === "") {
+        //         if (document.getElementById("buttonNine").innerHTML === player) {
+        //             document.getElementById("buttonSix").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonSix").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+        //     // Diagonal
+
+        //       if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonFive").innerHTML && document.getElementById("buttonNine").innerHTML === "") {
+        //         if (document.getElementById("buttonOne").innerHTML === player) {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonNine").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonNine").innerHTML && document.getElementById("buttonFive").innerHTML === "") {
+        //         if (document.getElementById("buttonOne").innerHTML === player) {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonNine").innerHTML === document.getElementById("buttonFive").innerHTML && document.getElementById("buttonOne").innerHTML === "") {
+        //         if (document.getElementById("buttonNine").innerHTML === player) {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonOne").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+        //     if (document.getElementById("buttonThree").innerHTML === document.getElementById("buttonFive").innerHTML && document.getElementById("buttonSeven").innerHTML === "") {
+        //         if (document.getElementById("buttonThree").innerHTML === player) {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonSeven").innerHTML = secondPlayer;
+        //             // console.log("Sorry you lose");
+        //         }
+        //     } else if (document.getElementById("buttonFive").innerHTML === document.getElementById("buttonSeven").innerHTML && document.getElementById("buttonThree").innerHTML === "") {
+        //         if (document.getElementById("buttonFive").innerHTML === player) {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonThree").innerHTML = secondPlayer;
+
+        //         }
+        //     } else if (document.getElementById("buttonSeven").innerHTML === document.getElementById("buttonThree").innerHTML && document.getElementById("buttonFive").innerHTML === "") {
+        //         if (document.getElementById("buttonSeven").innerHTML === player) {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+        //         } else {
+        //             document.getElementById("buttonFive").innerHTML = secondPlayer;
+
+        //         }
+        //     } 
+
+
+        // }
+
 
 
         function reserting() {
-            document.getElementById("inputButtons").reset();
+            window.location.reload();
         }
     </script>
 
@@ -194,6 +355,8 @@
                     <button id="oneplayer" onclick="onePlayer()">one player</button>
                     <button id="towplayer" onclick="twoPlayer()">two player</button>
                 </div>
+                <button id="characterX" onclick="XButton()">X</button>
+                <button id="characterO" onclick="OButton()">O</button>
         </center>
         <center>
             <table id='inputButtons'>
@@ -216,7 +379,7 @@
         </center>
         <center>
             <div class="row">
-                <button id="reset" class="btn-success btn span3" onclick="reserting()">Restart</button>
+                <button id="reset" onclick="reserting()">Restart</button>
             </div>
             <center>
     </body>

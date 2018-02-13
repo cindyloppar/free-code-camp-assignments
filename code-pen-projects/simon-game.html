@@ -1,51 +1,58 @@
 <html>
 
 <script>
-
+  var currentGame = [];
+  var count = 0;
   var game = {
-    count: 0,
     possibilities: ["green", "blue", "red", "yellow"],
-    initialColors: ["#29bf12", "#81d8d0", "#f21b3f", "#ff9914"],
-    currentGame: [],
+    initialColors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"],
     player: [],
-    sound: {
-      blue: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
-      red: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
-      yellow: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
-      green: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
-    }
+    // // sound: {
+    // //   blue: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+    // //   red: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+    // //   yellow: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+    // //   green: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
+    // }
     // strict: false,
   };
 
   function startGame() {
-    var randomColor = Math.floor(Math.random() * 4);
-    game.currentGame.push(game.possibilities[randomColor]);
-    var i = 0;
+    const showTileFor = 1000;
+
+    var randomColor = Math.floor(Math.random() * game.possibilities.length);
+    currentGame.push(game.possibilities[randomColor]);
+
+
     var displayColors = setInterval(function () {
-      document.getElementById(game.possibilities[i]).style.background =
-        game.possibilities[i];
+      var currentPossibility = currentGame[count];
+      document.getElementById(currentPossibility).style.background = currentPossibility;
+
       setTimeout(function () {
-        document.getElementById(game.possibilities[i]).style.background =
-          initialColors[possibilities.indexOf(game.possibilities[i])];
-      }, 2000)
-      i += 1;
-      if (i === game.currentGame.length) {
-        clearInterval(displayColors);
-      }
-    }, 1000)
 
-    game.count += 1;
-    document.getElementById("count").innerHTML = game.count;
+        document.getElementById(currentPossibility).style.background = "#ffffff";// initialColors[possibilities.indexOf(currentPossibility)];
+      }, showTileFor);
 
-    console.log("come :" + game.currentGame);
-    console.log("player :" + game.player);
-    console.log("randomColor : " + randomColor)
+
+      count += 1;
+      document.getElementById("count").innerHTML = count;
+
+      console.log("come :" + currentGame);
+      console.log("player :" + game.player);
+      console.log("randomColor : " + randomColor)
+
+      //  if (count === count.length) {
+      clearInterval(displayColors);
+      //  }
+
+    }, showTileFor * 1.1);
+
   }
 
   function player(id) {
+
     game.player.push(id);
-    if (game.currentGame.length === game.player.length) {
-      if (game.currentGame.toString() !== game.player.toString()) {
+    if (currentGame.length === game.player.length) {
+      if (currentGame.toString() !== game.player.toString()) {
         alert("wrong move");
       } else {
         startGame();
@@ -57,9 +64,9 @@
 </script>
 <style>
   body {
-    background-color: coral;
+    background-color: #0C090A;
   }
-  /*   #0C090A */
+  /* coral */
 
   h1 {
     color: white;
@@ -67,7 +74,7 @@
 
   #blue {
     border-radius: 25px;
-    background: #81d8d0;
+    background: #ffffff;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -75,7 +82,7 @@
 
   #green {
     border-radius: 25px;
-    background: #29bf12;
+    background: #ffffff;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -84,7 +91,7 @@
 
   #red {
     border-radius: 25px;
-    background: #f21b3f;
+    background: #ffffff;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -95,7 +102,7 @@
 
   #yellow {
     border-radius: 25px;
-    background: #ff9914;
+    background: #ffffff;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -107,18 +114,8 @@
     bottom: 350px;
     position: relative;
   }
-  /* #blue.hover {
-  .onhover(@tiffany-blue);
-}
 
-#green.hover {
-  .onhover(@kelly-green);
-}
 
-#red.hover {
-  .onhover(@red);
-}
- */
 </style>
 
 <body>
@@ -139,7 +136,7 @@
     </div>
     <div class="buttons">
 
-      <button id="startButton" onclick="startGame()">Start!</button>
+      <button id="currentPossibility" onclick="startGame()">Start!</button>
       <button class="btn btn-warning text-center" data-dismiss="modal" onClick="newGame()"> Reset!</button>
       <h3 id="count"> </h3>
     </div>
