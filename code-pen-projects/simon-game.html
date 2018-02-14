@@ -7,6 +7,22 @@
   var initialColors = ["#29bf12", "blue", "red", "yellow"];
   var player = [];
 
+
+function onButton() {
+    var swithOn = document.getElementById('on');
+    var switchOff = document.getElementById('off');
+    // state.style.background = 'green';
+    // state2.style.background = '#FFA000';
+}
+
+function offButton() {
+    var switchOn = document.getElementById('off');
+    var switchOff = document.getElementById('on');
+    // state.style.background = 'red';
+    // state2.style.background = '#FFA000';
+}
+
+
   function startGame() {
     const showTileFor = 1000;
 
@@ -42,6 +58,7 @@
       }
     }
   }
+
 
 </script>
 <style>
@@ -83,9 +100,8 @@
     width: 200px;
     height: 150px;
     position: relative;
-    top: 50px;
-    right: 178px;
-    left:1cm;
+    bottom: 10px;
+    right: 215px;
   }
 
   #btn_yellow {
@@ -94,19 +110,34 @@
     padding: 20px;
     width: 200px;
     height: 150px;
-    left: 50px
-    
+    right: 180px;
+    position:relative;
   }
 
   #buttons {
     top: 180px;
     position: relative;
-    right: 600px; 
+    right: 600px;
   }
 
   #count {
     position: relative;
-    bottom: 100px;
+    bottom: 40px;
+  }
+
+  #strictLabel {
+    position: relative;
+    top: 100px;
+  }
+
+  #onText {
+    position: relative;
+    top: 100px;
+  }
+
+  #offText {
+    position: relative;
+    top: 100px;
   }
 </style>
 
@@ -126,10 +157,10 @@
 
       <button id="strictLabel">strict</button>
 
-      <button id="onText">ON</button>
-      <button id="offText">OFF</button>
+      <button id="on" onclick="OnButton()">ON</button>
+      <button id="off" onclick="offButton()">OFF</button>
 
-  </center>
+    </center>
 </body>
 
 </html>
