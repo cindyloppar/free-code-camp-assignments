@@ -3,58 +3,43 @@
 <script>
   var currentGame = [];
   var count = 0;
-  var game = {
-    possibilities: ["green", "blue", "red", "yellow"],
-    initialColors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"],
-    player: [],
-    // // sound: {
-    // //   blue: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
-    // //   red: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
-    // //   yellow: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
-    // //   green: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
-    // }
-    // strict: false,
-  };
+  var possibilities = ["green", "blue", "red", "yellow"];
+  var initialColors = ["#29bf12", "blue", "red", "yellow"];
+  var player = [];
 
   function startGame() {
     const showTileFor = 1000;
 
-    var randomColor = Math.floor(Math.random() * game.possibilities.length);
-    currentGame.push(game.possibilities[randomColor]);
+    var randomColor = Math.floor(Math.random() * possibilities.length);
+    currentGame.push(possibilities[randomColor]);
+    document.getElementById("count").innerHTML = currentGame.length;
 
-
+    var n = 0;
     var displayColors = setInterval(function () {
-      var currentPossibility = currentGame[count];
-      document.getElementById(currentPossibility).style.background = currentPossibility;
+      var currentPossibility = currentGame[n];
+      document.getElementById('btn_' + currentGame[n]).style.background = currentGame[n];
+
 
       setTimeout(function () {
+        document.getElementById('btn_' + currentGame[n - 1]).style.background = "white";
 
-        document.getElementById(currentPossibility).style.background = "#ffffff";// initialColors[possibilities.indexOf(currentPossibility)];
-      }, showTileFor);
+      }, 500);
+      n++;
+      if (n === currentGame.length) {
+        clearInterval(displayColors)
+      }
 
-
-      count += 1;
-      document.getElementById("count").innerHTML = count;
-
-      console.log("come :" + currentGame);
-      console.log("player :" + game.player);
-      console.log("randomColor : " + randomColor)
-
-      clearInterval(displayColors);
-      
-    }, showTileFor * 1.1);
-
+    }, showTileFor * 1 * 1);
   }
 
-  function player(id) {
-
-    game.player.push(id);
-    if (currentGame.length === game.player.length) {
-      if (currentGame.toString() !== game.player.toString()) {
+  function players(id) {
+    player.push(id);
+    if (currentGame.length === player.length) {
+      if (currentGame.toString() !== player.toString()) {
         alert("wrong move");
       } else {
         startGame();
-        game.player = [];
+        player = [];
       }
     }
   }
@@ -62,43 +47,48 @@
 </script>
 <style>
   body {
-    background-color: #0C090A;
+    background-color: coral;
   }
-  /* coral */
+
 
   h1 {
     color: white;
   }
 
-  #blue {
-    border-radius: 25px;
-    background: #ffffff;
-    padding: 20px;
-    width: 200px;
-    height: 150px;
-  }
-
-  #green {
-    border-radius: 25px;
-    background: #ffffff;
-    padding: 20px;
-    width: 200px;
-    height: 150px;
-    margin-left: 10cm;
-  }
-
-  #red {
+  #btn_blue {
     border-radius: 25px;
     background: #ffffff;
     padding: 20px;
     width: 200px;
     height: 150px;
     position: relative;
-    bottom: 150px;
+    left: 200px;
+    bottom: 200px
+  }
+
+  #btn_green {
+    border-radius: 25px;
+    background: #ffffff;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    margin-left: 10cm;
+    position: relative;
+    top: 300px
+  }
+
+  #btn_red {
+    border-radius: 25px;
+    background: #ffffff;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    position: relative;
+    bottom: 75px;
     right: 180px
   }
 
-  #yellow {
+  #btn_yellow {
     border-radius: 25px;
     background: #ffffff;
     padding: 20px;
@@ -113,32 +103,31 @@
     position: relative;
   }
 
-
+  #count {
+    position: relative;
+    bottom: 100px;
+  }
 </style>
 
 <body>
-  <center>
-    <h1> Simon Game </h1>
+  <div class="btn_">
+    <center>
+      <h1> Simon Game </h1>
 
-    <div class="fourTable">
-      <button id="blue" onclick="player('blue')"></button>
-    </div>
-    <div class="fourTable">
-      <button id="green" onclick="player('green')"></button>
-    </div>
-    <div class="fourTable">
-      <button id="red" onclick="player('red')"></button>
-    </div>
-    <div class="fourTable">
-      <button id="yellow" onclick="player('yellow')"></button>
-    </div>
-    <div class="buttons">
+      <button id="btn_blue" onclick="players('blue')"></button>
 
-      <button id="currentPossibility" onclick="startGame()">Start!</button>
-      <button class="btn btn-warning text-center" data-dismiss="modal" onClick="newGame()"> Reset!</button>
+      <button id="btn_green" onclick="players('green')"></button>
+
+      <button id="btn_red" onclick="players('red')"></button>
+
+      <button id="btn_yellow" onclick="players('yellow')"></button>
+
+      <button id="buttons" onclick="startGame()">Start!</button>
+      <button id="buttons" onClick="newGame()"> Reset!</button>
       <h3 id="count"> </h3>
-    </div>
-    <div id="strictLabel">STRICT</div>
+
+      <h3 id="strictLabel">strict</h3>
+  </div>
   </center>
 </body>
 
