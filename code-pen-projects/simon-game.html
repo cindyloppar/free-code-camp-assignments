@@ -19,7 +19,6 @@
       var currentPossibility = currentGame[n];
       document.getElementById('btn_' + currentGame[n]).style.background = currentGame[n];
 
-
       setTimeout(function () {
         document.getElementById('btn_' + currentGame[n - 1]).style.background = "white";
 
@@ -29,7 +28,7 @@
         clearInterval(displayColors)
       }
 
-    }, showTileFor * 1 * 1);
+    }, showTileFor * 1.1);
   }
 
   function players(id) {
@@ -62,8 +61,8 @@
     width: 200px;
     height: 150px;
     position: relative;
-    left: 200px;
-    bottom: 200px
+    left: 350px;
+    top: 185px
   }
 
   #btn_green {
@@ -84,8 +83,9 @@
     width: 200px;
     height: 150px;
     position: relative;
-    bottom: 75px;
-    right: 180px
+    top: 50px;
+    right: 178px;
+    left:1cm;
   }
 
   #btn_yellow {
@@ -94,13 +94,14 @@
     padding: 20px;
     width: 200px;
     height: 150px;
-    bottom: 150px;
-    position: relative;
+    left: 50px
+    
   }
 
-  .buttons {
-    bottom: 350px;
+  #buttons {
+    top: 180px;
     position: relative;
+    right: 600px; 
   }
 
   #count {
@@ -115,19 +116,19 @@
       <h1> Simon Game </h1>
 
       <button id="btn_blue" onclick="players('blue')"></button>
-
       <button id="btn_green" onclick="players('green')"></button>
-
       <button id="btn_red" onclick="players('red')"></button>
-
       <button id="btn_yellow" onclick="players('yellow')"></button>
+      <button id="buttons" onclick="startGame()">Start</button>
+      <button id="buttons" onClick="newGame()"> Reset</button>
 
-      <button id="buttons" onclick="startGame()">Start!</button>
-      <button id="buttons" onClick="newGame()"> Reset!</button>
       <h3 id="count"> </h3>
 
-      <h3 id="strictLabel">strict</h3>
-  </div>
+      <button id="strictLabel">strict</button>
+
+      <button id="onText">ON</button>
+      <button id="offText">OFF</button>
+
   </center>
 </body>
 
