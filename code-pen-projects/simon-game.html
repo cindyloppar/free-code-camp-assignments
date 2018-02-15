@@ -4,20 +4,22 @@
   var currentGame = [];
   var count = 0;
   var possibilities = ["green", "blue", "red", "yellow"];
-  var initialColors = ["#29bf12", "blue", "red", "yellow"];
+  var initialColors = ["#73AD21", "#0b8ce6", "#d20c24", "#e6cf0b"];
   var player = [];
 
 
   // function onButton() {
-  //     var swithOn = document.getElementById('on');
-  //     var switchOff = document.getElementById('off');
-
+  //   var swithOn = document.getElementById('on');
+  //   var switchOff = document.getElementById('off');
+  //   switchOn.style.background = 'green';
+  //   switchOff.style.background = '#FFA000';
   // }
 
   // function offButton() {
-  //     var switchOn = document.getElementById('off');
-  //     var switchOff = document.getElementById('on');
-
+  //   var switchOn = document.getElementById('off');
+  //   var switchOff = document.getElementById('on');
+  //   switchOn.style.background = 'red';
+  //   switchOff.style.background = '#FFA000';
   // }
 
 
@@ -39,7 +41,7 @@
       }, 500);
       n++;
       if (n === currentGame.length) {
-        clearInterval(displayColors)
+        clearInterval(displayColors);
       }
 
     }, showTileFor * 1.1);
@@ -53,6 +55,7 @@
       } else {
         startGame();
         player = [];
+        
       }
     }
   }
@@ -71,12 +74,12 @@
 
   h1 {
     color: white;
-    font-family: Comic ;
+    font-family: Comic;
   }
 
   #btn_blue {
     border-radius: 25px;
-    background: #ffffff;
+    border: solid #0b8ce6;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -87,7 +90,7 @@
 
   #btn_green {
     border-radius: 25px;
-    background: #ffffff;
+    border: solid #73AD21;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -98,7 +101,7 @@
 
   #btn_red {
     border-radius: 25px;
-    background: #ffffff;
+    border: solid #d20c24;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -109,7 +112,7 @@
 
   #btn_yellow {
     border-radius: 25px;
-    background: #ffffff;
+    border: solid #e6cf0b;
     padding: 20px;
     width: 200px;
     height: 150px;
@@ -132,7 +135,6 @@
   #strictLabel {
     position: relative;
     top: 100px;
-  
   }
 
   #on {
@@ -163,7 +165,6 @@
       <h3 id="count"> </h3>
 
       <button id="strictLabel">strict</button>
-
       <button id="on" onclick="OnButton()">ON</button>
       <button id="off" onclick="offButton()">OFF</button>
 
