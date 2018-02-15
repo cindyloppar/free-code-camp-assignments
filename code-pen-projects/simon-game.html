@@ -8,19 +8,17 @@
   var player = [];
 
 
-function onButton() {
-    var swithOn = document.getElementById('on');
-    var switchOff = document.getElementById('off');
-    // state.style.background = 'green';
-    // state2.style.background = '#FFA000';
-}
+  // function onButton() {
+  //     var swithOn = document.getElementById('on');
+  //     var switchOff = document.getElementById('off');
 
-function offButton() {
-    var switchOn = document.getElementById('off');
-    var switchOff = document.getElementById('on');
-    // state.style.background = 'red';
-    // state2.style.background = '#FFA000';
-}
+  // }
+
+  // function offButton() {
+  //     var switchOn = document.getElementById('off');
+  //     var switchOff = document.getElementById('on');
+
+  // }
 
 
   function startGame() {
@@ -60,6 +58,10 @@ function offButton() {
   }
 
 
+  function newGame() {
+    window.location.reload();
+  }
+
 </script>
 <style>
   body {
@@ -90,7 +92,7 @@ function offButton() {
     height: 150px;
     margin-left: 10cm;
     position: relative;
-    top: 300px
+    top: 350px
   }
 
   #btn_red {
@@ -100,7 +102,7 @@ function offButton() {
     width: 200px;
     height: 150px;
     position: relative;
-    bottom: 10px;
+    bottom: 2px;
     right: 215px;
   }
 
@@ -110,8 +112,9 @@ function offButton() {
     padding: 20px;
     width: 200px;
     height: 150px;
-    right: 180px;
-    position:relative;
+    right: 190px;
+    position: relative;
+    top: 175px;
   }
 
   #buttons {
@@ -128,16 +131,19 @@ function offButton() {
   #strictLabel {
     position: relative;
     top: 100px;
+    /* background-color:yellow; */
   }
 
-  #onText {
+  #on {
     position: relative;
     top: 100px;
+    color: #29bf12;
   }
 
-  #offText {
+  #off {
     position: relative;
     top: 100px;
+    color: red;
   }
 </style>
 
