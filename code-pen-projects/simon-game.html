@@ -6,33 +6,49 @@
   var possibilities = ["green", "blue", "red", "yellow"];
   var initialColors = ["#73AD21", "#0b8ce6", "#d20c24", "#e6cf0b"];
   var player = [];
+  var sound = {
+    blue: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
+    red: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
+    dark: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
+    green: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
+  }
+
+  var strict = false;
 
 
-  // function onButton() {
-  //   var swithOn = document.getElementById('on');
-  //   var switchOff = document.getElementById('off');
-  //   switchOn.style.background = 'green';
-  //   switchOff.style.background = '#FFA000';
-  // }
 
-  // function offButton() {
-  //   var switchOn = document.getElementById('off');
-  //   var switchOff = document.getElementById('on');
-  //   switchOn.style.background = 'red';
-  //   switchOff.style.background = '#FFA000';
-  // }
+  function onButton() {
+    var switchOn = document.getElementById('on');
+    var switchOff = document.getElementById('off');
+    strict = true;
+    switchOn.style.background = 'green';
+    switchOff.style.background = '#FFA000';
+  }
+
+  function offButton() {
+    var switchOn = document.getElementById('off');
+    var switchOff = document.getElementById('on');
+    strict = true;
+    switchOn.style.background = 'red';
+    switchOff.style.background = '#FFA000';
+  }
 
 
   function startGame() {
-    const showTileFor = 1000;
 
     var randomColor = Math.floor(Math.random() * possibilities.length);
     currentGame.push(possibilities[randomColor]);
     document.getElementById("count").innerHTML = currentGame.length;
 
+    showMoves()
+
+  }
+
+  function showMoves() {
+
+    const showTileFor = 1000;
     var n = 0;
     var displayColors = setInterval(function () {
-      var currentPossibility = currentGame[n];
       document.getElementById('btn_' + currentGame[n]).style.background = currentGame[n];
 
       setTimeout(function () {
@@ -45,21 +61,35 @@
       }
 
     }, showTileFor * 1.1);
-  }
 
+  }
   function players(id) {
     player.push(id);
     if (currentGame.length === player.length) {
       if (currentGame.toString() !== player.toString()) {
-        alert("wrong move");
+        if (strict) {
+          alert('Try again! ...From scratch!');
+          currentGame = [];
+          player = [];
+          startGame();
+        } else {
+          alert('Wrong move! Try again!');
+          player = []
+          showMoves();
+        }
       } else {
+        console.log('Good Move!');
         startGame();
         player = [];
-        
+          if (count == 20) {
+            alert('You won! Congrats.');
+          } else {
+            alert('Next round!');
+          }    
       }
     }
   }
-
+  
 
   function newGame() {
     window.location.reload();
@@ -129,7 +159,8 @@
 
   #count {
     position: relative;
-    bottom: 0px;
+    bottom: 0.5px;
+    color: #fff;
   }
 
   #strictLabel {
@@ -157,15 +188,16 @@
 
       <button id="btn_blue" onclick="players('blue')"></button>
       <button id="btn_green" onclick="players('green')"></button>
-      <button id="btn_red" onclick="players('red')"></button>
+      <button id="btn_red" onclick="players('red')"> </button>
       <button id="btn_yellow" onclick="players('yellow')"></button>
-      <button id="buttons" onclick="startGame()">Start</button>
-      <button id="buttons" onClick="newGame()"> Reset</button>
+      <button id="buttons" onclick="startGame()">start</button>
+
+      <button id="buttons" onClick="newGame()"> reset</button>
 
       <h3 id="count"> </h3>
 
       <button id="strictLabel">strict</button>
-      <button id="on" onclick="OnButton()">ON</button>
+      <button id="on" onclick="onButton()">ON</button>
       <button id="off" onclick="offButton()">OFF</button>
 
     </center>
