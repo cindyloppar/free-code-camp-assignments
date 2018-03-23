@@ -6,6 +6,7 @@
   var possibilities = ["green", "blue", "red", "yellow"];
   var initialColors = ["#73AD21", "#0b8ce6", "#d20c24", "#e6cf0b"];
   var player = [];
+  var strict = false;
   var sound = {
     blue: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
     red: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
@@ -13,7 +14,6 @@
     green: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
   }
 
-  var strict = false;
 
 
 
@@ -35,6 +35,7 @@
 
 
   function startGame() {
+// this is the displaying part of before it flashes.
 
     var randomColor = Math.floor(Math.random() * possibilities.length);
     currentGame.push(possibilities[randomColor]);
@@ -45,7 +46,7 @@
   }
 
   function showMoves() {
-
+// this is the flashing part of the code
     const showTileFor = 1000;
     var n = 0;
     var displayColors = setInterval(function () {
@@ -63,6 +64,12 @@
     }, showTileFor * 1.1);
 
   }
+
+  // this part i am checking it the currentGame is strickly equal to the player therefor this should will alert them if it is not the same
+  // then the game will continue to push on the player side. 
+  // When the player did a great move the alert should arlet them.
+  // the last part will check if the game ends at 20 then if it is equal to the rounds the game starts all over again.
+
   function players(id) {
     player.push(id);
     if (currentGame.length === player.length) {
@@ -81,16 +88,17 @@
         console.log('Good Move!');
         startGame();
         player = [];
-          if (count == 20) {
-            alert('You won! Congrats.');
-          } else {
-            alert('Next round!');
-          }    
+        if (count === 20) {
+          alert('You won! Congrats.');
+          startGame();
+          player = [];
+        } else {
+          alert('Next round!');
+        }
       }
     }
   }
-  
-
+// this will reload the game
   function newGame() {
     window.location.reload();
   }

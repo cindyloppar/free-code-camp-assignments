@@ -1,0 +1,311 @@
+<html>
+
+<head>
+
+    <title>Building a tic tac toe game</title>
+    <script>
+        var player = '';
+        var opponent = '';
+        var win = 10;
+        var lose = -10;
+        var moves = ["buttonOne", "buttonTwo", "buttonThree", "buttonFour", "buttonFive", "buttonSix", "buttonSeven", "buttonEight", "buttonNine"];
+        function XButton() {
+            player = "X";
+            opponent = "O";
+            alert("You chose to play as X");
+        }
+
+        function OButton() {
+            player = "O";
+            opponent = "X";
+            alert("You chose to play as O");
+        }
+        function onePlayer() {
+            playchoice = "one-player";
+            alert("You want to play as one play");
+        }
+
+
+        function firstButton() {
+            if (moves.indexOf("buttonOne") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonOne' && val !== computer;
+                document.getElementById("buttonOne").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                // checkWinner();
+                // score();
+                console.log('filtered list:', moves);
+
+            }
+            else {
+                alert("used button")
+            }
+
+        }
+
+        function secondButton() {
+            if (moves.indexOf("buttonTwo") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonTwo' && val !== computer;
+                document.getElementById("buttonTwo").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+
+        }
+
+        function thirdButton() {
+            if (moves.indexOf("buttonThree") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonThree' && val !== computer;
+                document.getElementById("buttonThree").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+
+        }
+        function fourthButton() {
+            if (moves.indexOf("buttonFour") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonFour' && val !== computer;
+                document.getElementById("buttonFour").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+            } else {
+                alert("used button")
+            }
+
+        }
+        function fifthButton() {
+            if (moves.indexOf("buttonFive") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonFive' && val !== computer;
+                document.getElementById("buttonFive").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+
+        }
+        function sixthButton() {
+            if (moves.indexOf("buttonSix") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonSix' && val !== computer;
+                document.getElementById("buttonSix").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+            } else {
+                alert("used button")
+            }
+
+        }
+
+        function seventhButton() {
+            if (moves.indexOf("buttonSeven") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var comp = moves[random];
+                var falsy = (val) => val !== 'buttonSeven' && val !== comp;
+                document.getElementById("buttonSeven").innerHTML = player;
+                document.getElementById(comp).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+        }
+        function eighthButton() {
+            if (moves.indexOf("buttonEight") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonEight' && val !== computer;
+                document.getElementById("buttonEight").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+        }
+        function ninthButton() {
+            if (moves.indexOf("buttonNine") !== -1) {
+                var random = Math.floor(Math.random() * moves.length)  
+                var computer = moves[random];
+                var falsy = (val) => val !== 'buttonNine' && val !== computer;
+                document.getElementById("buttonNine").innerHTML = player;
+                document.getElementById(computer).innerHTML = opponent;
+                moves = moves.filter(falsy);
+                console.log('filtered list:', moves)
+
+            } else {
+                alert("used button")
+            }
+        }
+
+
+        function checkWinner() {
+            firstButton();
+            // Horizontal check
+            if (document.getElementById("buttonOne").innerHTML === document.getElementById("buttonTwo").innerHTML && document.getElementById("buttonThree").innerHTML === "") {
+                if (document.getElementById("buttonOne").innerHTML === player) {
+                    document.getElementById("buttonTwo").innerHTML = opponent;
+                } else {
+                    document.getElementById("buttonThree").innerHTML = opponet;
+                    alert("You win");
+                    
+                }
+            }
+        }
+
+        // function score() {
+            
+        //     if (moves === player) {
+        //         return 10;
+        //     } else if (moves === opponent) {
+        //         return -10;
+        //     } else {
+        //         return 0;
+        //     }
+        // }
+
+        // function minimax(game) {
+        //     var scores = [];
+        //     var moves = ["buttonOne", "buttonTwo", "buttonThree", "buttonFour", "buttonFive", "buttonSix", "buttonSeven", "buttonEight", "buttonNine"];
+        //     game.get_available_moves.each(moves)
+        //     var possible_game = game.get_new_state(moves)
+        //     scores.push(minimax(possible_game));
+        //     moves.push(move)
+        //     console.log(moves);
+        //     console.log(scores);
+
+        //     if (game.active_turn == player) {
+        //         var max_score_index = scores.each_with_index.max[1];
+        //         console.log(scores[max_score_index]);
+        //     } else {
+        //         var min_score_index = scores.each_with_index_min[1];
+        //         console.log(scores[min_score_index]);
+        //     }
+        // }
+
+
+
+        // function score(game, depth) {
+        //     if (moves === player) {
+        //         return 10 - depth;
+        //     } else if (moves === opponent) {
+        //         return depth - 10;
+        //     } else {
+        //         return 0;
+        //     }
+        // }
+
+        // function minimax(game, depth) {
+        //     console.log(score(game));
+        //     if ("game over") {
+        //         depth += 1;
+        //         scores = [];
+        //         moves = [];
+        //         game.get_available_moves.each(move)
+        //         possible_game_moves = game.get_new_state(move)
+        //         scores.push(minimax(possible_game, depth))
+        //         moves.push(move);
+
+        //         if (game.activ_turn == player) {
+        //             var max_score_index = score.each_with_index.max[1];
+        //             console.log(scores[max_score_index]);
+        //         } else {
+        //             min_score_index = scores.each_with_index.min[1];
+        //             console.log(scores[min_score_index]);
+        //         }
+        //     }
+
+        // }
+
+
+        function reserting() {
+            window.location.reload();
+        }
+    </script>
+    <style>
+        #board {
+            border-radius: 10px;
+            font-size: 10px;
+            padding-top: 15px;
+        }
+
+        table,
+        th,
+        td {
+            border: 50px solid brown;
+        }
+
+        .row {
+            margin: 5px;
+        }
+
+        #playerButtons {
+            margin: 5px;
+        }
+    </style>
+
+    <body class="container-fluid">
+        <center>
+            <h1> Tic Tac Toe </h1>
+        </center>
+        <center>
+            <div id="playerButtons" class "row">
+                <div class="col-md-12">
+                    <button id="oneplayer" onclick="onePlayer()">one player</button>
+                </div>
+                <button id="characterX" onclick="XButton()">X</button>
+                <button id="characterO" onclick="OButton()">O</button>
+        </center>
+        <center>
+            <table id='board'>
+                <tr>
+                    <th id="buttonOne" onclick="firstButton()"></th>
+                    <th id="buttonTwo" onclick="secondButton()"></th>
+                    <th id="buttonThree" onclick="thirdButton()"></th>
+                </tr>
+                <tr>
+                    <th id="buttonFour" onclick="fourthButton()"></th>
+                    <th id="buttonFive" onclick="fifthButton()"></th>
+                    <th id="buttonSix" onclick="sixthButton()"></th>
+                </tr>
+                <tr>
+                    <th id="buttonSeven" onclick="seventhButton()"></th>
+                    <th id="buttonEight" onclick="eighthButton()"></th>
+                    <th id="buttonNine" onclick="ninthButton()"></th>
+                </tr>
+            </table>
+        </center>
+        <center>
+            <div class="row">
+                <button id="reset" onclick="reserting()">Restart</button>
+            </div>
+            <center>
+    </body>
+
+</html>
