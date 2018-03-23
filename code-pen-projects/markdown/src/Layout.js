@@ -1,6 +1,10 @@
 
 import React from 'react';
- 
+import ReactDom from 'react-dom';
+import ReactMarkdown from 'react-markdown';
+
+
+const input = '# This is a header\n\nAnd this is a paragraph'
 
 export default class Layout extends React.Component {
     constructor() {
@@ -18,8 +22,11 @@ export default class Layout extends React.Component {
         this.changeDescription(description);
     }
 
+    
+
     render() {
-        console.log("this.state", this.state)
+        <ReactMarkdown source={input} /> ,
+            document.getElementById('container')
         return (
             <div>
                 <h1> Markdown Previewer</h1>
