@@ -10,10 +10,13 @@ body{
 h1{
     
     color: grey;
+    font-size: 35px;
 }
 input{
    padding: 80px;
-   border-radius: 4%;
+   border-radius: 6%;
    background: black;
+   font-size: 25px;
+   
    
 }
