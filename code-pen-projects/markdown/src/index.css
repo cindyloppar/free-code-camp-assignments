@@ -3,8 +3,17 @@
 body{
     text-align: center;
     margin: 0%;
+    background-color: black;
+    color: whitesmoke;
 
 }
 h1{
-    font-size: 13px;
+    
+    color: grey;
+}
+input{
+   padding: 80px;
+   border-radius: 4%;
+   background: black;
+   
 }
