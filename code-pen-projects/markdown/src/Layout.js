@@ -1,10 +1,10 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 
 
-const input = '# This is a header\n\nAnd this is a paragraph'
+// const input = '# This is a header\n\nAnd this is a paragraph'
 
 export default class Layout extends React.Component {
     constructor() {
