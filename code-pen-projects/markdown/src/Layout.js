@@ -3,32 +3,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 
-
-
 export default class Layout extends React.Component {
     constructor() {
         super();
         this.state = {
-            input: ""
+            source: ""
         }
     }
 
-    changeDescription(newValue) {
-        this.setState({ input: newValue });
-    }
+    // changeDescription(newValue) {
+    //     this.setState({ input: newValue });
+    // }
     handleChange(e) {
-        const description = e.target.value;
-        this.changeDescription(description);
+        this.setState({ source: e.target.value });
+        
     }
 
     render() {
-        <ReactMarkdown source={this.state.input} /> ,
-            document.getElementById('container')
+       
+        
         return (
             <div>
                 <h1> Markdown Previewer</h1>
-                <input onChange={this.handleChange.bind(this)} />
+                <textarea onChange={this.handleChange.bind(this)} />
                 <p>{this.state.input} </p>
+                <ReactMarkdown source={this.state.source} /> 
             </div>
 
         );
