@@ -18,5 +18,12 @@ textarea{
    background: black;
    font-size: 20px;
    
+}
+footer{
+    color:rgb(195, 222, 233);
+    position:absolute;
+   bottom:0;
+   width:100%;
+   height:50px;   /* Height of the footer */
    
 }
