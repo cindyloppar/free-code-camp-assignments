@@ -11,9 +11,6 @@ export default class Layout extends React.Component {
         }
     }
 
-    // changeDescription(newValue) {
-    //     this.setState({ input: newValue });
-    // }
     handleChange(e) {
         this.setState({ source: e.target.value });
         
