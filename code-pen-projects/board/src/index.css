@@ -1,8 +1,14 @@
 
+
 p{
     border: 1px solid #dddddd;
     text-align: center;
-    width:100%
+    width:100%;
+    background-color: rgb(76, 175, 145); 
+    border: 3px solid rgb(0, 128, 128); 
+    color: whitesmoke;
+    font-size: 25px;
+
 }
 
 table {
@@ -12,7 +18,7 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 2px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
@@ -22,5 +28,17 @@ tr:nth-child(even) {
 }
 
 img{
+ width:50px;
+ height:80px;
+ border-radius: 5px;
+ vertical-align: middle;
+ 
+}
+
+button{
+    background-color: rgb(76, 175, 145); 
+    /* border: 2px solid rgb(0, 128, 128); */
+    color: whitesmoke; 
+    width:100%
 
 }
