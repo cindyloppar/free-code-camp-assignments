@@ -8,31 +8,31 @@ export default class Table extends React.Component {
             currentState: "recent",
             count: [],
             data: [],
-           
+
 
         }
     }
-    componentDidMount() {
+    getData() {
         Axios.get("https://fcctop100.herokuapp.com/api/fccusers/top/" + this.state.currentState)
             .then(response => {
                 this.setState({ data: response.data });
-                console.log(this.state.currentState+":", this.state.currentState);
-                console.log("data:", this.state.data);
-               
             })
-            
+
     }
 
-changeTables(){
-    if(this.state.currentState === "recent"){
-        this.setState({currentState: "alltime"});
-        this.componentDidMount();
+
+    changeToRecent() {
+        if (this.state.currentState === "recent") {
+            this.setState({ currentState: "alltime" });
+            this.getData();
+        }
     }
-    else if(this.state.currentState === "alltime"){
-        this.setState({currentState: "recent"});
-        this.componentDidMount();
+    changeToAllTime() {
+        if (this.state.currentState === "alltime") {
+            this.setState({ currentState: "recent" });
+            this.getData();
+        }
     }
-}
 
     render() {
         return (
@@ -43,14 +43,13 @@ changeTables(){
                         <tr>
                             <th>#</th>
                             <th>Camper Name</th>
-                            <th>Points in past 30 days</th>
-                            <div>
-                                <th><button onClick={this.changeTables.bind(this)}>All time points</button></th>
-                            </div>
+                            <th><button onClick={() => this.changeToRecent()}>Points in past 30 days</button></th>
+                            <th><button onClick={() => this.changeToAllTime()}>All time points</button></th>
+                            
                         </tr>
 
                         {this.state.data.map(value => (
-                            
+
                             <tr>
                                 <td>{this.state.data.indexOf(value) + 1}</td>
                                 <td><img alt='images' src={value.img} />
