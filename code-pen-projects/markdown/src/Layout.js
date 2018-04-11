@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
@@ -24,7 +23,7 @@ export default class Layout extends React.Component {
                 <textarea onChange={this.handleChange.bind(this)} />
                 <p>{this.state.input} </p>
                 <ReactMarkdown source={this.state.source} /> 
-                <footer>Pen By Mrs Nevhufumba</footer>
+                <footer>Pen By Mrs N...</footer>
             </div>
 
         );
