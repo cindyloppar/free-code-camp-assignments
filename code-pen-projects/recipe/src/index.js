@@ -1,6 +1,8 @@
 import React from 'react';
-import Button from './Button'
-import './index.css'
+import ReactDOM from 'react-dom';
+import View from './View';
+import Recipe from './Recipe'
+import './index.css';
 
 const recipe = document.getElementById("root")
-ReactDOM.render = (<Button/>, recipe); 
+ReactDOM.render(<View/>, recipe); 
