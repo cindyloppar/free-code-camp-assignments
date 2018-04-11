@@ -8,8 +8,6 @@ export default class Table extends React.Component {
             currentState: "recent",
             count: [],
             data: [],
-
-
         }
     }
     getData() {
@@ -17,9 +15,7 @@ export default class Table extends React.Component {
             .then(response => {
                 this.setState({ data: response.data });
             })
-
     }
-
 
     changeToRecent() {
         if (this.state.currentState === "recent") {
@@ -27,6 +23,7 @@ export default class Table extends React.Component {
             this.getData();
         }
     }
+    
     changeToAllTime() {
         if (this.state.currentState === "alltime") {
             this.setState({ currentState: "recent" });
