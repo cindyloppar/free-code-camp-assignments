@@ -1,0 +1,18 @@
+body{
+    background-color: black;
+    color: whitesmoke;
+}
+
+table {
+    width:50%;
+}
+
+table, th, td {
+    border: 1px solid whitesmoke;
+    border-collapse: collapse;
+
+}
+
+textarea{
+    width:100%;
+}
