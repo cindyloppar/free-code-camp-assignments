@@ -1,3 +1,7 @@
+<html>
+
+<head>
+    <title>Pomodoro Clock</title>
     <script>
 
         
@@ -62,3 +66,70 @@
 
     </script>
 
+    <style>
+        #container {
+            border: 1px solid #355;
+            border-radius: 20px;
+            width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            text-align: center;
+            background: #355;
+        }
+
+        h1 {
+            font-family: italic;
+        }
+
+        #time {
+            font-size: 50px;
+            margin: 25px auto;
+            border-radius: 20%;
+            width: 200px;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            color: white
+        }
+
+        #time {
+            margin-top: 90px;
+            z-index: 2;
+            position: relative;
+        }
+
+        #minus,
+        #plus {
+            background-color: #355;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 2em;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+    <html>
+    <h1>
+        <center> Pomodoro Timer </center>
+    </h1>
+    <div id="pomodoro-app">
+        <div id="container">
+            <button id="minus" onClick="decreaseMinutes()">-</button>
+            <span id="time">25:00</span>
+            <button id='plus' onClick="increaseMinutes()">+</button>
+            <div id="buttons">
+                <button id="start" onClick="startTimer()">Start</button>
+                <button id="stop" onClick="stopButton()">Stop</button>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>
