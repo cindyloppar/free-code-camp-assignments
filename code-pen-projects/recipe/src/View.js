@@ -2,18 +2,21 @@
 import React from 'react';
 import Button from "react-bootstrap/lib/Button";
 import Modal from "react-bootstrap/lib/Modal";
-
+import Well from "react-bootstrap/lib/Well";
+import Collapse from "react-bootstrap/lib/Collapse";
 
 export default class View extends React.Component {
     constructor() {
         super();
         this.state = {
+            editShowOrHide: false,
             show: false,
-            recipes: [{ recipe: "chicken mayo Salad", ingredients: ["Chicken breast", "Onion", 'Mayonnaise', 'Celery'] }],
+            recipes: [{ recipe: "Chicken Mayo Salad", ingredients: ["Chicken breast", "Onion", "Mayonnaise", "Celery"] }],
             ingredients: [],
             recipeName: '',
-            edit: '',
+            edit: false,
             delete: '',
+            data: '',
         }
 
         this.handleClose = this.handleClose.bind(this);
@@ -29,7 +32,6 @@ export default class View extends React.Component {
         this.setState(change);
 
     }
-
     handleClose() {
         this.setState({ show: false });
     }
@@ -38,32 +40,54 @@ export default class View extends React.Component {
         this.setState({ show: true });
     }
 
-    EditRecipe() {
-        
-        // var recipes = recipes.find( element => {
-        //     return element.recipe;
-        // }) 
-        // this.setState({edit:this.state.recipes});
+    getData(e) {
 
-        // localStorage.setItem("MoreValues", JSON.stringify(this.state.recipes));
-        // window.location.reload(true);
-
+        var results = JSON.parse(localStorage.getItem("data"))
+        var values = results.find((element => element.recipe === e));
+        console.log("results", results)
+        this.setState({ data: values.ingredients });
     }
-    DeleteRecipe() {
-        var deleteData = this.setState({delete:this.state.recipes});
-        localStorage.clear(deleteData);
-        window.location.reload(true);
+
+    EditRecipe(ing) {
+        // var event = this.state.recipes;
+        var foundObject = this.state.recipes.find(element => { return element.ingredients[0] === ing[0] });
+        this.setState({ ingredients: foundObject.ingredients, recipeName: foundObject.recipe })
+        this.setState({ editShowOrHide: true });
+
+        this.setState({ edit: true });
+        // this.getData();
+    }
+
+    DeleteRecipe(title) {
+
+        // var deleteData = this.setState({ delete: this.state.recipes });
+        // localStorage.clear(deleteData);
+        this.state.recipes.forEach(element => {
+            if (element.recipe === title) {
+                var position = this.state.recipes.indexOf(element);
+                this.state.recipes.splice(position, position + 1)
+                this.setState({ recipes: this.state.recipes })
+                localStorage.setItem("data", JSON.stringify(this.state.recipes));
+
+            }
+            console.log(position);
+        })
+
     }
 
     SaveNewRecipe() {
         var existingRecipes = this.state.recipes;
         var list = this.state.ingredients;
-        list = list.split(',')
-        var newItem = { recipe: this.state.recipeName, ingredients: list };
+        list = list.split(',');
+        var newItem = { recipe: this.state.recipe, ingredients: list };
         existingRecipes.push(newItem);
         console.log('new Recipe list:', this.state.recipes);
         localStorage.setItem('data', JSON.stringify(this.state.recipes));
         this.setState({ recipes: existingRecipes });
+        this.setState({ show: false });
+        edit: false;
+
+
     }
 
     componentDidMount() {
@@ -77,6 +101,7 @@ export default class View extends React.Component {
     }
 
     render() {
+        console.log("data", this.state.data)
         return (
             <div className="static-modal">
 
@@ -88,16 +113,18 @@ export default class View extends React.Component {
                 >
                     ADD RECIPE
                 </Button>
+
                 <Modal
                     show={this.state.show}
                     onHide={this.handleHide}
                     container={this}
                     aria-labelledby="contained-modal-title"
                 >
+
                     <Modal.Header>
                         <Modal.Title>
                             RECIPE:
-                            <input placeholder="Recipe" name="recipeName" onChange={this.handleChange.bind(this)} />
+                            <input placeholder="Recipe" name='recipe' onChange={this.handleChange.bind(this)} />
                         </Modal.Title>
                     </Modal.Header>
 
@@ -109,32 +136,98 @@ export default class View extends React.Component {
 
                                 </tr>
                                 <td>
-                                    <textarea placeholder="Ingredients" name="ingredients" onChange={this.handleChange.bind(this)} />
-                                    {/* {this.state.ingredients} */}
+                                    <textarea placeholder="Ingredients" name='ingredients' onChange={this.handleChange.bind(this)} />
+
                                 </td>
 
                             </tbody>
                         </table>
-                        <Button onClick={this.handleClose}>Close</Button>
-                        <Button onClick={() => this.SaveNewRecipe()}>Save changes</Button>
-                        <Button onClick={this.DeleteRecipe}>Delete</Button>
 
                     </Modal.Body>
 
                     <Modal.Footer>
+                        <Button onClick={() => this.SaveNewRecipe()}>Save </Button>
+                        <Button onClick={this.handleClose}>Close</Button>
 
                     </Modal.Footer>
                 </Modal>
 
+
+                <Modal
+                    show={this.state.editShowOrHide}
+                    onHide={this.handleHide}
+                    container={this}
+                    aria-labelledby="contained-modal-title"
+                >
+
+                    <Modal.Header>
+                        <Modal.Title>
+                            RECIPE:
+                            <input placeholder={this.state.recipeName} name='recipe' onChange={this.handleChange.bind(this)} />
+                        </Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Ingredients</th>
+
+                                </tr>
+                                <td>
+                                    <textarea placeholder='ingredients' value={this.state.ingredients} name='ingredients' onChange={this.handleChange.bind(this)} />
+
+                                </td>
+
+                            </tbody>
+                        </table>
+
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button onClick={() => this.SaveNewRecipe()}>Save </Button>
+                        <Button onClick={this.handleClose}>Close</Button>
+
+                    </Modal.Footer>
+                </Modal>
+                <Button
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={() => this.EditRecipe(this.state.data)}
+
+                >
+                    Edit
+                </Button>
+
                 <div>
-                    {this.state.recipes.map(element => (<button>{element.recipe}</button>))}
+                    {this.state.recipes.map(element => {
+                        return <div className="container-fluid" key={this.state.recipes.indexOf(element)}>
+                            <recipes key={this.state.recipes.indexOf(element)} name={element.recipe} ingredients={element.ingredients} deleteButton={this.DeleteRecipe.bind(this)} editButton={this.EditRecipe.bind(this)} />
+                        </div>
+                    })}
                 </div>
+
                 <div>
-                   
-                    <Button onClick={this.EditRecipe}>Edit</Button></div>
+                    {this.state.recipes.map(element => (<button onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
+
+                </div>
+
+
+                <div>
+
+                    <ul>
+                        {this.state.data === "" ? this.state.data : this.state.data.map(element => { return <ul>{element}</ul> })}
+                        <Button onClick={this.DeleteRecipe}>Delete</Button>
+                        {/* <Button onClick={this.getData.bind(this)}>Edit</Button> */}
+
+                    </ul>
+
+                </div>
+
             </div>
 
         );
     }
 }
+
 
