@@ -2,8 +2,6 @@
 import React from 'react';
 import Button from "react-bootstrap/lib/Button";
 import Modal from "react-bootstrap/lib/Modal";
-// import Well from "react-bootstrap/lib/Well";
-// import Collapse from "react-bootstrap/lib/Collapse";
 import SaveEdits from "./SaveEdits"
 
 export default class View extends React.Component {
@@ -45,41 +43,49 @@ export default class View extends React.Component {
 
     getData(e) {
         var results = JSON.parse(localStorage.getItem("data"));
-        var values = results.find((element => element.recipe === e));
-        this.setState({ boolean: true, currentRecipe: values, recipe: values.recipe, ingredients: values.ingredients });
+       var foundRecipe = this.state.recipes.find(element => { return element.recipe === e });
+       var values = results.find((element => element.recipe === e));
+       this.setState({ boolean: true, show:false, currentRecipe: foundRecipe, recipe: values.recipe, ingredients: values.ingredients });
+       console.log('foundRecipe',this.state.currentRecipe);
     }
 
     showEditRecipe(ing) {
         var foundObject = this.state.recipes.find(element => { return element.ingredients[0] === ing[0] });
-        this.setState({ editShowOrHide: true, recipe: foundObject.recipe, ingredients: foundObject.ingredients })
+        this.setState({ editShowOrHide: true, show:false, recipe: foundObject.recipe, ingredients: foundObject.ingredients })
 
     }
 
     SaveEdit(recipe, ingredients) {
         var existingRecipes = this.state.recipes;
-        console.log('existingRecipes',existingRecipes)
-        var index = existingRecipes.indexOf(this.state.currentRecipe);
-        console.log('index',index)
-        var newItem = { recipe: recipe, ingredients: ingredients };
+        console.log('existingRecipes', existingRecipes.find(e => e.recipe === this.state.currentRecipe.recipe))
+        var index = existingRecipes.indexOf(existingRecipes.find(e => e.recipe === this.state.currentRecipe.recipe));
+        console.log('currentRecipe', this.state.currentRecipe)
+        console.log('index', index)
+        var newItem = { recipe: recipe, ingredients: ingredients.split(",") };
         console.log('newItem', newItem);
         existingRecipes[index] = newItem;
-        console.log('newExistingRecipes', existingRecipes)
-
+        console.log('newExistingRecipes', existingRecipes);
+        this.setState({ recipes: existingRecipes, editShowOrHide: false});
+        console.log('recipes', this.state.recipes)
+        localStorage.setItem('data', JSON.stringify(this.state.recipes));
+        window.location.reload(true);
     }
 
     deleteRecipe(collection, rec, ing) {
-        console.log("col", collection)
-        var newData = [];
+        var newData = this.state.recipes;
         var currentRecipe = { recipe: rec, ingredients: ing };
-        for (var i in collection) {
-            if (collection[i].recipe !== currentRecipe.recipe && collection[i].ingredients !== currentRecipe.ingredients) {
-                newData.push(collection[i]);
-            }
-        }
-        this.setState({ currentRecipe: newData })
-        localStorage.setItem('data', JSON.stringify(newData));
+        var position = newData.indexOf(collection);
+       newData.splice(position,1)
+        console.log("col", newData);
+        // for (var i in collection) {
+        //     if (collection[i].recipe !== currentRecipe.recipe && collection[i].ingredients !== currentRecipe.ingredients) {
+        //         newData.push(collection[i]);
+        //     }
+        // }
+        this.setState({ currentRecipe: {},recipes:newData,boolean:false })
+        localStorage.setItem('data', JSON.stringify(this.state.recipes));
         console.log("newData", newData);
-        window.location.reload(true);
+       
     }
 
     SaveNewRecipe() {
@@ -112,7 +118,7 @@ export default class View extends React.Component {
                 <Button
                     bsStyle="primary"
                     bsSize="large"
-                    onClick={() => this.setState({ show: true })}
+                    onClick={() => this.setState({ show: true ,editShowOrHide:false, currentRecipe:{}, boolean:false})}
 
                 >
                     ADD RECIPE
@@ -163,9 +169,9 @@ export default class View extends React.Component {
                 </div>
 
                 <div>
-                    
-                    {this.state.currentRecipe.ingredients !== undefined? this.state.currentRecipe.ingredients.map(e=><ol>{e}</ol>):null}
-                    
+
+                    {this.state.currentRecipe.ingredients !== undefined ? this.state.currentRecipe.ingredients.map(e => <ol>{e}</ol>) : null}
+
                     {this.state.boolean === true ? <SaveEdits SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.recipes} /> : null}
                 </div>
             </div>
