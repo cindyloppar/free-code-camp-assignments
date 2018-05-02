@@ -2,28 +2,31 @@
 import React from 'react';
 import Button from "react-bootstrap/lib/Button";
 import Modal from "react-bootstrap/lib/Modal";
-import Well from "react-bootstrap/lib/Well";
-import Collapse from "react-bootstrap/lib/Collapse";
+// import Well from "react-bootstrap/lib/Well";
+// import Collapse from "react-bootstrap/lib/Collapse";
+import SaveEdits from "./SaveEdits"
 
 export default class View extends React.Component {
     constructor() {
         super();
         this.state = {
+            boolean: false,
             editShowOrHide: false,
             show: false,
-            recipes: [{ recipe: "Chicken Mayo Salad", ingredients: ["Chicken breast", "Onion", "Mayonnaise", "Celery"] }],
+            recipes: [],
             ingredients: [],
             recipeName: '',
             edit: false,
             delete: '',
-            data: '',
+            currentRecipe: {}
+
         }
 
         this.handleClose = this.handleClose.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.SaveNewRecipe = this.SaveNewRecipe.bind(this);
-        this.EditRecipe = this.EditRecipe.bind(this);
-        this.DeleteRecipe = this.DeleteRecipe.bind(this);
+        this.showEditRecipe = this.showEditRecipe.bind(this);
+        this.deleteRecipe = this.deleteRecipe.bind(this);
     }
 
     handleChange(e) {
@@ -41,38 +44,42 @@ export default class View extends React.Component {
     }
 
     getData(e) {
-
-        var results = JSON.parse(localStorage.getItem("data"))
+        var results = JSON.parse(localStorage.getItem("data"));
         var values = results.find((element => element.recipe === e));
-        console.log("results", results)
-        this.setState({ data: values.ingredients });
+        this.setState({ boolean: true, currentRecipe: values, recipe: values.recipe, ingredients: values.ingredients });
     }
 
-    EditRecipe(ing) {
-        // var event = this.state.recipes;
+    showEditRecipe(ing) {
         var foundObject = this.state.recipes.find(element => { return element.ingredients[0] === ing[0] });
-        this.setState({ ingredients: foundObject.ingredients, recipeName: foundObject.recipe })
-        this.setState({ editShowOrHide: true });
+        this.setState({ editShowOrHide: true, recipe: foundObject.recipe, ingredients: foundObject.ingredients })
 
-        this.setState({ edit: true });
-        // this.getData();
     }
 
-    DeleteRecipe(title) {
+    SaveEdit(recipe, ingredients) {
+        var existingRecipes = this.state.recipes;
+        console.log('existingRecipes',existingRecipes)
+        var index = existingRecipes.indexOf(this.state.currentRecipe);
+        console.log('index',index)
+        var newItem = { recipe: recipe, ingredients: ingredients };
+        console.log('newItem', newItem);
+        existingRecipes[index] = newItem;
+        console.log('newExistingRecipes', existingRecipes)
 
-        // var deleteData = this.setState({ delete: this.state.recipes });
-        // localStorage.clear(deleteData);
-        this.state.recipes.forEach(element => {
-            if (element.recipe === title) {
-                var position = this.state.recipes.indexOf(element);
-                this.state.recipes.splice(position, position + 1)
-                this.setState({ recipes: this.state.recipes })
-                localStorage.setItem("data", JSON.stringify(this.state.recipes));
+    }
 
+    deleteRecipe(collection, rec, ing) {
+        console.log("col", collection)
+        var newData = [];
+        var currentRecipe = { recipe: rec, ingredients: ing };
+        for (var i in collection) {
+            if (collection[i].recipe !== currentRecipe.recipe && collection[i].ingredients !== currentRecipe.ingredients) {
+                newData.push(collection[i]);
             }
-            console.log(position);
-        })
-
+        }
+        this.setState({ currentRecipe: newData })
+        localStorage.setItem('data', JSON.stringify(newData));
+        console.log("newData", newData);
+        window.location.reload(true);
     }
 
     SaveNewRecipe() {
@@ -85,9 +92,6 @@ export default class View extends React.Component {
         localStorage.setItem('data', JSON.stringify(this.state.recipes));
         this.setState({ recipes: existingRecipes });
         this.setState({ show: false });
-        edit: false;
-
-
     }
 
     componentDidMount() {
@@ -101,7 +105,7 @@ export default class View extends React.Component {
     }
 
     render() {
-        console.log("data", this.state.data)
+
         return (
             <div className="static-modal">
 
@@ -152,82 +156,20 @@ export default class View extends React.Component {
                     </Modal.Footer>
                 </Modal>
 
-
-                <Modal
-                    show={this.state.editShowOrHide}
-                    onHide={this.handleHide}
-                    container={this}
-                    aria-labelledby="contained-modal-title"
-                >
-
-                    <Modal.Header>
-                        <Modal.Title>
-                            RECIPE:
-                            <input placeholder={this.state.recipeName} name='recipe' onChange={this.handleChange.bind(this)} />
-                        </Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Ingredients</th>
-
-                                </tr>
-                                <td>
-                                    <textarea placeholder='ingredients' value={this.state.ingredients} name='ingredients' onChange={this.handleChange.bind(this)} />
-
-                                </td>
-
-                            </tbody>
-                        </table>
-
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button onClick={() => this.SaveNewRecipe()}>Save </Button>
-                        <Button onClick={this.handleClose}>Close</Button>
-
-                    </Modal.Footer>
-                </Modal>
-                <Button
-                    bsStyle="primary"
-                    bsSize="large"
-                    onClick={() => this.EditRecipe(this.state.data)}
-
-                >
-                    Edit
-                </Button>
-
                 <div>
-                    {this.state.recipes.map(element => {
-                        return <div className="container-fluid" key={this.state.recipes.indexOf(element)}>
-                            <recipes key={this.state.recipes.indexOf(element)} name={element.recipe} ingredients={element.ingredients} deleteButton={this.DeleteRecipe.bind(this)} editButton={this.EditRecipe.bind(this)} />
-                        </div>
-                    })}
+                    {this.state.recipes.map(element =>
+                        (<button onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
+
                 </div>
 
                 <div>
-                    {this.state.recipes.map(element => (<button onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
-
+                    
+                    {this.state.currentRecipe.ingredients !== undefined? this.state.currentRecipe.ingredients.map(e=><ol>{e}</ol>):null}
+                    
+                    {this.state.boolean === true ? <SaveEdits SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.recipes} /> : null}
                 </div>
-
-
-                <div>
-
-                    <ul>
-                        {this.state.data === "" ? this.state.data : this.state.data.map(element => { return <ul>{element}</ul> })}
-                        <Button onClick={this.DeleteRecipe}>Delete</Button>
-                        {/* <Button onClick={this.getData.bind(this)}>Edit</Button> */}
-
-                    </ul>
-
-                </div>
-
             </div>
 
         );
     }
 }
-
-
