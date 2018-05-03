@@ -10,7 +10,8 @@ export default class SaveEdits extends React.Component {
         this.state = {
             currentRecipe: props.currentRecipe,
             recipe:props.currentRecipe.recipe,
-            ingredients:props.currentRecipe.ingredients
+            ingredients:props.currentRecipe.ingredients,
+            show:false,
         }
     }
 
@@ -22,6 +23,10 @@ export default class SaveEdits extends React.Component {
     }
     showEditForm(){
         this.props.showEditRecipe(this.state.currentRecipe.ingredients)
+    }
+
+    close(){
+        this.props.handleClose(this.state.show)
     }
 
     handleChange(e) {
@@ -76,7 +81,7 @@ export default class SaveEdits extends React.Component {
                     bsStyle="primary"
                     bsSize="large"
                     onClick={this.showEditForm.bind(this)}>Edit</button>
-
+                    <button onClick={this.close.bind(this)}>Close</button>
             </div>
         )
     }

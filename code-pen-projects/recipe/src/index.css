@@ -1,7 +1,13 @@
 body{
     background-color: white;
-    color: black;
-    align: center;
+    color: rgba(10, 8, 8, 0.959);
+    background-image: url("https://cindyloppar.github.io/recipebackgroud.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-top: 50px;
+    margin-left: 30px;
+    
+
 }
 
 table {
@@ -25,12 +31,17 @@ textarea{
     content: "A" !important;
     display: block !important;
     margin-bottom: 0.5em !important;
-    background-color:#aed6f1;
+    background-color:#c04535cc;
     border-radius: 5px;
+    font-size: 22px;
+    font-family: Italic ;
 }
 
 #addButton{
     margin-bottom: 0.5em !important;
-   background-color: #a9cce3;
-   border-radius: 5px;    
+   background-color: #c04535cc;
+   border-radius: 5px;   
+   font-size: 21px;
+   font-family: Italic ; 
+   
 }
