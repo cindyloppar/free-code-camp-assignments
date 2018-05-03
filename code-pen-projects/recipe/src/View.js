@@ -118,6 +118,7 @@ export default class View extends React.Component {
                 <Button
                     bsStyle="primary"
                     bsSize="large"
+                    id="addButton"
                     onClick={() => this.setState({ show: true ,editShowOrHide:false, currentRecipe:{}, boolean:false})}
 
                 >
@@ -164,7 +165,7 @@ export default class View extends React.Component {
 
                 <div>
                     {this.state.recipes.map(element =>
-                        (<button onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
+                        (<button id="displayButton" onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
 
                 </div>
 
