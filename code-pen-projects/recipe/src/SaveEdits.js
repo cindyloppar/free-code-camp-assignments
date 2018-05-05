@@ -9,25 +9,24 @@ export default class SaveEdits extends React.Component {
         super(props);
         this.state = {
             currentRecipe: props.currentRecipe,
-            recipe:props.currentRecipe.recipe,
-            ingredients:props.currentRecipe.ingredients,
-            show:false,
+            recipe: props.recipes,
+            ingredients:props.ingredients,
         }
     }
 
     save(){
-        this.props.SaveEdit(this.state.recipe,this.state.ingredients)
+        this.props.SaveEdit(this.state.recipe,this.state.ingredients);
     }
     delete() {
         this.props.deleteRecipe(this.state.currentRecipe);
     }
     showEditForm(){
-        this.props.showEditRecipe(this.state.currentRecipe.ingredients)
+        this.props.showEditRecipe(this.state.currentRecipe);
     }
 
-    close(){
-        this.props.handleClose(this.state.show)
-    }
+    // close(){
+    //     this.props.handleClose(this.state.show)
+    // }
 
     handleChange(e) {
         let change = {};
@@ -35,6 +34,7 @@ export default class SaveEdits extends React.Component {
         this.setState(change);
     }
     render() {
+        console.log(this.props.recipes)
         return (
             <div>
                 <Modal
@@ -47,7 +47,7 @@ export default class SaveEdits extends React.Component {
                     <Modal.Header>
                         <Modal.Title>
                             RECIPE:
-                            <input value={this.state.recipe} name='recipe' onChange={this.handleChange.bind(this)} />
+                            <input value={this.props.recipes} name='recipe' onChange={this.handleChange.bind(this)} />
                         </Modal.Title>
                     </Modal.Header>
 
@@ -59,7 +59,7 @@ export default class SaveEdits extends React.Component {
 
                                 </tr>
                                 <td>
-                                    <textarea placeholder='ingredients' value={this.state.ingredients} name='ingredients' onChange={this.handleChange.bind(this)} />
+                                    <textarea placeholder='ingredients' value={this.props.ingredients} name='ingredients' onChange={this.handleChange.bind(this)} />
 
                                 </td>
 
@@ -70,7 +70,6 @@ export default class SaveEdits extends React.Component {
 
                     <Modal.Footer>
                         <Button onClick={() => this.save()}>Save </Button>
-                        <Button onClick={this.delete.bind(this)}>Delete</Button>
 
                     </Modal.Footer>
                 </Modal>
@@ -81,7 +80,7 @@ export default class SaveEdits extends React.Component {
                     bsStyle="primary"
                     bsSize="large"
                     onClick={this.showEditForm.bind(this)}>Edit</button>
-                    <button onClick={this.close.bind(this)}>Close</button>
+                    {/* <button onClick={this.close.bind(this)}>Close</button> */}
             </div>
         )
     }

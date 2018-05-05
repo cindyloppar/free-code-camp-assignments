@@ -13,10 +13,13 @@ export default class View extends React.Component {
             show: false,
             recipes: [],
             ingredients: [],
-            recipeName: '',
+            recipe: '',
             edit: false,
             delete: '',
-            currentRecipe: {}
+            editRecipe: "",
+            editIngredients:'',
+            currentRecipe: {},
+            recipeNameToChange: " "
 
         }
 
@@ -42,62 +45,55 @@ export default class View extends React.Component {
     }
 
     getData(e) {
-        var results = JSON.parse(localStorage.getItem("data"));
-       var foundRecipe = this.state.recipes.find(element => { return element.recipe === e });
-       var values = results.find((element => element.recipe === e));
-       this.setState({ boolean: true, show:false, currentRecipe: foundRecipe, recipe: values.recipe, ingredients: values.ingredients });
-       console.log('foundRecipe',this.state.currentRecipe);
+        var results = this.state.recipes;
+        var values = results.find((element => element.recipe === e));
+        this.setState({ boolean: true, show: false, currentRecipe: values, recipe: values.recipe, ingredients: values.ingredients });
     }
 
     showEditRecipe(ing) {
-        var foundObject = this.state.recipes.find(element => { return element.ingredients[0] === ing[0] });
-        this.setState({ editShowOrHide: true, show:false, recipe: foundObject.recipe, ingredients: foundObject.ingredients })
+        var editRecipe = this.state.currentRecipe.recipe;
+        var editIngredients = this.state.currentRecipe.ingredients;
+        this.setState({ editRecipe });
+        this.setState({ editIngredients });
+        var foundObject = this.state.recipes.find(element => { return element.ingredients[0] === ing.ingredients[0] });
+        this.setState({ editShowOrHide: true, show: false, recipe: foundObject.recipe, ingredients: foundObject.ingredients });
 
     }
 
     SaveEdit(recipe, ingredients) {
         var existingRecipes = this.state.recipes;
-        console.log('existingRecipes', existingRecipes.find(e => e.recipe === this.state.currentRecipe.recipe))
         var index = existingRecipes.indexOf(existingRecipes.find(e => e.recipe === this.state.currentRecipe.recipe));
-        console.log('currentRecipe', this.state.currentRecipe)
-        console.log('index', index)
         var newItem = { recipe: recipe, ingredients: ingredients.split(",") };
-        console.log('newItem', newItem);
-        existingRecipes[index] = newItem;
-        console.log('newExistingRecipes', existingRecipes);
-        this.setState({ recipes: existingRecipes, editShowOrHide: false});
-        console.log('recipes', this.state.recipes)
+        existingRecipes[index] = newItem
+        this.setState({ recipes: existingRecipes, editShowOrHide: false });
         localStorage.setItem('data', JSON.stringify(this.state.recipes));
-        window.location.reload(true);
     }
 
     deleteRecipe(collection, rec, ing) {
         var newData = this.state.recipes;
         var currentRecipe = { recipe: rec, ingredients: ing };
         var position = newData.indexOf(collection);
-       newData.splice(position,1)
-        console.log("col", newData);
-        // for (var i in collection) {
-        //     if (collection[i].recipe !== currentRecipe.recipe && collection[i].ingredients !== currentRecipe.ingredients) {
-        //         newData.push(collection[i]);
-        //     }
-        // }
-        this.setState({ currentRecipe: {},recipes:newData,boolean:false })
+        newData.splice(position, 1);
+        this.setState({ currentRecipe: {}, recipes: newData, boolean: false })
         localStorage.setItem('data', JSON.stringify(this.state.recipes));
-        console.log("newData", newData);
-       
     }
 
     SaveNewRecipe() {
-        var existingRecipes = this.state.recipes;
+        var existingRecipes = this.state.recipes
         var list = this.state.ingredients;
-        list = list.split(',');
-        var newItem = { recipe: this.state.recipe, ingredients: list };
-        existingRecipes.push(newItem);
-        console.log('new Recipe list:', this.state.recipes);
-        localStorage.setItem('data', JSON.stringify(this.state.recipes));
-        this.setState({ recipes: existingRecipes });
-        this.setState({ show: false });
+        if (this.state.recipe === "" || this.state.recipe === undefined) {
+            alert("unable to add empty recipe");
+        } else if (this.state.recipes !== this.state.recipes) {
+            alert("recipe exist");
+        } else {
+            list = list.split(',');
+            var newItem = { recipe: this.state.recipe, ingredients: list };
+            existingRecipes.push(newItem);
+            localStorage.setItem('data', JSON.stringify(this.state.recipes));
+            this.setState({ recipes: existingRecipes });
+            this.setState({ show: false });
+        }
+
     }
 
     componentDidMount() {
@@ -119,7 +115,7 @@ export default class View extends React.Component {
                     bsStyle="primary"
                     bsSize="large"
                     id="addButton"
-                    onClick={() => this.setState({ show: true ,editShowOrHide:false, currentRecipe:{}, boolean:false})}
+                    onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
 
                 >
                     ADD RECIPE
@@ -165,15 +161,15 @@ export default class View extends React.Component {
 
                 <div>
                     {this.state.recipes.map(element =>
-                        (<button id="displayButton" onClick={e => this.getData(element.recipe)}>{element.recipe}</button>))}
+                        (<button id="displayButton" onClick={() => this.getData(element.recipe)}>{element.recipe}</button>))}
 
                 </div>
 
-                <div>
-
+                <div id="displayIngredients">
+                    
                     {this.state.currentRecipe.ingredients !== undefined ? this.state.currentRecipe.ingredients.map(e => <ol>{e}</ol>) : null}
 
-                    {this.state.boolean === true ? <SaveEdits SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} handleClose={this.state.handleClose} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.recipes} /> : null}
+                    {this.state.boolean === true ? <SaveEdits  recipeNameToChange={this.state.editRecipe} SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.editRecipe} ingredients={this.state.editIngredients}/> : null}
                 </div>
             </div>
 
