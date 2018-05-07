@@ -43,7 +43,7 @@ export default class SaveEdits extends React.Component {
     }
 
     render() {
-        console.log(this.state.recipe, "asfd")
+
         return (
             <div>
                 <Modal

@@ -96,10 +96,12 @@ export default class View extends React.Component {
         }
 
     }
+
     textingForEdit(text, ing) {
         this.setState({ currentRecipe: { recipe: text, ingredients: ing } })
         console.log(this.state.currentRecipe)
     }
+
     componentDidMount() {
         var pastState = localStorage.getItem('data');
         if (JSON.parse(pastState) === null) {
@@ -107,69 +109,67 @@ export default class View extends React.Component {
         } else {
             this.setState({ recipes: JSON.parse(pastState) });
         }
+
     }
-
-
     render() {
-        console.log("something", this.state.currentRecipe)
 
         return (
-            <div className="static-modal">
+            <div>
+                <div className="static-modal">
 
-                <Button
-                    id="addButton"
-                    onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
+                    <button
+                        id="addButton"
+                        onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
 
-                >
-                    ADD RECIPE
-                </Button>
+                    >
+                        ADD RECIPE
+                </button>
 
-                <Modal
-                    show={this.state.show}
-                    onHide={this.handleHide}
-                    container={this}
-                    aria-labelledby="contained-modal-title"
-                >
-
-                    <Modal.Header>
-                        <Modal.Title>
-                            RECIPE:
+                    <Modal
+                        show={this.state.show}
+                        onHide={this.handleHide}
+                        container={this}
+                        aria-labelledby="contained-modal-title"
+                    >
+                        <Modal.Header>
+                            <Modal.Title>
+                                RECIPE:
                             <input placeholder="Recipe" name='recipe' onChange={this.handleChange.bind(this)} />
-                        </Modal.Title>
-                    </Modal.Header>
+                            </Modal.Title>
+                        </Modal.Header>
 
-                    <Modal.Body>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Ingredients</th>
+                        <Modal.Body>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Ingredients</th>
 
-                                </tr>
-                                <td>
-                                    <textarea placeholder="Ingredients" name='ingredients' onChange={this.handleChange.bind(this)} />
+                                    </tr>
+                                    <td>
+                                        <textarea placeholder="Ingredients" name='ingredients' onChange={this.handleChange.bind(this)} />
 
-                                </td>
+                                    </td>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
 
-                    </Modal.Body>
+                        </Modal.Body>
 
-                    <Modal.Footer>
-                        <Button onClick={() => this.SaveNewRecipe()}>Save </Button>
-                        <Button onClick={this.handleClose}>Close</Button>
+                        <Modal.Footer>
+                            <button onClick={() => this.SaveNewRecipe()}>Save </button>
+                            <button onClick={this.handleClose}>Close</button>
 
-                    </Modal.Footer>
-                </Modal>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
 
                 <div>
-                    {this.state.recipes.map(element =>
-                        (<button id="displayButton" onClick={() => this.getData(element.recipe)}>{element.recipe}</button>))}
-
+                    {this.state.recipes.map(element => {
+                        return <button id="displayButton" onClick={() => this.getData(element.recipe)}>{element.recipe}</button>
+                    })}
                 </div>
 
                 <div id="displayIngredients">
-
 
                     {this.state.currentRecipe.ingredients !== undefined ? this.state.currentRecipe.ingredients.map(e => <ol>{e}</ol>) : null}
 
