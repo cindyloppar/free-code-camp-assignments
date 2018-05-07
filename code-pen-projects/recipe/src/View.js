@@ -103,7 +103,6 @@ export default class View extends React.Component {
         } else {
             this.setState({ recipes: JSON.parse(pastState) });
         }
-
     }
 
     render() {
@@ -112,8 +111,6 @@ export default class View extends React.Component {
             <div className="static-modal">
 
                 <Button
-                    bsStyle="primary"
-                    bsSize="large"
                     id="addButton"
                     onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
 
