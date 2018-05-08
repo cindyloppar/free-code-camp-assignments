@@ -34,23 +34,26 @@
         background-color: #eee;
     }
 
-    .btn-express {
+    /* .btn-express {
         overflow-y: auto;
         max-width: 1024px;
         margin: 0 auto;
         box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
-    }
+    } */
 
     .img {
         margin-bottom: 30px;
     }
 
-    .top-bar {
-        background-color: #34495e;
+     h3 {
+        color: white;
+        text-align: left;
     }
 
-    h3 {
-        color: white;
+    .top-bar {
+        background-color: #34495e;
+        display: inline;
+        text-align: right;
     }
 
     h2 {
@@ -95,12 +98,12 @@
 <body class="container-fluid body-bg">
     <div class="navbar fixed-top">
         <nav class="row top-bar">
-            <div class="col-md-9">
-                <h3>Cindyloppar</h3>
-            </div>
-            <div class="col-md-1 btn-express"><a href="#About">About</a></div>
-            <div class="col-md-1 btn-express"><a href="#Portfolio">Portfolio</a></div>
-            <div class="col-md-1 btn-express"><a href="#Contact">Contact</a></div>
+            <div class="col-md-9 btn-express">
+                    <h3>Cindyloppar</h3>
+            <a href="#About">About</a>
+            <a href="#Portfolio">Portfolio</a>
+            <a href="#Contact">Contact</a>
+        </div>
         </nav>
     </div>
 

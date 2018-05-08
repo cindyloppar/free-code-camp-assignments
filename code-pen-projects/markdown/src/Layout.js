@@ -8,6 +8,7 @@ export default class Layout extends React.Component {
         this.state = {
             source: ""
         }
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
@@ -20,7 +21,7 @@ export default class Layout extends React.Component {
         return (
             <div>
                 <h1> Markdown Previewer</h1>
-                <textarea onChange={this.handleChange.bind(this)} />
+                <textarea onChange={this.handleChange} />
                 <p>{this.state.input} </p>
                 <ReactMarkdown source={this.state.source} /> 
                 <footer>Pen By Mrs N...</footer>
