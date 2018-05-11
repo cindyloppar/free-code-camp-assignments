@@ -1,4 +1,3 @@
-
 function initialEmptyGrid() {
     var grid = [];
     for (var x = 0; x < 5; x++) {
@@ -12,18 +11,20 @@ function initialEmptyGrid() {
     }
     return grid;
 }
-function aliveCells(impilo,grid) {
+
+function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
-    if (!impilo) {
+    if (impilo === undefined) {
         initialAliveCells = [{ x: 0, y: 0, status: "alive" }, { x: 0, y: 1, status: "alive" }, { x: 1, y: 0, status: "alive" }];
-
     } else {
         initialAliveCells = impilo;
     }
     for (var i = 0; i < aliveDeadGrid.length; i++) {
-        var cellFound = aliveDeadGrid.find(element => element.x === aliveDeadGrid[i].x && element.y === aliveDeadGrid[i].y);
-        aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+        if (initialAliveCells[i] !== undefined) {
+            var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
+            aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+        }
     }
     return aliveDeadGrid
 }
@@ -41,37 +42,53 @@ function checkForAliveNeighbors(obj) {
     ]
     neighbors = { coordinate: obj, listOfNeighbors: allNeighbors };
     return neighbors;
-}
 
+}
 
 function checkNeighbors(displayGrid) {
     var grid = displayGrid;
+    var newGrid = [];
+
     grid.forEach(element => {
         var cellsNeighbor = checkForAliveNeighbors(element);
+        var neighbors = cellsNeighbor.listOfNeighbors;
         var aliveNeighbors = [];
         var deadNeighbors = [];
-        cellsNeighbor.listOfNeighbors.forEach(item => {
-            var actualCell = grid.find(cell => cell.x === item.x && cell.y === item.y);
+        var newCell = {};
+        neighbors.forEach(item => {
+            var actualCell = grid.find(cell => { return cell.x === item.x && cell.y === item.y });
             if (actualCell !== undefined && actualCell.status === "alive") {
                 aliveNeighbors.push(actualCell)
             } else if (actualCell !== undefined && actualCell.status === "dead") {
                 deadNeighbors.push(actualCell)
             }
         })
-        if (element.status === "dead" && deadNeighbors.length === 3) {
-            element.status = "alive";
-
+        if (element.status === "dead" && aliveNeighbors.length === 3) {
+            newCell = { x: element.x, y: element.y, status: "alive" }
+            newGrid.push(newCell)
+        } else if (element.status === "alive" && (aliveNeighbors.length === 2 || aliveNeighbors.length === 3)) {
+            newCell = { x: element.x, y: element.y, status: "alive" }
+            newGrid.push(newCell)
         } else if (element.status === "alive" && aliveNeighbors.length > 3) {
-            element.status = "dead"
+            newCell = { x: element.x, y: element.y, status: "dead" }
+            newGrid.push(newCell)
         } else if (element.status === "alive" && aliveNeighbors.length < 2) {
-            element.status = "dead";
-        } else if (element.status === "alive" && aliveNeighbors.length === 2 || aliveNeighbors.length === 3) {
-            element.status = "alive"
+            newCell = { x: element.x, y: element.y, status: "dead" }
+            newGrid.push(newCell)
+        } else {
+            newCell = { x: element.x, y: element.y, status: element.status }
+            newGrid.push(newCell)
         }
-
     });
-    return grid;
+    console.log("newGrid", newGrid)
+    return newGrid;
 }
 
+var firstGeneration = initialEmptyGrid();
+firstGeneration = aliveCells(firstGeneration);
 
-module.exports = { initialEmptyGrid, aliveCells, checkNeighbors }
+
+checkNeighbors(firstGeneration)
+
+
+module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, checkForAliveNeighbors }
