@@ -16,7 +16,8 @@ function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
     if (impilo === undefined) {
-        initialAliveCells = [{ x: 0, y: 0, status: "alive" }, { x: 0, y: 1, status: "alive" }, { x: 1, y: 0, status: "alive" }];
+        initialAliveCells = [{ x: 0, y: 1, status: "alive" }, { x: 1, y: 2, status: "alive" }, { x: 2, y: 2, status: "alive" }, { x: 2, y: 1, status: "alive" }, { x: 2, y: 0, status: "alive" }]
+
     } else {
         initialAliveCells = impilo;
     }
@@ -48,7 +49,6 @@ function checkForAliveNeighbors(obj) {
 function checkNeighbors(displayGrid) {
     var grid = displayGrid;
     var newGrid = [];
-
     grid.forEach(element => {
         var cellsNeighbor = checkForAliveNeighbors(element);
         var neighbors = cellsNeighbor.listOfNeighbors;
@@ -58,37 +58,41 @@ function checkNeighbors(displayGrid) {
         neighbors.forEach(item => {
             var actualCell = grid.find(cell => { return cell.x === item.x && cell.y === item.y });
             if (actualCell !== undefined && actualCell.status === "alive") {
-                aliveNeighbors.push(actualCell)
+                aliveNeighbors.push(actualCell);
             } else if (actualCell !== undefined && actualCell.status === "dead") {
-                deadNeighbors.push(actualCell)
+                deadNeighbors.push(actualCell);
             }
-        })
+        });
         if (element.status === "dead" && aliveNeighbors.length === 3) {
             newCell = { x: element.x, y: element.y, status: "alive" }
-            newGrid.push(newCell)
+            newGrid.push(newCell);
         } else if (element.status === "alive" && (aliveNeighbors.length === 2 || aliveNeighbors.length === 3)) {
             newCell = { x: element.x, y: element.y, status: "alive" }
-            newGrid.push(newCell)
+            newGrid.push(newCell);
         } else if (element.status === "alive" && aliveNeighbors.length > 3) {
             newCell = { x: element.x, y: element.y, status: "dead" }
-            newGrid.push(newCell)
+            newGrid.push(newCell);
         } else if (element.status === "alive" && aliveNeighbors.length < 2) {
             newCell = { x: element.x, y: element.y, status: "dead" }
-            newGrid.push(newCell)
+            newGrid.push(newCell);
         } else {
             newCell = { x: element.x, y: element.y, status: element.status }
-            newGrid.push(newCell)
+            newGrid.push(newCell);
         }
     });
-    console.log("newGrid", newGrid)
-    return newGrid;
+    var obj = { grid: newGrid, onlyAlive: newGrid.filter(element => { return element.status === "alive" }) }
+    return obj;
+
+    // var generateAliveDead = {
+    //     grid: newGrid, aliveAndDead: newGrid.forEach(element => {
+    //         return
+    //         if (element.status === "alive") {
+    //             element.status === "dead";
+    //         } else if (element.status === "dead") {
+    //             element.status === "alive";
+    //         }
+    //     })
+    // }
+    // return generateAliveDead;
 }
-
-var firstGeneration = initialEmptyGrid();
-firstGeneration = aliveCells(firstGeneration);
-
-
-checkNeighbors(firstGeneration)
-
-
 module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, checkForAliveNeighbors }
