@@ -114,17 +114,11 @@ export default class View extends React.Component {
     render() {
 
         return (
-            <div>
-                <div className="static-modal">
-
-                    <button
-                        id="addButton"
-                        onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
-
-                    >
-                        ADD RECIPE
-                </button>
-
+            <div id= "body">
+                <div >
+                <h2>RECIPES</h2>
+                </div>
+                <div>
                     <Modal
                         show={this.state.show}
                         onHide={this.handleHide}
@@ -161,6 +155,17 @@ export default class View extends React.Component {
 
                         </Modal.Footer>
                     </Modal>
+                </div>
+
+                <div className="static-modal">
+
+                    <button
+                        id="addButton"
+                        onClick={() => this.setState({ show: true, editShowOrHide: false, currentRecipe: {}, boolean: false })}
+
+                    >
+                        ADD RECIPE
+</button>
                 </div>
 
                 <div>

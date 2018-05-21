@@ -1,13 +1,26 @@
 body{
-    background-color: white;
-    color: rgba(10, 8, 8, 0.959);
-    background-image: url("https://cindyloppar.github.io/recipebackgroud.jpg");
+    
+    color: rgba(44, 36, 36, 0.959);
+    background-image: url("https://cindyloppar.github.io/recipebackgroud.jpg") ;
     background-repeat: no-repeat;
     background-size: 100%;
-    margin-top: 50px;
-    margin-left: 30px;
+    margin-left: 70px;
+    padding: 80px; 
+    line-height: 2; 
+    padding-right: 680px;
+   
+}
+#body{
+    border: 3px solid rgba(255, 68, 0, 0.753);
+    border-radius: 10px;
+    background-color: whitesmoke;
+    padding-left: 35px;
+    padding: 1px;
     
+}
 
+h2{
+    color: rgba(143, 74, 9, 0.774);
 }
 
 table {
@@ -27,26 +40,23 @@ textarea{
 
 
 #displayButton{
-    width: 50%;
-    content: "A" !important;
-    display: block !important;
-    margin-bottom: 0.5em !important;
-    background-color:#c04535cc;
-    color:#080606f8;
+    width: 90%;
+    background-color:#f55911cc;
+    color:#fffbfbf8;
     border-radius: 5px;
-    font-size: 22px;
+    font-size: 17px;
     font-family: Italic ;
 }
 
 #addButton{
-    margin-bottom: 0.5em !important;
-   background-color: #c04535cc;
+   background-color: #f55911cc;
    border-radius: 5px;   
-   font-size: 21px;
+   font-size: 19px;
    font-family: Italic ; 
-   color:#080606f8;
+   color:#f1efeff8;
 }
 
 #displayIngredients{
-    font-weight: bold;
+    font: italic;
+    font-size: 18px;
 }

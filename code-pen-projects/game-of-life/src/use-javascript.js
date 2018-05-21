@@ -83,16 +83,5 @@ function checkNeighbors(displayGrid) {
     var obj = { grid: newGrid, onlyAlive: newGrid.filter(element => { return element.status === "alive" }) }
     return obj;
 
-    // var generateAliveDead = {
-    //     grid: newGrid, aliveAndDead: newGrid.forEach(element => {
-    //         return
-    //         if (element.status === "alive") {
-    //             element.status === "dead";
-    //         } else if (element.status === "dead") {
-    //             element.status === "alive";
-    //         }
-    //     })
-    // }
-    // return generateAliveDead;
 }
 module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, checkForAliveNeighbors }

@@ -24,7 +24,7 @@ export default class Layout extends React.Component {
                 <textarea onChange={this.handleChange} />
                 <p>{this.state.input} </p>
                 <ReactMarkdown source={this.state.source} /> 
-                <footer>Pen By Mrs N...</footer>
+                { <footer>Pen By M.. Loppar</footer> }
             </div>
 
         );
