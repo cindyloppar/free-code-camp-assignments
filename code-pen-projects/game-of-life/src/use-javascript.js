@@ -15,20 +15,28 @@ function initialEmptyGrid() {
 function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
-    if (impilo === undefined) {
-        initialAliveCells = [{ x: 0, y: 1, status: "alive" }, { x: 1, y: 2, status: "alive" }, { x: 2, y: 2, status: "alive" }, { x: 2, y: 1, status: "alive" }, { x: 2, y: 0, status: "alive" }]
-
-    } else {
-        initialAliveCells = impilo;
-    }
-    for (var i = 0; i < aliveDeadGrid.length; i++) {
-        if (initialAliveCells[i] !== undefined) {
-            var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
-            aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+    for(var x = 6; x < 10; x++){
+        for(var y = 6; y < 10; y++){
+            var random = { x: Math.floor(Math.random() * 10), y: Math.floor(Math.random() * 10), status: true};
+            initialAliveCells.push(random)
         }
     }
-    return aliveDeadGrid
+    // if (impilo === undefined) {
+    //     initialAliveCells = [{ x: 0, y: 1, status: "alive" }, { x: 1, y: 2, status: "alive" }, { x: 2, y: 2, status: "alive" }, { x: 2, y: 1, status: "alive" }, { x: 2, y: 0, status: "alive" }]
+
+    // } else {
+    //     initialAliveCells = impilo;
+    // }
+    // for (var i = 0; i < aliveDeadGrid.length; i++) {
+    //     if (initialAliveCells[i] !== undefined) {
+    //         var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
+    //         aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+    //     }
+    // }
+    // return aliveDeadGrid
 }
+
+
 function checkForAliveNeighbors(obj) {
     var neighbors = {};
     var allNeighbors = [
@@ -84,4 +92,4 @@ function checkNeighbors(displayGrid) {
     return obj;
 
 }
-module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, checkForAliveNeighbors }
+module.exports = { initialEmptyGrid, aliveCells, checkNeighbors }
