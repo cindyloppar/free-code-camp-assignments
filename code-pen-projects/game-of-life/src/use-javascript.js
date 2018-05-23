@@ -1,7 +1,7 @@
 function initialEmptyGrid() {
     var grid = [];
-    for (var x = 0; x < 5; x++) {
-        for (var y = 0; y < 5; y++) {
+    for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 8; y++) {
             grid.push({
                 x: x,
                 y: y,
@@ -15,25 +15,28 @@ function initialEmptyGrid() {
 function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
-    for(var x = 6; x < 10; x++){
-        for(var y = 6; y < 10; y++){
-            var random = { x: Math.floor(Math.random() * 10), y: Math.floor(Math.random() * 10), status: true};
-            initialAliveCells.push(random)
+    if (impilo === undefined) {
+        var randomArray = [];
+        for (var x = 0; x < 8; x++) {
+            for (var y = 0; y < 8; y++) {
+                var random = { x: Math.floor(Math.random() * 8), y: Math.floor(Math.random() * 8), status: 'alive' };
+                if(randomArray.indexOf(random) === -1){
+                    randomArray.push(random);
+                }
+            }
+        }
+        initialAliveCells = randomArray;
+    } else {
+        initialAliveCells = impilo;
+    }
+    for (var i = 0; i < aliveDeadGrid.length; i++) {
+        if (initialAliveCells[i] !== undefined) {
+            var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
+            aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+            
         }
     }
-    // if (impilo === undefined) {
-    //     initialAliveCells = [{ x: 0, y: 1, status: "alive" }, { x: 1, y: 2, status: "alive" }, { x: 2, y: 2, status: "alive" }, { x: 2, y: 1, status: "alive" }, { x: 2, y: 0, status: "alive" }]
-
-    // } else {
-    //     initialAliveCells = impilo;
-    // }
-    // for (var i = 0; i < aliveDeadGrid.length; i++) {
-    //     if (initialAliveCells[i] !== undefined) {
-    //         var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
-    //         aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
-    //     }
-    // }
-    // return aliveDeadGrid
+    return aliveDeadGrid
 }
 
 

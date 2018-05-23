@@ -18,11 +18,12 @@ export default class Layout extends React.Component {
         initial = aliveCells(initial);
         var firstGen = checkNeighbors(initial);
         this.setState({ grid: firstGen.grid, onlyAlive: firstGen.onlyAlive });
+        this.generateNewGeneration();
 
     }
 
     generateNewGeneration() {
-        var counter = 0;
+        var counter = 1;
         var looper = setInterval(() => {
             var currentGen = this.state.onlyAlive;
             if (this.state.gamePaused) {
@@ -30,10 +31,16 @@ export default class Layout extends React.Component {
             }
             var initial = initialEmptyGrid();
             initial = aliveCells(initial, currentGen);
+            console.log(currentGen)
             var newGeneration = checkNeighbors(initial);
             currentGen = newGeneration.onlyAlive;
-            this.setState({ grid: newGeneration.grid, onlyAlive: currentGen });
+            if (currentGen.length <= 0) {
+                clearInterval(looper)
+                counter = 0;
+            }
+            this.setState({ grid: newGeneration.grid, onlyAlive: currentGen, generation: counter });
             counter += 1;
+
         }, 1000);
     }
 
@@ -49,25 +56,24 @@ export default class Layout extends React.Component {
         this.setState({ grid: currentGrid })
     }
 
-    pauseGame (){
-        this.setState( {gamePaused: !this.state.gamePaused });
+    pauseGame() {
+        this.setState({ gamePaused: !this.state.gamePaused });
 
     }
 
     handleClear() {
         var currentGen = this.state.onlyAlive;
-        console.log(currentGen)
-        this.setState({onlyAlive: [], grid: initialEmptyGrid()});
+        this.setState({ onlyAlive: [], grid: initialEmptyGrid(), generation: 0 });
     }
-    randomly(){
-        
+    randomly() {
+
     }
     render() {
         return (
             <div >
-                <button onClick={this.generateNewGeneration.bind(this)}>Start</button>
-                <button onClick={this.pauseGame.bind(this)}>{this.state.gamePaused ? "Unpause" : "Pause"}</button>
-                <button onClick={this.handleClear.bind(this)}>Clear</button>
+                <button onClick={this.generateNewGeneration.bind(this)} id='start'>Start</button>
+                <button onClick={this.pauseGame.bind(this)} id='pause'>{this.state.gamePaused ? "Unpause" : "Pause"}</button>
+                <button onClick={this.handleClear.bind(this)} id='clear'>Clear</button>
                 <p>Generation: {this.state.generation}</p>
                 <div className="grid">
                     {this.state.grid.map(element => {
