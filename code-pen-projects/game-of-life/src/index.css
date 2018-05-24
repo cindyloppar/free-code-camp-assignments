@@ -13,9 +13,14 @@
     background-color: rgb(236, 183, 6);
     color: white;
 }
-
+#start{
+color:rgb(49, 187, 49)
+}
+#pause{
+color:rgb(87, 157, 223)
+}
 #clear{
-background: rgb(241, 27, 27);
+color: rgb(241, 27, 27);
 }
 body{
     background: whitesmoke;

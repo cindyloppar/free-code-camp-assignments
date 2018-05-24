@@ -1,7 +1,7 @@
 function initialEmptyGrid() {
     var grid = [];
     for (var x = 0; x < 10; x++) {
-        for (var y = 0; y < 8; y++) {
+        for (var y = 0; y < 10; y++) {
             grid.push({
                 x: x,
                 y: y,
@@ -15,17 +15,20 @@ function initialEmptyGrid() {
 function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
+    console.log("impile", grid)
     if (impilo === undefined) {
         var randomArray = [];
         for (var x = 0; x < 8; x++) {
             for (var y = 0; y < 8; y++) {
                 var random = { x: Math.floor(Math.random() * 8), y: Math.floor(Math.random() * 8), status: 'alive' };
-                if(randomArray.indexOf(random) === -1){
+                if (randomArray.indexOf(random) === -1) {
                     randomArray.push(random);
                 }
             }
         }
         initialAliveCells = randomArray;
+
+
     } else {
         initialAliveCells = impilo;
     }
@@ -33,7 +36,7 @@ function aliveCells(grid, impilo) {
         if (initialAliveCells[i] !== undefined) {
             var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
             aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
-            
+
         }
     }
     return aliveDeadGrid
@@ -93,6 +96,18 @@ function checkNeighbors(displayGrid) {
     });
     var obj = { grid: newGrid, onlyAlive: newGrid.filter(element => { return element.status === "alive" }) }
     return obj;
-
+    
 }
-module.exports = { initialEmptyGrid, aliveCells, checkNeighbors }
+
+function findMinMax(arr) {
+    var largestNumber = aliveCells();
+    for(var arrayIndex = 0; arrayIndex < arr.length; arrayIndex++) {
+     for(var subArrayIndex = 0; subArrayIndex < arr[arrayIndex].length; subArrayIndex++) {
+        if(arr[arrayIndex][subArrayIndex] > largestNumber[arrayIndex]) {         
+           largestNumber[arrayIndex] = arr[arrayIndex][subArrayIndex];
+         }
+     }
+  }
+ return largestNumber;
+  }
+module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax}
