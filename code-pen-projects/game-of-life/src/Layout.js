@@ -20,12 +20,13 @@ export default class Layout extends React.Component {
         initial = aliveCells(initial);
         var firstGen = checkNeighbors(initial);
         this.setState({ grid: firstGen.grid, onlyAlive: firstGen.onlyAlive });
+        findMinMax(initial);
         this.generateNewGeneration();
 
     }
 
     generateNewGeneration() {
-        var counter = 1;
+        var counter = this.state.generation;
         var currentSpeed = this.state.speed;
         var looper = setInterval(() => {
             var currentGen = this.state.onlyAlive;
@@ -34,7 +35,7 @@ export default class Layout extends React.Component {
             }
             var initial = initialEmptyGrid();
             initial = aliveCells(initial, currentGen);
-            console.log(currentGen)
+            console.log(findMinMax(currentGen))
             var newGeneration = checkNeighbors(initial);
             currentGen = newGeneration.onlyAlive;
             if (currentGen.length <= 0) {
@@ -45,8 +46,8 @@ export default class Layout extends React.Component {
                 this.generateNewGeneration()
             }
 
-            this.setState({ grid: newGeneration.grid, onlyAlive: currentGen, generation: counter });
             counter += 1;
+            this.setState({ grid: newGeneration.grid, onlyAlive: currentGen, generation: counter });
 
         }, this.state.speed);
     }

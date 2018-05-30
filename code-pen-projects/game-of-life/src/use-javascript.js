@@ -63,6 +63,7 @@ function checkForAliveNeighbors(obj) {
 function checkNeighbors(displayGrid) {
     var grid = displayGrid;
     var newGrid = [];
+
     grid.forEach(element => {
         var cellsNeighbor = checkForAliveNeighbors(element);
         var neighbors = cellsNeighbor.listOfNeighbors;
@@ -96,18 +97,27 @@ function checkNeighbors(displayGrid) {
     });
     var obj = { grid: newGrid, onlyAlive: newGrid.filter(element => { return element.status === "alive" }) }
     return obj;
-    
+
 }
 
-function findMinMax(arr) {
-    var largestNumber = aliveCells();
-    for(var arrayIndex = 0; arrayIndex < arr.length; arrayIndex++) {
-     for(var subArrayIndex = 0; subArrayIndex < arr[arrayIndex].length; subArrayIndex++) {
-        if(arr[arrayIndex][subArrayIndex] > largestNumber[arrayIndex]) {         
-           largestNumber[arrayIndex] = arr[arrayIndex][subArrayIndex];
-         }
-     }
-  }
- return largestNumber;
-  }
-module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax}
+function findMinMax(onlyAlive) {
+    var onlyX = [];
+    var onlyY = [];
+    for (let index = 0; index < onlyAlive.length; index++) {
+        onlyX.push(onlyAlive[index].x)
+        onlyY.push(onlyAlive[index].y)
+    }
+    //     for(var x = 0; x < onlyAlive.length; x++) {
+    //         onlyX.push(onlyAlive[x].x);
+    //     }
+
+    var highestX = onlyX.sort((a, b) => a - b)[0];
+    var lowestX = onlyX.sort((a, b) => b - a)[0];
+    var lowestY = onlyY.sort((a, b) => a - b)[0];
+    var highestY = onlyY.sort((a, b) => b - a)[0];
+    return { lowestX: lowestX, highestX: highestX, lowestY: lowestY, highestY: highestY };
+    //      for(var y = 0; y < onlyAlive.length; y++) {
+
+    // }
+}
+module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax }
