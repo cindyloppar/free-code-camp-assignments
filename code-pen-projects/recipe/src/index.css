@@ -4,8 +4,10 @@ body{
     background-image: url("https://cindyloppar.github.io/recipebackgroud.jpg") ;
     background-repeat: no-repeat;
     background-size: 100%;
+    width:device-width;
+    height: auto;
     margin-left: 70px;
-    padding: 80px; 
+    padding: 30px; 
     line-height: 2; 
     padding-right: 680px;
    
@@ -16,6 +18,9 @@ body{
     background-color: whitesmoke;
     padding-left: 35px;
     padding: 1px;
+    float: left;
+    width: 100%;
+
     
 }
 
@@ -24,12 +29,15 @@ h2{
 }
 
 table {
-    width:50%;
+    float: left;
+    width: 60%;
 }
 
 table, th, td {
     border: 1px solid whitesmoke;
     border-collapse: collapse;
+    float: left;
+    width: 60%;
 
 }
 
@@ -58,5 +66,7 @@ textarea{
 
 #displayIngredients{
     font: italic;
-    font-size: 18px;
+    font-size: 20px;
+    /* float: left;
+    width: 90%; */
 }

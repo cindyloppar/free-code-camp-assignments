@@ -48,6 +48,7 @@ export default class View extends React.Component {
         var results = this.state.recipes;
         var values = results.find((element => element.recipe === e));
         this.setState({ boolean: true, show: false, currentRecipe: values, recipe: values.recipe, ingredients: values.ingredients });
+       
     }
 
     showEditRecipe(ing) {
@@ -56,15 +57,15 @@ export default class View extends React.Component {
         this.setState({ editRecipe });
         this.setState({ editIngredients });
         var foundObject = this.state.recipes.find(element => { return element.ingredients === ing.ingredients });
-        this.setState({ editShowOrHide: true, show: false, recipe: foundObject.recipe, ingredients: foundObject.ingredients });
-
+        this.setState({ editShowOrHide: true, show: false,recipe: foundObject.recipe, ingredients: foundObject.ingredients });
     }
 
     SaveEdit(recipe, ingredients) {
         var existingRecipes = this.state.recipes;
         var index = existingRecipes.indexOf(existingRecipes.find(e => e.recipe === this.state.currentRecipe.recipe));
-        var newItem = { recipe: recipe, ingredients: ingredients.split(",") };
-        existingRecipes[index] = newItem
+        var newItem = { recipe: recipe.recipe,ingredients: ingredients.split(",") };
+        console.log('exist', newItem);
+        existingRecipes[index] = newItem;
         this.setState({ recipes: existingRecipes, editShowOrHide: false });
         localStorage.setItem('data', JSON.stringify(this.state.recipes));
         window.location.reload(true);
@@ -99,10 +100,10 @@ export default class View extends React.Component {
 
     textingForEdit(text, ing) {
         this.setState({ currentRecipe: { recipe: text, ingredients: ing } })
-        console.log(this.state.currentRecipe)
     }
 
     componentDidMount() {
+        // localStorage.clear()
         var pastState = localStorage.getItem('data');
         if (JSON.parse(pastState) === null) {
             this.setState(this.state.recipes)
@@ -178,7 +179,7 @@ export default class View extends React.Component {
 
                     {this.state.currentRecipe.ingredients !== undefined ? this.state.currentRecipe.ingredients.map(e => <ol>{e}</ol>) : null}
 
-                    {this.state.boolean === true ? <SaveEdits handleChange={this.textingForEdit.bind(this)} recipeNameToChange={this.state.editRecipe} SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.editRecipe} ingredients={this.state.editIngredients} /> : null}
+                    {this.state.boolean === true ? <SaveEdits handleClose={this.handleClose.bind(this)} handleChange={this.textingForEdit.bind(this)} recipeNameToChange={this.state.editRecipe} SaveEdit={this.SaveEdit.bind(this)} showEditRecipe={this.showEditRecipe.bind(this)} editShowOrHide={this.state.editShowOrHide} deleteRecipe={() => this.deleteRecipe(this.state.currentRecipe)} currentRecipe={this.state.currentRecipe} recipes={this.state.editRecipe} ingredients={this.state.editIngredients} /> : null}
                 </div>
             </div>
 
