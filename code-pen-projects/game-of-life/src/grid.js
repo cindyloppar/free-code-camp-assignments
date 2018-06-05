@@ -1,7 +1,11 @@
 function initialEmptyGrid() {
     var grid = [];
-    for (var x = 0; x < 10; x++) {
-        for (var y = 0; y < 10; y++) {
+    var highestX = 9;
+    var lowestX = 0;
+    var highestY = 9;
+    var lowestY = 9;
+    for (var x = lowestX; x < highestX + 1; x++) {
+        for (var y = lowestY; y < highestY + 1; y++) {
             grid.push({
                 x: x,
                 y: y,
@@ -107,17 +111,12 @@ function findMinMax(onlyAlive) {
         onlyX.push(onlyAlive[index].x)
         onlyY.push(onlyAlive[index].y)
     }
-    //     for(var x = 0; x < onlyAlive.length; x++) {
-    //         onlyX.push(onlyAlive[x].x);
-    //     }
 
     var highestX = onlyX.sort((a, b) => a - b)[0];
     var lowestX = onlyX.sort((a, b) => b - a)[0];
     var lowestY = onlyY.sort((a, b) => a - b)[0];
     var highestY = onlyY.sort((a, b) => b - a)[0];
     return { lowestX: lowestX, highestX: highestX, lowestY: lowestY, highestY: highestY };
-    //      for(var y = 0; y < onlyAlive.length; y++) {
 
-    // }
 }
 module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax } from "./use-javascript";
+import { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax } from "./grid";
 
 
 export default class Layout extends React.Component {
