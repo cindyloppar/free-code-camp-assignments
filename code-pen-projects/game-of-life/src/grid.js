@@ -1,11 +1,8 @@
 function initialEmptyGrid() {
     var grid = [];
-    var highestX = 9;
-    var lowestX = 0;
-    var highestY = 9;
-    var lowestY = 9;
-    for (var x = lowestX; x < highestX + 1; x++) {
-        for (var y = lowestY; y < highestY + 1; y++) {
+
+    for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 10; y++) {
             grid.push({
                 x: x,
                 y: y,
@@ -19,7 +16,6 @@ function initialEmptyGrid() {
 function aliveCells(grid, impilo) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
-    console.log("impile", grid)
     if (impilo === undefined) {
         var randomArray = [];
         for (var x = 0; x < 8; x++) {
@@ -32,14 +28,18 @@ function aliveCells(grid, impilo) {
         }
         initialAliveCells = randomArray;
 
-
     } else {
         initialAliveCells = impilo;
     }
     for (var i = 0; i < aliveDeadGrid.length; i++) {
         if (initialAliveCells[i] !== undefined) {
             var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
-            aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+            console.log('onny', aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)])
+            if (aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)]) {
+
+                aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
+            }
+
 
         }
     }
@@ -64,10 +64,10 @@ function checkForAliveNeighbors(obj) {
 
 }
 
-function checkNeighbors(displayGrid) {
-    var grid = displayGrid;
+function checkNeighbors(onlyAlive) {
+    var grid = findMinMax(onlyAlive);
+    var aliveCells = [];
     var newGrid = [];
-
     grid.forEach(element => {
         var cellsNeighbor = checkForAliveNeighbors(element);
         var neighbors = cellsNeighbor.listOfNeighbors;
@@ -97,9 +97,11 @@ function checkNeighbors(displayGrid) {
         } else {
             newCell = { x: element.x, y: element.y, status: element.status }
             newGrid.push(newCell);
+            if (element.status === "alive") {
+            }
         }
     });
-    var obj = { grid: newGrid, onlyAlive: newGrid.filter(element => { return element.status === "alive" }) }
+    var obj = newGrid.filter(element => { return element.status === "alive" })
     return obj;
 
 }
@@ -107,16 +109,27 @@ function checkNeighbors(displayGrid) {
 function findMinMax(onlyAlive) {
     var onlyX = [];
     var onlyY = [];
-    for (let index = 0; index < onlyAlive.length; index++) {
-        onlyX.push(onlyAlive[index].x)
-        onlyY.push(onlyAlive[index].y)
-    }
+    var newGen = [];
 
-    var highestX = onlyX.sort((a, b) => a - b)[0];
-    var lowestX = onlyX.sort((a, b) => b - a)[0];
+    for (let index = 0; index < onlyAlive.length; index++) {
+        onlyX.push(onlyAlive[index].x);
+        onlyY.push(onlyAlive[index].y);
+
+    }
+    var highestX = onlyX.sort((a, b) => b - a)[0];
+    var lowestX = onlyX.sort((a, b) => a - b)[0];
     var lowestY = onlyY.sort((a, b) => a - b)[0];
     var highestY = onlyY.sort((a, b) => b - a)[0];
-    return { lowestX: lowestX, highestX: highestX, lowestY: lowestY, highestY: highestY };
+
+    for (var i = lowestX - 2; i < highestX + 2; i++) {
+        for (var c = lowestY - 2; c < highestY + 2; c++) {
+            var foundCells = onlyAlive.find(e => e.x === i && e.y === c)
+            foundCells = foundCells ? { ...foundCells, status: "alive" } : { x: i, y: c, status: "dead" };
+            newGen.push(foundCells);
+        }
+    }
+
+    return newGen;
 
 }
 module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax }
