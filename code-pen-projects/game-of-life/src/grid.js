@@ -34,7 +34,6 @@ function aliveCells(grid, impilo) {
     for (var i = 0; i < aliveDeadGrid.length; i++) {
         if (initialAliveCells[i] !== undefined) {
             var cellFound = aliveDeadGrid.find(element => element.x === initialAliveCells[i].x && element.y === initialAliveCells[i].y);
-            console.log('onny', aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)])
             if (aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)]) {
 
                 aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
