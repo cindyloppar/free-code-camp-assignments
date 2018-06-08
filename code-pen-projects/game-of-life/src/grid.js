@@ -1,8 +1,50 @@
-function initialEmptyGrid() {
-    var grid = [];
+function getBoundaries(aliveCells) {
+    var onlyX = [];
+    var onlyY = [];
 
-    for (var x = 0; x < 10; x++) {
-        for (var y = 0; y < 10; y++) {
+    for (let index = 0; index < aliveCells.length; index++) {
+        onlyX.push(aliveCells[index].x);
+        onlyY.push(aliveCells[index].y);
+    }
+
+    var newHighestX = onlyX.sort((a, b) => b - a)[0] + 1;
+    var newLowestX = onlyX.sort((a, b) => a - b)[0] - 1;
+    var newLowestY = onlyY.sort((a, b) => a - b)[0] - 1;
+    var newHighestY = onlyY.sort((a, b) => b - a)[0] + 1;
+    return { newHighestX, newLowestX, newHighestY, newLowestY }
+}
+
+
+
+function fixedSizeGridOfDeadAndAliveCells(aliveCells, lowest = 0, highest = 10) {
+    var grid = [];
+    var lowestX = lowest;
+    var highestX = highest;
+    var lowestY = lowest;
+    var highestY = highest;
+
+    if (aliveCells.length > 0) {
+        var { newLowestX, newHighestX, newLowestY, newHighestY } = getBoundaries(aliveCells);
+
+        if (newHighestX > highest) {
+            highestX = newHighestX;
+        }
+
+        if (newLowestX < lowest) {
+            lowestX = newLowestX;
+        }
+
+        if (newHighestY > highest) {
+            highestY = newHighestY;
+        }
+
+        if (newLowestY < lowest) {
+            lowestY = newLowestY;
+        }
+
+    }
+    for (var x = lowestX; x <= highestX; x++) {
+        for (var y = lowestY; y <= highestY; y++) {
             grid.push({
                 x: x,
                 y: y,
@@ -13,10 +55,11 @@ function initialEmptyGrid() {
     return grid;
 }
 
-function aliveCells(grid, impilo) {
+
+function changeDeadCellsToAliveCellsInAGrid(grid, aliveCells) {
     var initialAliveCells = [];
     var aliveDeadGrid = grid;
-    if (impilo === undefined) {
+    if (aliveCells === undefined) {
         var randomArray = [];
         for (var x = 0; x < 8; x++) {
             for (var y = 0; y < 8; y++) {
@@ -29,7 +72,7 @@ function aliveCells(grid, impilo) {
         initialAliveCells = randomArray;
 
     } else {
-        initialAliveCells = impilo;
+        initialAliveCells = aliveCells;
     }
     for (var i = 0; i < aliveDeadGrid.length; i++) {
         if (initialAliveCells[i] !== undefined) {
@@ -38,8 +81,6 @@ function aliveCells(grid, impilo) {
 
                 aliveDeadGrid[aliveDeadGrid.indexOf(cellFound)].status = "alive";
             }
-
-
         }
     }
     return aliveDeadGrid
@@ -63,7 +104,7 @@ function checkForAliveNeighbors(obj) {
 
 }
 
-function checkNeighbors(onlyAlive) {
+function getNewGenerationOfAliveCells(onlyAlive) {
     var grid = findMinMax(onlyAlive);
     var aliveCells = [];
     var newGrid = [];
@@ -106,22 +147,10 @@ function checkNeighbors(onlyAlive) {
 }
 
 function findMinMax(onlyAlive) {
-    var onlyX = [];
-    var onlyY = [];
     var newGen = [];
-
-    for (let index = 0; index < onlyAlive.length; index++) {
-        onlyX.push(onlyAlive[index].x);
-        onlyY.push(onlyAlive[index].y);
-
-    }
-    var highestX = onlyX.sort((a, b) => b - a)[0];
-    var lowestX = onlyX.sort((a, b) => a - b)[0];
-    var lowestY = onlyY.sort((a, b) => a - b)[0];
-    var highestY = onlyY.sort((a, b) => b - a)[0];
-
-    for (var i = lowestX - 2; i < highestX + 2; i++) {
-        for (var c = lowestY - 2; c < highestY + 2; c++) {
+    var {newLowestX, newHighestX,newLowestY,newHighestY} = getBoundaries(onlyAlive);
+    for (var i = newLowestX - 2; i < newHighestX + 2; i++) {
+        for (var c = newLowestY - 2; c < newHighestY + 2; c++) {
             var foundCells = onlyAlive.find(e => e.x === i && e.y === c)
             foundCells = foundCells ? { ...foundCells, status: "alive" } : { x: i, y: c, status: "dead" };
             newGen.push(foundCells);
@@ -131,4 +160,4 @@ function findMinMax(onlyAlive) {
     return newGen;
 
 }
-module.exports = { initialEmptyGrid, aliveCells, checkNeighbors, findMinMax }
+module.exports = { fixedSizeGridOfDeadAndAliveCells, changeDeadCellsToAliveCellsInAGrid, getNewGenerationOfAliveCells, findMinMax, getBoundaries }

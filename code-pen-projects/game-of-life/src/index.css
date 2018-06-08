@@ -1,35 +1,37 @@
+
 .grid{
     display: grid;
-   grid-template-columns: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px ;
-   grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
-   border-radius: 10px;
-   
-}
-#alive{
+    }
+    #alive{
     background-color: rgb(211, 56, 9);
     color: white;
-}
-#dead{
+    }
+    #dead{
     background-color: rgb(236, 183, 6);
     color: white;
-}
-#start{
-color:rgb(49, 187, 49)
-}
-#pause{
-color:rgb(87, 157, 223)
-}
-#clear{
-color: rgb(241, 27, 27);
-}
-body{
+    }
+    #start{
+    color:rgb(49, 187, 49)
+    }
+    #pause{
+    color:rgb(87, 157, 223)
+    }
+    #clear{
+    color: rgb(241, 27, 27);
+    }
+    body{
     background: whitesmoke;
     color: black;
-}
-#buttons{
-   background-color: #4CAF50; 
-   border-radius: 10px;
-   color: white;
-   padding: 20px;
-   text-align: center;
-}
+    }
+    /* #buttons{
+    background-color: #4CAF50; 
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    } */
+    .cell{
+    width:20px;
+    height:20px;
+    }
+    
