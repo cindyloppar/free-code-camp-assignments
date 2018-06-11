@@ -95,6 +95,7 @@ export default class Layout extends React.Component {
         var ySize = newHighestY - newLowestY - 1;
         return (
             <div >
+                <h3>CONWAY'S GAME OF LIFE!!</h3>
                 <button onClick={this.generateNewGeneration.bind(this)} id='start'>Start</button>
                 <button onClick={this.pauseGame.bind(this)} id='pause'>{this.state.gamePaused ? "Unpause" : "Pause"}</button>
                 <button onClick={this.handleClear.bind(this)} id='clear'>Clear</button>
@@ -104,7 +105,8 @@ export default class Layout extends React.Component {
                     <button onClick={this.slowSpeed.bind(this)} id='speed'>Slow</button> </p>
                 <div className="grid" style={{
                     gridTemplateColumns: "repeat(" + ySize + ",20px)",
-                    gridTemplateRows: "repeat(" + xSize + ",20px)"
+                    gridTemplateRows: "repeat(" + xSize + ",20px)",
+                  
                 }}>
                     {this.state.grid.map(element => {
                         return <button className="cell" onClick={() => this.generateDeadAliveCells(element)} id={element.status}></button>

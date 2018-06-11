@@ -14,8 +14,6 @@ function getBoundaries(aliveCells) {
     return { newHighestX, newLowestX, newHighestY, newLowestY }
 }
 
-
-
 function fixedSizeGridOfDeadAndAliveCells(aliveCells, lowest = 0, highest = 10) {
     var grid = [];
     var lowestX = lowest;
