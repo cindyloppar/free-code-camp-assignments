@@ -14,7 +14,7 @@ function getBoundaries(aliveCells) {
     return { newHighestX, newLowestX, newHighestY, newLowestY }
 }
 
-function fixedSizeGridOfDeadAndAliveCells(aliveCells, lowest = 0, highest = 10) {
+function fixedSizeGridOfDeadCells(aliveCells, lowest = 0, highest = 10) {
     var grid = [];
     var lowestX = lowest;
     var highestX = highest;
@@ -41,6 +41,7 @@ function fixedSizeGridOfDeadAndAliveCells(aliveCells, lowest = 0, highest = 10) 
         }
 
     }
+
     for (var x = lowestX; x <= highestX; x++) {
         for (var y = lowestY; y <= highestY; y++) {
             grid.push({
@@ -103,7 +104,7 @@ function checkForAliveNeighbors(obj) {
 }
 
 function getNewGenerationOfAliveCells(onlyAlive) {
-    var grid = findMinMax(onlyAlive);
+    var grid = createsAGridFRomBoundariesAndAliveCells(onlyAlive);
     var aliveCells = [];
     var newGrid = [];
     grid.forEach(element => {
@@ -144,7 +145,7 @@ function getNewGenerationOfAliveCells(onlyAlive) {
 
 }
 
-function findMinMax(onlyAlive) {
+function createsAGridFRomBoundariesAndAliveCells(onlyAlive) {
     var newGen = [];
     var {newLowestX, newHighestX,newLowestY,newHighestY} = getBoundaries(onlyAlive);
     for (var i = newLowestX - 2; i < newHighestX + 2; i++) {
@@ -158,4 +159,4 @@ function findMinMax(onlyAlive) {
     return newGen;
 
 }
-module.exports = { fixedSizeGridOfDeadAndAliveCells, changeDeadCellsToAliveCellsInAGrid, getNewGenerationOfAliveCells, findMinMax, getBoundaries }
+module.exports = { fixedSizeGridOfDeadCells, changeDeadCellsToAliveCellsInAGrid, getNewGenerationOfAliveCells, getBoundaries }

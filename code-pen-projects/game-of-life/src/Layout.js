@@ -1,5 +1,5 @@
 import React from 'react';
-import { fixedSizeGridOfDeadAndAliveCells, changeDeadCellsToAliveCellsInAGrid, getNewGenerationOfAliveCells, findMinMax, getBoundaries } from "./grid";
+import { fixedSizeGridOfDeadCells, changeDeadCellsToAliveCellsInAGrid, getNewGenerationOfAliveCells, getBoundaries } from "./grid";
 
 export default class Layout extends React.Component {
     constructor() {
@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
         }
     }
     componentDidMount() {
-        var initial = fixedSizeGridOfDeadAndAliveCells([]);
+        var initial = fixedSizeGridOfDeadCells([]);
         initial = changeDeadCellsToAliveCellsInAGrid(initial);
         var onlyAlive = initial.filter(e => e.status === "alive");
         var firstGenOfAlive = getNewGenerationOfAliveCells(onlyAlive);
@@ -35,9 +35,9 @@ export default class Layout extends React.Component {
         if (this.state.gamePaused) {
         return;
         }
-        var gridWithDeadCells = fixedSizeGridOfDeadAndAliveCells(currentGenAliveCells);
+        var gridWithDeadCells = fixedSizeGridOfDeadCells(currentGenAliveCells);
         var newGenerationOfAliveCells = getNewGenerationOfAliveCells(currentGenAliveCells);
-        gridWithDeadCells = changeDeadCellsToAliveCellsInAGrid(gridWithDeadCells, newGenerationOfAliveCells);
+        var gridWithDeadCells = changeDeadCellsToAliveCellsInAGrid(gridWithDeadCells, newGenerationOfAliveCells);
         if (currentGenAliveCells.length <= 0) {
         clearInterval(looper)
         counter = 0;
@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
 
     handleClear() {
         var currentGen = this.state.onlyAlive;
-        this.setState({ onlyAlive: [], grid: fixedSizeGridOfDeadAndAliveCells(currentGen), generation: 0 });
+        this.setState({ onlyAlive: [], grid: fixedSizeGridOfDeadCells(currentGen), generation: 0 });
     }
     mediumSpeed() {
         this.setState({ speed: 1000, timeChange: true })

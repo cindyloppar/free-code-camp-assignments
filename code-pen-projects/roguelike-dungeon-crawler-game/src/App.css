@@ -1,6 +1,12 @@
 .grid{
-  display: inline-grid;
-  grid-template-columns: auto auto auto;
-  background-color: #2196F3;
-  padding: 5px;
+  display:grid;
+  grid-template-columns: repeat(6,50px);
+  grid-template-rows: repeat(6,50px);
+  /* justify-content: center; */
+
+}
+
+.heading{
+  text-align: right;
+  padding-right: 695px;
 }
