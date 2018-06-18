@@ -1,12 +1,72 @@
-.grid{
-  display:grid;
-  grid-template-columns: repeat(10,50px);
-  grid-template-rows: repeat(10,50px);
-  /* justify-content: center; */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
 
+    /* justify-content: center; */
+}
+button{
+     /* border: rgb(245, 245, 245) */
 }
 
-.heading{
-  text-align: right;
-  padding-right: 695px;
+.heading {
+    text-align: right;
+    padding-right: 695px;
 }
+h1{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #31b543;
+}
+.message{
+    display: table;
+    margin: .5em auto;
+    margin-top: 0.5em;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+}
+/* .message{
+    display: table-cell;
+padding-right: .5em;
+} */
+
+.playerBlock {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: blue;
+    margin-right: 1em;
+}
+.enemy{
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: rgb(221, 8, 8);
+    margin-right: 1em;
+}
+.weaponBlock {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: rgb(245, 83, 110);
+    margin-right: 1em;
+}
+
+.healthBlock {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: rgb(80, 197, 25);
+    margin-right: 1em;
+}
+
+/* .foodBlock {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: rgb(83, 245, 237);
+    margin-right: 1em;
+} */
