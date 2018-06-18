@@ -20,8 +20,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.grid()
-    this.pathWays()
+    var allDeadCells = this.grid();
+    var aliveAndDead = this.pathWays(allDeadCells);
+
+    this.creatingRandomEnemies(aliveAndDead.path)
+    this.setState({ grid: aliveAndDead.grid, path: aliveAndDead.path })
     // this.setState({ grid:this.grid()})
   }
 
@@ -37,12 +40,11 @@ class App extends Component {
         })
       }
     }
-    this.setState({ grid: deadCells});
+    return deadCells;
   }
 
-  pathWays() {
-    var cells = this.state.grid;
-    var path = [];
+  pathWays(deadGrid) {
+    var cells = deadGrid;
     var paths = [
       { x: 1, y: 1, player: "", status: "pass" },
       { x: 2, y: 1, player: "", status: "pass" },
@@ -60,77 +62,79 @@ class App extends Component {
       { x: 64, y: 4, player: "", status: "pass" },
       { x: 55, y: 2, player: "", status: "pass" },
       { x: 87, y: 3, player: "", status: "pass" },
-    ]
-    path.push(paths);
-    for (var i = 0; i < cells.length; i++) {
-      if (cells[i] !== undefined) {
-        var cellFound = cells.find(element => element.x === path[i].x && element.y === path[i].y);
-        console.log('found', cellFound)
-        if (cells[cells.indexOf(cellFound)]) {
-          cells[cells.indexOf(cellFound)].status = "pass";
-        }
+    ];
+    for (var i = 0; i < paths.length; i++) {
+      var cellFound = cells.find(element => element.x === paths[i].x && element.y === paths[i].y);
+      if (cells[cells.indexOf(cellFound)]) {
+        cells[cells.indexOf(cellFound)].status = "pass";
       }
     }
-    this.grid();
-    this.setState({ path:paths })
-  }
-  
-  creatingRandomEnemies() {
-    var newGrid = this.state.grid;
-    console.log(newGrid);
-    var enemy = this.state.enemies;
-    var randomArray = [];
-    for (var x = 0; x < 8; x++) {
-      for (var y = 0; y < 8; y++) {
-        var random = { x: Math.floor(Math.random() * 8), y: Math.floor(Math.random() * 8), status: 'pass' };
-        if (randomArray.indexOf(random) === -1) {
-          randomArray.push(random);
-        }
-      }
-    }
-    for (var i = 0; i < randomArray.length; i++) {
-      var findMatch = randomArray.find(element => element.x === randomArray[i].x && element.y === randomArray[i].y);
-      console.log('path', findMatch);
-      if (newGrid[newGrid.indexOf(findMatch)]) {
-        newGrid[newGrid.indexOf(findMatch)].status = 'pass';
-      }
-      
-    }
-    this.setState({ enemies: randomArray, grid:newGrid})
-  }
-    // Random Position Generator
+    return { grid: cells, path: paths }
 
-    //  genPos = () =>{
-    //   return Number(Math.floor(Math.random()*30));
+  }
+
+  creatingRandomEnemies(aliveCells) {
+    var onlyAlive = aliveCells;
+    var randomArray = [];
+    while (randomArray.length < 5) {
+      var randomNumber = Math.floor(Math.random() * onlyAlive.length);
+      var randomCell = { ...onlyAlive[randomNumber], status: "enemy" };
+      if (randomArray.indexOf(randomCell) === -1) {
+        randomArray.push(randomCell);
+      }
+    }
+    var gridWithoutEnemies = this.state.grid;
+    for (let index = 0; index < randomArray.length; index++) {
+      var findMatch = onlyAlive.find(element => element.x === randomArray[index].x && element.y === randomArray[index].y);
+      if(onlyAlive[onlyAlive.indexOf(findMatch)]){
+        onlyAlive[onlyAlive.indexOf(findMatch)].status = 'enemy';
+        console.log("randomArray", randomArray);
+      }
+    }
+    return {grid:randomArray, enemies:randomArray};
+    // for (var i = 0; i < randomArray.length; i++) {
+    //   var findMatch = randomCells.find(element => element.x === randomArray[i].x && element.y === randomArray[i].y);
+    //   console.log('path', findMatch);
+    //   if (randomCells[randomCells.indexOf(findMatch)]) {
+    //     randomCells[randomCells.indexOf(findMatch)].status = 'pass';
     //   }
 
-    //  genAttack = (dungeon)=>{
-    //   return Number((dungeon)*Math.floor(Math.random()*10)+1)
     // }
-
-
-    render() {
-      return (
-        <div >
-          <div className='heading'>
-            <h3>Dungeon Crawler Game</h3>
-          </div>
-          <div className="icons">
-            <ul className="fa-ul">
-              <li><span className="fa-li"><i className="fas fa-check-square"></i></span>List icons can</li>
-              <li><span className="fa-li"><i className="fas fa-check-square"></i></span>be used to</li>
-              <li><span className="fa-li"><i className="fas fa-spinner fa-pulse"></i></span>replace bullets</li>
-              <li><span className="fa-li"><i className="far fa-square"></i></span>in lists</li>
-            </ul>
-          </div>
-          <div className="grid">
-            {this.state.grid.map(element => {
-              return <button onClick={() => this.grid()(element)} id={element.status}>{element.status}</button>
-            })}
-          </div>
-        </div>
-      );
-    }
+    // return { grid: randomCells, enemies: randomArray }
   }
+  // Random Position Generator
 
-  export default App;
+  //  genPos = () =>{
+  //   return Number(Math.floor(Math.random()*30));
+  //   }
+
+  //  genAttack = (dungeon)=>{
+  //   return Number((dungeon)*Math.floor(Math.random()*10)+1)
+  // }
+
+
+  render() {
+    return (
+      <div >
+        <div className='heading'>
+          <h3>Dungeon Crawler Game</h3>
+        </div>
+        <div className="icons">
+          <ul className="fa-ul">
+            <li><span className="fa-li"><i className="fas fa-check-square"></i></span>List icons can</li>
+            <li><span className="fa-li"><i className="fas fa-check-square"></i></span>be used to</li>
+            <li><span className="fa-li"><i className="fas fa-spinner fa-pulse"></i></span>replace bullets</li>
+            <li><span className="fa-li"><i className="far fa-square"></i></span>in lists</li>
+          </ul>
+        </div>
+        <div className="grid">
+          {this.state.grid.map(element => {
+            return <button onClick={() => this.grid()(element)} id={element.status}>{element.status}</button>
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;

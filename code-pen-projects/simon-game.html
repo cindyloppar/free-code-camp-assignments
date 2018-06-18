@@ -1,5 +1,10 @@
 <html>
 
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+</head>
+
 <script>
   var currentGame = [];
   var count = 0;
@@ -35,7 +40,7 @@
 
 
   function startGame() {
-// this is the displaying part of before it flashes.
+    // this is the displaying part of before it flashes.
 
     var randomColor = Math.floor(Math.random() * possibilities.length);
     currentGame.push(possibilities[randomColor]);
@@ -46,7 +51,7 @@
   }
 
   function showMoves() {
-// this is the flashing part of the code
+    // this is the flashing part of the code
     const showTileFor = 1000;
     var n = 0;
     var displayColors = setInterval(function () {
@@ -98,7 +103,7 @@
       }
     }
   }
-// this will reload the game
+  // this will reload the game
   function newGame() {
     window.location.reload();
   }
