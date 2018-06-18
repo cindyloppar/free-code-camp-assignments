@@ -118,6 +118,7 @@
   h1 {
     color: white;
     font-family: Comic;
+    padding-left:70px;
   }
 
   #btn_blue {
@@ -167,7 +168,7 @@
   #buttons {
     top: 180px;
     position: relative;
-    right: 600px;
+    right: 590px;
   }
 
   #count {
@@ -179,18 +180,26 @@
   #strictLabel {
     position: relative;
     top: 100px;
+    left:40px;
   }
 
   #on {
     position: relative;
     top: 100px;
     color: #29bf12;
+    left:40px;
   }
 
   #off {
     position: relative;
     top: 100px;
     color: red;
+    left:40px;
+  }
+  #reset{
+    position: relative;
+    top: 85px;
+    left:70px;
   }
 </style>
 
@@ -205,7 +214,7 @@
       <button id="btn_yellow" onclick="players('yellow')"></button>
       <button id="buttons" onclick="startGame()">start</button>
 
-      <button id="buttons" onClick="newGame()"> reset</button>
+      <button id="reset" onClick="newGame()"> reset</button>
 
       <h3 id="count"> </h3>
 
