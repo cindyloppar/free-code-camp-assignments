@@ -27,7 +27,8 @@ class App extends Component {
     var allDeadCells = this.grid();
     var aliveAndDead = this.pathWays(allDeadCells);
 
-    var newGrid = this.creatingRandomEnemies(aliveAndDead.grid)
+    var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
+    this.placeAllRandomFunctions(aliveAndDead.grid)
     this.setState({ grid: aliveAndDead.grid });
   }
 
@@ -55,14 +56,19 @@ class App extends Component {
       { x: 2, y: 2, player: "", status: "pass" },
       { x: 3, y: 2, player: "", status: "pass" },
       { x: 3, y: 3, player: "", status: "pass" },
-      { x: 4, y: 5, player: "", status: "/" },
+      { x: 4, y: 5, player: "", status: "pass" },
       { x: 3, y: 4, player: "", status: "pass" },
       { x: 3, y: 5, player: "", status: "pass" },
       { x: 5, y: 5, player: "", status: "pass" },
-      { x: 5, y: 6, player: "", status: "!" },
+      { x: 5, y: 6, player: "", status: "pass" },
       { x: 5, y: 7, player: "", status: "pass" },
       { x: 5, y: 8, player: "", status: "pass" },
       { x: 6, y: 7, player: "", status: "pass" },
+      { x: 5, y: 4, player: "", status: "pass" },
+      { x: 6, y: 4, player: "", status: "pass" },
+      { x: 6, y: 3, player: "", status: "pass" },
+      { x: 7, y: 3, player: "", status: "pass" },
+      { x: 7, y: 7, player: "", status: "pass" },
 
     ];
     for (var i = 0; i < paths.length; i++) {
@@ -77,7 +83,7 @@ class App extends Component {
   creatingRandomEnemies(aliveCells) {
     var onlyAlive = aliveCells
     var randomArray = [];
-    var i = 5;
+    var i = 7;
     while (randomArray.length < i) {
       var randomNumber = Math.floor(Math.random() * onlyAlive.length);
       var randomCell = { ...onlyAlive[randomNumber] };
@@ -87,8 +93,6 @@ class App extends Component {
       }
     }
 
-    var gridWithoutEnemies = this.state.grid;
-    console.log("e", gridWithoutEnemies);
     for (var index = 0; index < randomArray.length; index++) {
       var findMatch = onlyAlive.find(element => element.x === randomArray[index].x && element.y === randomArray[index].y);
       if (onlyAlive[onlyAlive.indexOf(findMatch)]) {
@@ -100,29 +104,83 @@ class App extends Component {
 
   }
 
-  // placePlayerOnTheGrid(life) {
-  //   var alive = life;
-  //   var playerRandom = [];
-  //   while (playerRandom.length < 6) {
-  //     var randomPlacement = Math.floor(Math.random() * alive.length);
-  //     var copyFromRandomPlacement = { ...alive[randomPlacement] };
-  //     if (copyFromRandomPlacement.status === 'pass') {
-  //       copyFromRandomPlacement.status = "Play";
-  //       playerRandom.push(copyFromRandomPlacement);
-  //     }
-  //   }
+  placePlayerOnTheGrid(life) {
+    var alive = life;
+    var playerRandom = [];
+    var i = 1;
+    while (playerRandom.length < 1) {
+      var randomPlacement = Math.floor(Math.random() * alive.length);
+      var copyFromRandomPlacement = { ...alive[randomPlacement] };
+      if (copyFromRandomPlacement.status === 'pass') {
+        copyFromRandomPlacement.status = "playerBlock";
+        playerRandom.push(copyFromRandomPlacement);
+        console.log(playerRandom, alive)
+      }
+    }
 
-  //   // var gridWithDeadAliveAndEnemies = this.state.grid;
-  //   for (var c = 0; c < playerRandom.length; c++) {
-  //     var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
-  //     if (alive[alive.indexOf(lookForMath)]) {
-  //       alive[alive.indexOf(lookForMath)].status = 'play';
-  //       console.log(playerRandom, alive)
-  //     }
+    for (var c = 0; c < playerRandom.length; c++) {
+      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
+      if (alive[alive.indexOf(lookForMath)]) {
+        alive[alive.indexOf(lookForMath)].status = 'playerBlock';
+      }
 
-  //   }
-  //   return playerRandom;
-  // }
+    }
+    return { grid: playerRandom };
+  }
+
+  placeHealthOnTheGrid(life) {
+    var alive = life;
+    var playerRandom = [];
+    while (playerRandom.length < 5) {
+      var randomPlacement = Math.floor(Math.random() * alive.length);
+      var copyFromRandomPlacement = { ...alive[randomPlacement] };
+      if (copyFromRandomPlacement.status === 'pass') {
+        copyFromRandomPlacement.status = "healthBlock";
+        playerRandom.push(copyFromRandomPlacement);
+        console.log(playerRandom, alive)
+      }
+    }
+
+    for (var c = 0; c < playerRandom.length; c++) {
+      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
+      if (alive[alive.indexOf(lookForMath)]) {
+        alive[alive.indexOf(lookForMath)].status = 'healthBlock';
+      }
+
+    }
+    return { grid: playerRandom };
+
+  }
+
+  placeWeaponOnTheGrid(life) {
+    var alive = life;
+    var playerRandom = [];
+    while (playerRandom.length < 3) {
+      var randomPlacement = Math.floor(Math.random() * alive.length);
+      var copyFromRandomPlacement = { ...alive[randomPlacement] };
+      if (copyFromRandomPlacement.status === 'pass') {
+        copyFromRandomPlacement.status = " weaponBlock";
+        playerRandom.push(copyFromRandomPlacement);
+        console.log(playerRandom, alive)
+      }
+    }
+
+    for (var c = 0; c < playerRandom.length; c++) {
+      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
+      if (alive[alive.indexOf(lookForMath)]) {
+        alive[alive.indexOf(lookForMath)].status = ' weaponBlock';
+      }
+
+    }
+    return { grid: playerRandom };
+  }
+
+  placeAllRandomFunctions(life) {
+    var healthFunction = this.placeHealthOnTheGrid(life);
+    var weaponFunction = this.placeWeaponOnTheGrid(life);
+    var playerFunction = this.placePlayerOnTheGrid(life);
+    return playerFunction;
+  }
 
 
   playerMovesInTheGrid(event) {
@@ -152,14 +210,12 @@ class App extends Component {
           <span className='value'>Health</span>
           <span className='weaponBlock'></span>
           <span className='value'>Weapon</span>
-          {/* <span className= 'foodBlock'></span>
-          <span className= 'value'>Food</span> */}
           <span className='enemy'></span>
           <span className='value'>Enemies</span>
         </div>
         <div className="grid">
           {this.state.grid.map(element => {
-            return <button onClick={() => this.grid()(element)} className={element.status}></button>
+            return <button onClick={() => this.grid(element)} className={element.status}></button>
           })}
         </div>
       </div>

@@ -35,32 +35,32 @@ padding-right: .5em;
 
 .playerBlock {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
     background-color: blue;
-    margin-right: 1em;
+    /* margin-right: 1em; */
 }
 .enemy{
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
     background-color: rgb(221, 8, 8);
-    margin-right: 1em;
+    /* margin-right: 1em; */
 }
 .weaponBlock {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
     background-color: rgb(245, 83, 110);
-    margin-right: 1em;
+    /* margin-right: 1em; */
 }
 
 .healthBlock {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
     background-color: rgb(80, 197, 25);
-    margin-right: 1em;
+    /* margin-right: 1em; */
 }
 
 /* .foodBlock {
