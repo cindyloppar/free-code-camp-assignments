@@ -2,8 +2,7 @@
     display: grid;
     grid-template-columns: repeat(10, 30px);
     grid-template-rows: repeat(10, 30px);
-
-    /* justify-content: center; */
+     /* justify-content: center;  */
 }
 button{
      /* border: rgb(245, 245, 245) */
@@ -21,6 +20,8 @@ h1{
     color: #31b543;
 }
 .message{
+    position: absolute;
+    bottom: 10px;
     display: table;
     margin: .5em auto;
     margin-top: 0.5em;
@@ -62,7 +63,12 @@ padding-right: .5em;
     background-color: rgb(80, 197, 25);
     /* margin-right: 1em; */
 }
-
+.walls{
+    background-color: rgb(107, 34, 34)
+}
+.pass{
+    background-color: beige
+}
 /* .foodBlock {
     display: inline-block;
     width: 1em;

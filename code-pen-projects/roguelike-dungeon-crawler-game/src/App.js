@@ -7,7 +7,8 @@ class App extends Component {
     this.state = {
       grid: [],
       status: '',
-      player: { x: 1, y: 1, player: "", status: "pass" },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
+      oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       playerLife: 50,
       path: [],
       health: [],
@@ -22,11 +23,12 @@ class App extends Component {
     this.playerMovesInTheGrid = this.playerMovesInTheGrid.bind(this);
   }
 
+
+
   componentDidMount() {
     document.onkeydown = this.playerMovesInTheGrid;
     var allDeadCells = this.grid();
     var aliveAndDead = this.pathWays(allDeadCells);
-
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
     this.setState({ grid: aliveAndDead.grid });
@@ -39,7 +41,7 @@ class App extends Component {
         deadCells.push({
           x: x,
           y: y,
-          status: "X",
+          status: "pass",
         })
       }
     }
@@ -48,33 +50,35 @@ class App extends Component {
 
   pathWays(deadGrid) {
     var cells = deadGrid;
+    console.log("cells", cells);
+
     var paths = [
-      { x: 1, y: 1, player: ":)", status: "pass" },
-      { x: 0, y: 1, player: "", status: "pass" },
-      { x: 0, y: 2, player: "", status: "pass" },
-      { x: 1, y: 2, player: "", status: "pass" },
-      { x: 2, y: 2, player: "", status: "pass" },
-      { x: 3, y: 2, player: "", status: "pass" },
-      { x: 3, y: 3, player: "", status: "pass" },
-      { x: 4, y: 5, player: "", status: "pass" },
-      { x: 3, y: 4, player: "", status: "pass" },
-      { x: 3, y: 5, player: "", status: "pass" },
-      { x: 5, y: 5, player: "", status: "pass" },
-      { x: 5, y: 6, player: "", status: "pass" },
-      { x: 5, y: 7, player: "", status: "pass" },
-      { x: 5, y: 8, player: "", status: "pass" },
-      { x: 6, y: 7, player: "", status: "pass" },
-      { x: 5, y: 4, player: "", status: "pass" },
-      { x: 6, y: 4, player: "", status: "pass" },
-      { x: 6, y: 3, player: "", status: "pass" },
-      { x: 7, y: 3, player: "", status: "pass" },
-      { x: 7, y: 7, player: "", status: "pass" },
+      { x: 1, y: 1, player: ":)", status: "walls" },
+      { x: 0, y: 1, player: "", status: "walls" },
+      { x: 0, y: 2, player: "", status: "walls" },
+      { x: 1, y: 2, player: "", status: "walls" },
+      { x: 2, y: 2, player: "", status: "walls" },
+      { x: 3, y: 2, player: "", status: "walls" },
+      { x: 3, y: 3, player: "", status: "walls" },
+      { x: 4, y: 5, player: "", status: "walls" },
+      { x: 3, y: 4, player: "", status: "walls" },
+      { x: 3, y: 5, player: "", status: "walls" },
+      { x: 5, y: 5, player: "", status: "walls" },
+      { x: 5, y: 6, player: "", status: "walls" },
+      { x: 5, y: 7, player: "", status: "walls" },
+      { x: 5, y: 8, player: "", status: "walls" },
+      { x: 6, y: 7, player: "", status: "walls" },
+      { x: 5, y: 4, player: "", status: "walls" },
+      { x: 6, y: 4, player: "", status: "walls" },
+      { x: 6, y: 3, player: "", status: "walls" },
+      { x: 7, y: 3, player: "", status: "walls" },
+      { x: 7, y: 7, player: "", status: "walls" },
 
     ];
     for (var i = 0; i < paths.length; i++) {
       var cellFound = cells.find(element => element.x === paths[i].x && element.y === paths[i].y);
       if (cells[cells.indexOf(cellFound)]) {
-        cells[cells.indexOf(cellFound)].status = "pass";
+        cells[cells.indexOf(cellFound)].status = "walls";
       }
     }
     return { grid: cells, path: paths, player: paths }
@@ -114,7 +118,6 @@ class App extends Component {
       if (copyFromRandomPlacement.status === 'pass') {
         copyFromRandomPlacement.status = "playerBlock";
         playerRandom.push(copyFromRandomPlacement);
-        console.log(playerRandom, alive)
       }
     }
 
@@ -176,25 +179,33 @@ class App extends Component {
   }
 
   placeAllRandomFunctions(life) {
+    // var enemyFunction = this.creatingRandomEnemies(life);
     var healthFunction = this.placeHealthOnTheGrid(life);
     var weaponFunction = this.placeWeaponOnTheGrid(life);
-    var playerFunction = this.placePlayerOnTheGrid(life);
-    return playerFunction;
+    // var playerFunction = this.placePlayerOnTheGrid(life);
+    return weaponFunction;
   }
 
 
   playerMovesInTheGrid(event) {
     var keys = this.state.player;
-    if (event.key === "ArrowUp") {
+    var oldLoc = this.state.player;
+    var grid = this.state.grid;
+    if (event.key === "ArrowDown") {
       keys = { x: keys.x + 1, y: keys.y }
-    } else if (event.key === "ArrowDown") {
+    } else if (event.key === "ArrowUp") {
       keys = { x: keys.x - 1, y: keys.y }
     } else if (event.key === "ArrowRight") {
       keys = { x: keys.x, y: keys.y + 1 }
     } else if (event.key === "ArrowLeft") {
       keys = { x: keys.x, y: keys.y - 1 }
     }
-    this.setState({ player: keys })
+    var objectFound = grid.find(cell => cell.x === keys.x && cell.y === keys.y);
+    if (objectFound.status === "walls") {
+      keys = oldLoc
+    }
+    var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
+    this.setState({ player: grid[index], oldLocation: oldLoc })
   }
 
   render() {
@@ -202,6 +213,11 @@ class App extends Component {
       <div >
         <div className='heading'>
           <h1>Roguelike Dungeon Crawler Game</h1>
+        </div>
+        <div>
+          <span className='playerLife'>XP</span>
+          <span className='health'>Health</span>
+          <span className='level'>Level</span>
         </div>
         <div className="message">
           <span className='playerBlock'></span>
@@ -215,6 +231,12 @@ class App extends Component {
         </div>
         <div className="grid">
           {this.state.grid.map(element => {
+            if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
+              element.status = "pass"
+            }
+            if (element.x === this.state.player.x && element.y === this.state.player.y) {
+              element.status = "playerBlock"
+            }
             return <button onClick={() => this.grid(element)} className={element.status}></button>
           })}
         </div>
