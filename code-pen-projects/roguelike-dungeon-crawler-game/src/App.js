@@ -7,7 +7,7 @@ class App extends Component {
     this.state = {
       grid: [],
       status: '',
-      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemyLife: 20 },
       oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       playerLife: 50,
       path: [],
@@ -23,14 +23,13 @@ class App extends Component {
     this.playerMovesInTheGrid = this.playerMovesInTheGrid.bind(this);
   }
 
-
-
   componentDidMount() {
     document.onkeydown = this.playerMovesInTheGrid;
     var allDeadCells = this.grid();
     var aliveAndDead = this.pathWays(allDeadCells);
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
+    this.playerLifeIncreaseOrDecrease();
     this.setState({ grid: aliveAndDead.grid });
   }
 
@@ -73,6 +72,8 @@ class App extends Component {
       { x: 6, y: 3, player: "", status: "walls" },
       { x: 7, y: 3, player: "", status: "walls" },
       { x: 7, y: 7, player: "", status: "walls" },
+      { x: 8, y: 3, player: "", status: "walls" },
+      { x: 8, y: 7, player: "", status: "walls" },
 
     ];
     for (var i = 0; i < paths.length; i++) {
@@ -108,30 +109,8 @@ class App extends Component {
 
   }
 
-  placePlayerOnTheGrid(life) {
-    var alive = life;
-    var playerRandom = [];
-    var i = 1;
-    while (playerRandom.length < 1) {
-      var randomPlacement = Math.floor(Math.random() * alive.length);
-      var copyFromRandomPlacement = { ...alive[randomPlacement] };
-      if (copyFromRandomPlacement.status === 'pass') {
-        copyFromRandomPlacement.status = "playerBlock";
-        playerRandom.push(copyFromRandomPlacement);
-      }
-    }
-
-    for (var c = 0; c < playerRandom.length; c++) {
-      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
-      if (alive[alive.indexOf(lookForMath)]) {
-        alive[alive.indexOf(lookForMath)].status = 'playerBlock';
-      }
-
-    }
-    return { grid: playerRandom };
-  }
-
   placeHealthOnTheGrid(life) {
+    var play = this.state.player
     var alive = life;
     var playerRandom = [];
     while (playerRandom.length < 5) {
@@ -143,16 +122,13 @@ class App extends Component {
         console.log(playerRandom, alive)
       }
     }
-
     for (var c = 0; c < playerRandom.length; c++) {
-      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
-      if (alive[alive.indexOf(lookForMath)]) {
-        alive[alive.indexOf(lookForMath)].status = 'healthBlock';
+      var lookForMatch = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
+      if (alive[alive.indexOf(lookForMatch)]) {
+        alive[alive.indexOf(lookForMatch)].status = 'healthBlock';
       }
-
     }
-    return { grid: playerRandom };
-
+    return { grid: playerRandom, player: playerRandom };
   }
 
   placeWeaponOnTheGrid(life) {
@@ -179,10 +155,8 @@ class App extends Component {
   }
 
   placeAllRandomFunctions(life) {
-    // var enemyFunction = this.creatingRandomEnemies(life);
     var healthFunction = this.placeHealthOnTheGrid(life);
     var weaponFunction = this.placeWeaponOnTheGrid(life);
-    // var playerFunction = this.placePlayerOnTheGrid(life);
     return weaponFunction;
   }
 
@@ -201,11 +175,30 @@ class App extends Component {
       keys = { x: keys.x, y: keys.y - 1 }
     }
     var objectFound = grid.find(cell => cell.x === keys.x && cell.y === keys.y);
-    if (objectFound.status === "walls") {
+    if (objectFound === undefined) {
+      keys = oldLoc;
+    }
+    else if (objectFound.status === "walls") {
       keys = oldLoc
     }
     var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
-    this.setState({ player: grid[index], oldLocation: oldLoc })
+    this.setState({ player: grid[index], oldLocation: oldLoc})
+  }
+
+  playerLifeIncreaseOrDecrease() {
+    var play = this.state.playerLife;
+    for (var i = 0; i < play.length; i++) {
+      var lookForMatch = play.find(element => element.x === play[i].x && element.y === play[i].y);
+      if (play.health === 50) {
+        play.health + 5;
+        console.log('play', play)
+      }
+    }
+    return { player: play }
+  }
+
+  experienceForPlayer(){
+    var oldLocation = this.state.oldLocation
   }
 
   render() {
@@ -214,10 +207,10 @@ class App extends Component {
         <div className='heading'>
           <h1>Roguelike Dungeon Crawler Game</h1>
         </div>
-        <div>
-          <span className='playerLife'>XP</span>
-          <span className='health'>Health</span>
-          <span className='level'>Level</span>
+        <div className="">
+          <span className='level'>Dungeon: 1</span>
+          <span className='health'>Health:</span>
+          <span className='playerLife'>XP:</span>
         </div>
         <div className="message">
           <span className='playerBlock'></span>
@@ -234,6 +227,7 @@ class App extends Component {
             if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
               element.status = "pass"
             }
+            // complains about player being undefined
             if (element.x === this.state.player.x && element.y === this.state.player.y) {
               element.status = "playerBlock"
             }

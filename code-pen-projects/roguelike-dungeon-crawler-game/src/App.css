@@ -4,9 +4,9 @@
     grid-template-rows: repeat(10, 30px);
      /* justify-content: center;  */
 }
-button{
-     /* border: rgb(245, 245, 245) */
-}
+/* button{
+     border: rgb(245, 245, 245)
+} */
 
 .heading {
     text-align: right;
@@ -20,8 +20,8 @@ h1{
     color: #31b543;
 }
 .message{
-    position: absolute;
-    bottom: 10px;
+    /* position: absolute;
+    bottom: 5px; */
     display: table;
     margin: .5em auto;
     margin-top: 0.5em;

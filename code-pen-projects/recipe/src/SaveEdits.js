@@ -18,7 +18,7 @@ export default class SaveEdits extends React.Component {
     }
 
     save() {
-        this.props.SaveEdit(this.state.recipe, this.state.ingredients);
+        this.props.SaveEdit(this.state.recipe.recipe, this.state.ingredients);
     }
     delete() {
         this.props.deleteRecipe(this.state.currentRecipe);
