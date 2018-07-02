@@ -30,6 +30,7 @@ class App extends Component {
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
     this.playerLifeIncreaseOrDecrease();
+    this.playerLifeIncreaseOrDecrease();
     this.setState({ grid: aliveAndDead.grid });
   }
 
@@ -182,22 +183,23 @@ class App extends Component {
       keys = oldLoc
     }
     var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
-    this.setState({ player: grid[index], oldLocation: oldLoc})
+    this.setState({ player: grid[index], oldLocation: oldLoc })
   }
 
   playerLifeIncreaseOrDecrease() {
-    var play = this.state.playerLife;
-    for (var i = 0; i < play.length; i++) {
-      var lookForMatch = play.find(element => element.x === play[i].x && element.y === play[i].y);
-      if (play.health === 50) {
-        play.health + 5;
-        console.log('play', play)
-      }
+    var play = this.state.player;
+    var playersLife = this.state.playerLife
+    // for (var i = 0; i < play.length; i++) {
+    //   var lookForMatch = play.find(element => element.x === play[i].x && element.y === play[i].y);
+    // }
+    console.log('play', play);
+    if (play.status === 'healthBlock') {
+      play.health =+ 5;
     }
     return { player: play }
   }
 
-  experienceForPlayer(){
+  experienceForPlayer() {
     var oldLocation = this.state.oldLocation
   }
 
@@ -209,7 +211,7 @@ class App extends Component {
         </div>
         <div className="">
           <span className='level'>Dungeon: 1</span>
-          <span className='health'>Health:</span>
+          <span className='health'>Health:50</span>
           <span className='playerLife'>XP:</span>
         </div>
         <div className="message">
