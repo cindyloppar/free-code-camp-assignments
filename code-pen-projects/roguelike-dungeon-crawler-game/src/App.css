@@ -38,14 +38,16 @@ padding-right: .5em;
     display: inline-block;
     width: 2em;
     height: 2em;
-    background-color: blue;
+    /* background-color: blanchedalmond; */
+    background: url("../icons/player.png") repeat 0 0;
     /* margin-right: 1em; */
 }
 .enemy{
     display: inline-block;
     width: 2em;
     height: 2em;
-    background-color: rgb(221, 8, 8);
+    /* background-color: black; */
+    background: url("../icons/spider.png") repeat 0 0;
     /* margin-right: 1em; */
 }
 .weaponBlock {
