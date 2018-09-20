@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import * as stage from './stages';
 import './App.css';
 
+
 class App extends Component {
   constructor() {
     super()
     this.state = {
       grid: [],
       status: '',
-      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 5 },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 5, },
       oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       path: [],
       health: [],
@@ -31,6 +32,7 @@ class App extends Component {
     var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
+    this.placeDoorOnTheGrid(aliveAndDead.grid)
     this.setState({ grid: aliveAndDead.grid });
   }
 
@@ -63,7 +65,7 @@ class App extends Component {
   creatingRandomEnemies(aliveCells) {
     var onlyAlive = aliveCells
     var randomArray = [];
-    var i = 7;
+    var i = 6;
     while (randomArray.length < i) {
       var randomNumber = Math.floor(Math.random() * onlyAlive.length);
       var randomCell = { ...onlyAlive[randomNumber] };
@@ -85,10 +87,9 @@ class App extends Component {
   }
 
   placeHealthOnTheGrid(life) {
-    var play = this.state.player
     var alive = life;
     var playerRandom = [];
-    while (playerRandom.length < 5) {
+    while (playerRandom.length < 4) {
       var randomPlacement = Math.floor(Math.random() * alive.length);
       var copyFromRandomPlacement = { ...alive[randomPlacement] };
       if (copyFromRandomPlacement.status === 'pass') {
@@ -129,9 +130,32 @@ class App extends Component {
     }
     return { grid: playerRandom };
   }
+  placeDoorOnTheGrid(life) {
+    var alive = life;
+    var playerRandom = [];
+    while (playerRandom.length < 1) {
+      var randomPlacement = Math.floor(Math.random() * alive.length);
+      var copyFromRandomPlacement = { ...alive[randomPlacement] };
+      if (copyFromRandomPlacement.status === 'pass') {
+        copyFromRandomPlacement.status = " stage";
+        playerRandom.push(copyFromRandomPlacement);
+        console.log(playerRandom, alive)
+      }
+    }
+
+    for (var c = 0; c < playerRandom.length; c++) {
+      var lookForMath = alive.find(element => element.x === playerRandom[c].x && element.y === playerRandom[c].y);
+      if (alive[alive.indexOf(lookForMath)]) {
+        alive[alive.indexOf(lookForMath)].status = 'stage';
+      }
+
+    }
+    return { grid: playerRandom };
+  }
 
   placeAllRandomFunctions(life) {
     var healthFunction = this.placeHealthOnTheGrid(life);
+    var doorFunction = this.placeDoorOnTheGrid(life)
     var weaponFunction = this.placeWeaponOnTheGrid(life);
     return weaponFunction;
   }
@@ -164,23 +188,24 @@ class App extends Component {
 
   playerLifeIncreaseOrDecrease(item) {
     var playerInfo = this.state.player;
-    console.log('play', playerInfo);
+    var current = this.state.currentStage;
     
     if (item.status === "healthBlock") {
-      playerInfo = { ...playerInfo, health: playerInfo.health + 1 }
+      playerInfo = { ...playerInfo, health: playerInfo.health + 5 }
     } else if (item.status === "enemy") {
-      playerInfo = { ...playerInfo, health: playerInfo.health - 1 }
+      playerInfo = { ...playerInfo, health: playerInfo.health - 10 }
+    }else if(playerInfo.health === 0){
+      alert("Sorry Game Over")
+    }else if (item.status === "weaponBlock") {
+      playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 3 }
     }
-    // else if (item.status === "weaponBlock"){
-    //   playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 1 }      
-    // }
-    else if (item.status === "healthBlock") {
+    else if (item.status === "stage") {
       if (this.state.currentStage <= 2) {
         var allDeadCells = this.grid();
         var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
         var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
-        this.placeAllRandomFunctions(aliveAndDead.grid)
-        this.setState({ grid: aliveAndDead.grid, stage: stage.stage2, currentStage: this.state.currentStage + 1 });
+        this.placeAllRandomFunctions(aliveAndDead.grid);
+        this.setState({ grid: aliveAndDead.grid, stage: stage.stage2, currentStage: this.state.currentStage + 1});
       }
     }
     return playerInfo
@@ -194,24 +219,28 @@ class App extends Component {
   render() {
     return (
       <div >
-        <div className='heading'>
-          <h1>Roguelike Dungeon Crawler Game</h1>
-        </div>
-        <div className="">
-          <span className='level'>Dungeon: 1</span>
-          <span className='health'>Health:{this.state.player.health}</span>
-          <span className='playerLife'>XP:</span>
-          <span className='playerLife'>Weapon:{this.state.player.weapon}</span>          
-        </div>
+        <header>
+          <div className='heading'>
+            <h1>Roguelike Dungeon Crawler Game</h1>
+          </div>
+          <div className="">
+            <span className='level'>Dungeon: </span>
+            <span className='health'>Health: {this.state.player.health}</span>
+            <span className='playerLife'>XP: </span>
+            <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
+          </div>
+        </header>
         <div className="message">
+          <span className='value'>Player: </span>
           <span className='playerBlock'></span>
-          <span className='value'>Play</span>
+          <span className='value'>Health: </span>
           <span className='healthBlock'></span>
-          <span className='value'>Health</span>
+          <span className='value'>Weapon: </span>
           <span className='weaponBlock'></span>
-          <span className='value'>Weapon</span>
+          <span className='value'>Enemies: </span>
           <span className='enemy'></span>
-          <span className='value'>Enemies</span>
+          <span className='value'>Next-Stage: </span>
+          <span className='stage'></span>
         </div>
         <div className="grid">
           {this.state.grid.map(element => {
@@ -222,7 +251,7 @@ class App extends Component {
             if (element.x === this.state.player.x && element.y === this.state.player.y) {
               element.status = "playerBlock"
             }
-            return <button onClick={() => this.grid(element)} className={element.status}></button>
+            return <span onClick={() => this.grid(element)} className={element.status}></span>
           })}
         </div>
       </div>

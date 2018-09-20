@@ -1,80 +1,83 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(10, 30px);
-    grid-template-rows: repeat(10, 30px);
-     /* justify-content: center;  */
+    grid-template-columns: repeat(10, 43px);
+    grid-template-rows: repeat(10, 43px);
+    justify-content: center;
 }
-/* button{
-     border: rgb(245, 245, 245)
-} */
 
-.heading {
-    text-align: right;
-    padding-right: 695px;
+header {
+    top: 0 px;  
+    width: 100%;
+    height: 100px;
+    text-align: center; 
+    font-size:20px;
+    box-shadow: 0px 6px 20px 0px;
+    color: orange;
+    text-shadow: 1px 1px;
+    font-family: courier;
 }
-h1{
-    text-align: center;
-    font-family: sans-serif;
-    font-size: 1.5em;
-    font-weight: 700;
-    color: #31b543;
-}
-.message{
-    /* position: absolute;
-    bottom: 5px; */
+
+.message { 
     display: table;
     margin: .5em auto;
     margin-top: 0.5em;
     margin-right: auto;
     margin-bottom: 0.5em;
     margin-left: auto;
+    font-family: courier;
+    color: orange;
 }
-/* .message{
-    display: table-cell;
-padding-right: .5em;
-} */
 
 .playerBlock {
     display: inline-block;
-    width: 2em;
-    height: 2em;
-    /* background-color: blanchedalmond; */
-    background: url("../icons/player.png") repeat 0 0;
-    /* margin-right: 1em; */
+    width: 2.5em;
+    height: 2.5em;
+    background: url('icons/player.png')repeat 0 0;
+    background-size: cover;
 }
-.enemy{
+
+.enemy {
     display: inline-block;
-    width: 2em;
-    height: 2em;
-    /* background-color: black; */
-    background: url("../icons/spider.png") repeat 0 0;
-    /* margin-right: 1em; */
+    width: 2.5em;
+    height: 2.5em;
+    background: url('icons/octopus.png') repeat 0 0;
+    background-size: cover;
 }
+
 .weaponBlock {
     display: inline-block;
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
     background-color: rgb(245, 83, 110);
+    background: url('icons/strike.png');
+    background-size: cover;
     /* margin-right: 1em; */
 }
 
 .healthBlock {
     display: inline-block;
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
     background-color: rgb(80, 197, 25);
+    background: url('icons/jam.png');
+    background-size: cover;
     /* margin-right: 1em; */
 }
-.walls{
-    background-color: rgb(107, 34, 34)
-}
-.pass{
-    background-color: beige
-}
-/* .foodBlock {
+
+.stage {
     display: inline-block;
-    width: 1em;
-    height: 1em;
-    background-color: rgb(83, 245, 237);
-    margin-right: 1em;
-} */
+    width: 2.5em;
+    height: 2.5em;
+    background-color: rgb(80, 197, 25);
+    background: url('icons/next-level.png');
+    background-size: cover;
+}
+
+.walls {
+    background: url('icons/brick-wall.png')
+}
+
+.pass {
+    background-color: rgb(15, 15, 14)
+}
+
