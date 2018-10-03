@@ -52,8 +52,6 @@ var stage2 = [
   { x: 0, y: 1, player: "", status: "walls" },
   { x: 7, y: 0, player: "", status: "walls" },
   { x: 7, y: 1, player: "", status: "walls" },
-  
-    
 ];
 
 var stage3 = [
