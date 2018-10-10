@@ -2,23 +2,25 @@ import React, { Component } from 'react';
 import * as stage from './stages';
 import './App.css';
 
-
 class App extends Component {
   constructor() {
     super()
     this.state = {
+      isHidden: false,
       grid: [],
       status: '',
-      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 5 },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 30, weapon: 5, boss: 35 },
       oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       path: [],
       health: 'jam',
-      weapon: [],
-      level: 1,
-      enemies: [],
+      weapon: 'strike',
+      enemy: 'octopus',
+      boss: 'jason',
+      dungeon: 1,
       enemyLife: 20,
+      hiddenGrid: [],
       stages: [stage.stage1, stage.stage2, stage.stage3],
-      currentStage: 0
+      currentStage: 0,
     }
     this.grid = this.grid.bind(this);
     this.pathWays = this.pathWays.bind(this);
@@ -32,7 +34,6 @@ class App extends Component {
     var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
-    this.placeDoorOnTheGrid(aliveAndDead.grid)
     this.setState({ grid: aliveAndDead.grid });
   }
 
@@ -130,6 +131,7 @@ class App extends Component {
     }
     return { grid: playerRandom };
   }
+
   placeDoorOnTheGrid(life) {
     var alive = life;
     var playerRandom = [];
@@ -137,9 +139,8 @@ class App extends Component {
       var randomPlacement = Math.floor(Math.random() * alive.length);
       var copyFromRandomPlacement = { ...alive[randomPlacement] };
       if (copyFromRandomPlacement.status === 'pass') {
-        copyFromRandomPlacement.status = " stage";
+        copyFromRandomPlacement.status = 'stage';
         playerRandom.push(copyFromRandomPlacement);
-        console.log(playerRandom, alive)
       }
     }
 
@@ -148,15 +149,16 @@ class App extends Component {
       if (alive[alive.indexOf(lookForMath)]) {
         alive[alive.indexOf(lookForMath)].status = 'stage';
       }
-
     }
     return { grid: playerRandom };
   }
 
   placeAllRandomFunctions(life) {
     var healthFunction = this.placeHealthOnTheGrid(life);
-    var doorFunction = this.placeDoorOnTheGrid(life)
-    var weaponFunction = this.placeWeaponOnTheGrid(life);
+    var xpLimit = 6;
+    if (this.state.player.XP === xpLimit++) {
+      this.placeDoorOnTheGrid(life);
+    } var weaponFunction = this.placeWeaponOnTheGrid(life);
     return weaponFunction;
   }
 
@@ -176,18 +178,17 @@ class App extends Component {
     var objectFound = grid.find(cell => cell.x === keys.x && cell.y === keys.y);
     if (objectFound === undefined) {
       keys = oldLoc;
-    }
-    else if (objectFound.status === "walls") {
+    }else if (objectFound.status === 'walls') {
       keys = oldLoc
     }
     var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
     var player = this.playerLifeIncreaseOrDecrease(grid[index]);
     player = { ...player, x: grid[index].x, y: grid[index].y }
-    this.setState({ player: player, oldLocation: oldLoc })
+    var getAllNeighbors = this.checkForAliveNeighbors(player);
+    this.setState({ player: player, oldLocation: oldLoc, hiddenGrid: getAllNeighbors })
   }
-  restartGame() {
-    console.log("this function is called ");
 
+  restartGame() {
     var allDeadCells = this.grid();
     var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[0]);
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
@@ -196,23 +197,28 @@ class App extends Component {
     this.setState({ gameOver: false, currentStage: this.state.stages[0], grid: aliveAndDead.grid, player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 5 } });
 
   }
+
   playerLifeIncreaseOrDecrease(item) {
     var playerInfo = this.state.player;
     var current = this.state.currentStage;
-
-    console.log("should increase weapon", item)
-
-    if (item.status === "healthBlock") {
+    var xpLimit = 6;
+    if (item.status === 'healthBlock') {
       playerInfo = { ...playerInfo, health: playerInfo.health + 5 }
     }
-    if (item.status === "enemy") {
-      playerInfo = { ...playerInfo, health: playerInfo.health - 15, XP: playerInfo.XP + 2 }
+    if (item.status === 'enemy') {
+      playerInfo = { ...playerInfo, health: playerInfo.health - 15, XP: playerInfo.XP + 2, enemy: playerInfo.enemy - 3 };
+      if (playerInfo.XP === xpLimit++) {
+        this.placeDoorOnTheGrid(this.state.grid);
+      }
     }
-    if (item.status === "weaponBlock") {
+    if (item.status === 'weaponBlock') {
       playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 3 }
     }
     if (playerInfo.health <= 0) {
       this.setState({ gameOver: true })
+    }
+    if (this.state.stages === stage.stage3) {
+      alert('YOU WON!!')
     }
     if (item.status === "stage") {
       if (this.state.currentStage <= 2) {
@@ -220,8 +226,9 @@ class App extends Component {
         var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
         var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
         this.placeAllRandomFunctions(aliveAndDead.grid);
-        this.placingDifferentIcons()
-        this.setState({ grid: aliveAndDead.grid, stage: stage.stage2, currentStage: this.state.currentStage + 1 });
+        this.placingDifferentIcons();
+        this.placeBossOnTheGrid(item);
+        this.setState({ grid: aliveAndDead.grid, boss: 'jason.png', stage: stage.stage2, currentStage: this.state.currentStage + 1 });
       }
     }
     return playerInfo
@@ -231,64 +238,162 @@ class App extends Component {
     var nextStage = this.state.stages[this.state.currentStage + 1];
     var playerInfo = this.state.player;
     if (nextStage && nextStage.stage === this.state.stage2) {
-      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'stoned-bat.png' };
-      this.setState({ health: 'syringe', enemies: 'bat' })
+      this.placeBossOnTheGrid(playerInfo);      
+      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'crab.png', weapon: 'gun.png', boss: 'jason.png' };
+      this.setState({ health: 'syringe', enemy: 'bat', weapon: 'fist', boss: 'jason', stage: stage.stage3 });
     }
-    return playerInfo
+
+    return playerInfo;
+  }
+
+  placeBossOnTheGrid() {
+    var nextStage = this.state.stages[this.state.currentStage + 2];
+    var playerInfo = this.state.player;
+    if (nextStage && nextStage.stages === this.state.stage3) {
+      playerInfo = { ...playerInfo, boss:'jason.png' };      
+      this.setState({ boss: 'jason', stage: stage.stage3}) ;
+    }
+    return playerInfo;
+  }
+
+  checkForAliveNeighbors(object) {
+    var valid = [object]
+    var grid = this.state.grid;
+    var allNeighbors = [
+      { x: object.x, y: object.y + 1 },
+      { x: object.x + 1, y: object.y + 1 },
+      { x: object.x + 1, y: object.y },
+      { x: object.x + 1, y: object.y - 1 },
+      { x: object.x, y: object.y - 1 },
+      { x: object.x - 1, y: object.y - 1 },
+      { x: object.x - 1, y: object.y },
+      { x: object.x - 1, y: object.y + 1 }
+    ]
+    allNeighbors.forEach(item => {
+      var checkProperties = grid.find(cell => { return cell.x === item.x && cell.y === item.y });
+      valid.push(checkProperties);
+    });
+    valid.sort((a, b) => {
+      if (a.x === b.x) return a.y - b.y;
+      return a.x - b.x;
+    });
+    return valid;
+  }
+
+  toggleHidden() {
+    var setGrid = this.state.isHidden;
+    if (setGrid === false) {
+      this.setState({ isHidden: true })
+    } else {
+      this.setState({ isHidden: false })
+
+    }
   }
 
   render() {
+
     return (
       <div >
+
         {this.state.gameOver && (
           <div>
-            <h1>Sorry Game Over!</h1>
-            <button onClick={() => this.restartGame()}>Restart</button>
+            <h1 id='gameOver'>Sorry Game Over!</h1>
+            <button id='restart' onClick={() => this.restartGame()}>Restart</button>
           </div>
         )}
+
         {!this.state.gameOver && (
           <div>
             <header>
               <div className='heading'>
                 <h1>Roguelike Dungeon Crawler Game</h1>
               </div>
-              <div className="">
+              <div className='elementsInsideGrid'>
                 <span className='level'>Dungeon: </span>
                 <span className='health'>Health: {this.state.player.health}</span>
+                <span className='enemyLife'>Enemy: {this.state.player.enemy}</span>
                 <span className='playerLife'>XP: {this.state.player.XP}</span>
                 <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
               </div>
             </header>
             <div className="message">
               <span className='value'>Player: </span>
-              <span className='playerBlock'></span>
+              <span id='playerBlock'></span>
               <span className='value'>Health: </span>
               <span className='healthBlock' id={this.state.health}></span>
               <span className='value'>Weapon: </span>
-              <span className='weaponBlock'  id={this.state.weapon}></span>
+              <span className='weaponBlock' id={this.state.weapon}></span>
               <span className='value'>Enemies: </span>
-              <span className='enemy'></span>
+              <span className='enemy' id={this.state.enemy}></span>
+              <span className='value'>Boss: </span>
+              <span className='boss' id={this.state.boss}></span>
               <span className='value'>Next-Stage: </span>
               <span className='stage'></span>
             </div>
-            <div className="grid">
-              {this.state.grid.map(element => {
-                if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
-                  element.status = "pass"
-                }
-                if (element.x === this.state.player.x && element.y === this.state.player.y) {
-                  element.status = "playerBlock";
-                }
-                if (element.status === 'healthBlock') {
-                  element.icon = this.state.health;
-                } else {
-                  element.icon = element.status;
-                }
 
+            <div>
+              <button id='showHide' onClick={this.toggleHidden.bind(this)} >
+                Show/Hide Grid
+        </button>
 
-                return <span id={element.icon} onClick={() => this.grid(element)} className={element.status}></span>
-              })}
             </div>
+            {!this.state.isHidden && (
+
+              <div className="grid" >
+                {this.state.grid.map(element => {
+                  if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
+                    element.status = "pass"
+                  }
+                  if (element.x === this.state.player.x && element.y === this.state.player.y) {
+                    element.status = "playerBlock";
+                  }
+                  if (element.status === 'healthBlock') {
+                    element.icon = this.state.health;
+                  } else if (element.status === 'weaponBlock') {
+                    element.icon = this.state.weapon;
+                  } else if (element.status === 'enemy') {
+                    element.icon = this.state.enemy;
+                  } else if (element.status === 'boss') {
+                    element.icon = this.state.boss;
+                  } else {
+                    element.icon = element.status;
+                  }
+
+                  return <span id={element.icon} onClick={() => this.grid(element)} className={element.status}></span>
+                })}
+              </div>
+            )}
+
+            {this.state.isHidden && (
+              <div className="smallGrid">
+                {
+                  this.state.hiddenGrid.map(element => {
+                    if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
+                      element.status = "pass"
+                      console.log('status', element);
+                      
+                    }
+                    if (element.x === this.state.player.x && element.y === this.state.player.y) {
+                      element.status = "playerBlock";
+                    }
+                    if (element.status === 'healthBlock') {
+                      element.icon = this.state.health;
+                    } else if (element.status === 'weaponBlock') {
+                      element.icon = this.state.weapon;
+                    } else if (element.status === 'enemy') {
+                      element.icon = this.state.enemy;
+                    } else if (element.status === 'boss') {
+                      element.icon = this.state.boss;
+                    } else {
+                      element.icon = element.status;
+                    }
+
+                    return <span id={element.icon} onClick={() => this.grid(element)} className={element.status}></span>
+                  })
+                }
+              </div>
+            )}
+
           </div>
         )}
       </div>

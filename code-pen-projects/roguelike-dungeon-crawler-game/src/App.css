@@ -5,6 +5,13 @@
     justify-content: center;
 }
 
+.smallGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 43px);
+    grid-template-rows: repeat(3, 43px);
+    justify-content: center;
+}
+
 header {
     top: 0 px;
     width: 100%;
@@ -15,6 +22,7 @@ header {
     color: orange;
     text-shadow: 1px 1px;
     font-family: courier;
+        
 }
 
 .message {
@@ -28,7 +36,7 @@ header {
     color: orange;
 }
 
-.playerBlock {
+#playerBlock {
     display: inline-block;
     width: 2.5em;
     height: 2.5em;
@@ -36,12 +44,39 @@ header {
     background-size: cover;
 }
 
-.enemy {
+.enemyBlock{
     display: inline-block;
     width: 2.5em;
     height: 2.5em;
     background: url('icons/octopus.png') repeat 0 0;
     background-size: cover;
+}
+#octopus{
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    background: url('icons/octopus.png') repeat 0 0;
+    background-size: cover;
+    margin-right: 1em;    
+}
+#bat{
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: rgb(80, 197, 25);
+    background: url('icons/crab.png');
+    background-size: cover;
+    margin-right: 1em;
+}
+
+#jason{
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: rgb(80, 197, 25);
+    background: url('icons/jason.png');
+    background-size: cover;
+    margin-right: 1em;
 }
 
 .weaponBlock {
@@ -51,7 +86,27 @@ header {
     background-color: rgb(245, 83, 110);
     background: url('icons/strike.png');
     background-size: cover;
-    /* margin-right: 1em; */
+    margin-right: 1em; 
+}
+#strike{
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: rgb(245, 83, 110);
+    background: url('icons/strike.png');
+    background-size: cover;
+    margin-right: 1em;
+    
+}
+
+#fist{
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: rgb(80, 197, 25);
+    background: url('icons/gun.png');
+    background-size: cover;
+    margin-right: 1em;
 }
 
 .healthBlock {
@@ -63,15 +118,7 @@ header {
     background-size: cover;
     margin-right: 1em;
 }
-#bat{
-    display: inline-block;
-    width: 2.5em;
-    height: 2.5em;
-    background-color: rgb(80, 197, 25);
-    background: url('icons/stoned-bat.png');
-    background-size: cover;
-    margin-right: 1em;
-}
+
 
 #syringe {
     display: inline-block;
@@ -108,4 +155,27 @@ header {
 
 .pass {
     background-color: rgb(15, 15, 14)
+}
+
+button{
+  
+    margin-bottom:1px;
+    font-size: 15px;
+    font-family: courier;
+    color: orange;    
+}
+
+#gameOver{
+    text-align: center;
+    font-family: courier;
+    color: orange;
+    font-style: unset;
+    padding-top: 50px;
+}
+
+#restart{
+    text-align: center;
+    font-family: courier;  
+    color: orange;
+    font-size: 15px;
 }
