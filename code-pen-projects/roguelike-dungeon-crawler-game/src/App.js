@@ -9,15 +9,17 @@ class App extends Component {
       isHidden: false,
       grid: [],
       status: '',
-      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 30, weapon: 5, boss: 35 },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 10, weapon: 5, boss: 50 },
       oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       path: [],
       health: 'jam',
       weapon: 'strike',
       enemy: 'octopus',
       boss: 'jason',
+      door:'stage',
       dungeon: 1,
       enemyLife: 20,
+      bossLife:40,
       hiddenGrid: [],
       stages: [stage.stage1, stage.stage2, stage.stage3],
       currentStage: 0,
@@ -39,8 +41,8 @@ class App extends Component {
 
   grid() {
     var deadCells = [];
-    for (var x = 0; x < 10; x++) {
-      for (var y = 0; y < 10; y++) {
+    for (var x = 0; x < 12; x++) {
+      for (var y = 0; y < 12; y++) {
         deadCells.push({
           x: x,
           y: y,
@@ -139,8 +141,9 @@ class App extends Component {
       var randomPlacement = Math.floor(Math.random() * alive.length);
       var copyFromRandomPlacement = { ...alive[randomPlacement] };
       if (copyFromRandomPlacement.status === 'pass') {
-        copyFromRandomPlacement.status = 'stage';
+        copyFromRandomPlacement.status = "stage";
         playerRandom.push(copyFromRandomPlacement);
+        console.log(playerRandom, alive)
       }
     }
 
@@ -149,10 +152,11 @@ class App extends Component {
       if (alive[alive.indexOf(lookForMath)]) {
         alive[alive.indexOf(lookForMath)].status = 'stage';
       }
+
     }
     return { grid: playerRandom };
   }
-
+    
   placeAllRandomFunctions(life) {
     var healthFunction = this.placeHealthOnTheGrid(life);
     var xpLimit = 6;
@@ -178,13 +182,15 @@ class App extends Component {
     var objectFound = grid.find(cell => cell.x === keys.x && cell.y === keys.y);
     if (objectFound === undefined) {
       keys = oldLoc;
-    }else if (objectFound.status === 'walls') {
+    } else if (objectFound.status === 'walls') {
       keys = oldLoc
     }
+    console.log('object :', objectFound);
     var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
     var player = this.playerLifeIncreaseOrDecrease(grid[index]);
-    player = { ...player, x: grid[index].x, y: grid[index].y }
-    var getAllNeighbors = this.checkForAliveNeighbors(player);
+
+    player = player.shouldMove ? { ...player, x: grid[index].x, y: grid[index].y } : player;
+    var getAllNeighbors = this.checkNeighbors(player);
     this.setState({ player: player, oldLocation: oldLoc, hiddenGrid: getAllNeighbors })
   }
 
@@ -199,64 +205,100 @@ class App extends Component {
   }
 
   playerLifeIncreaseOrDecrease(item) {
-    var playerInfo = this.state.player;
+    var playerInfo = { ...this.state.player, shouldMove: true };
     var current = this.state.currentStage;
     var xpLimit = 6;
     if (item.status === 'healthBlock') {
       playerInfo = { ...playerInfo, health: playerInfo.health + 5 }
     }
     if (item.status === 'enemy') {
-      playerInfo = { ...playerInfo, health: playerInfo.health - 15, XP: playerInfo.XP + 2, enemy: playerInfo.enemy - 3 };
-      if (playerInfo.XP === xpLimit++) {
+      playerInfo = { ...playerInfo, XP: playerInfo.XP + 2 };
+      if (playerInfo.XP >= xpLimit++) {
         this.placeDoorOnTheGrid(this.state.grid);
       }
     }
     if (item.status === 'weaponBlock') {
       playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 3 }
     }
+
     if (playerInfo.health <= 0) {
       this.setState({ gameOver: true })
     }
-    if (this.state.stages === stage.stage3) {
-      alert('YOU WON!!')
-    }
     if (item.status === "stage") {
-      if (this.state.currentStage <= 2) {
+      if (this.state.currentStage <= 1) {
+        console.log("not yet the last stage");
         var allDeadCells = this.grid();
         var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
         var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
         this.placeAllRandomFunctions(aliveAndDead.grid);
         this.placingDifferentIcons();
-        this.placeBossOnTheGrid(item);
-        this.setState({ grid: aliveAndDead.grid, boss: 'jason.png', stage: stage.stage2, currentStage: this.state.currentStage + 1 });
+        this.setState({ grid: aliveAndDead.grid, boss: 'jason', stage: stage.stage2, currentStage: this.state.currentStage + 1 });
+      } else {
+        var allDeadCells = this.grid();
+        var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
+        var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
+        this.placeAllRandomFunctions(aliveAndDead.grid);
+        this.placingDifferentIcons();
+        aliveAndDead.grid = this.placeBossOnTheGrid(this.state.stages[this.state.currentStage], aliveAndDead.grid);
+        this.setState({ grid: aliveAndDead.grid, boss: 'jason', stage: stage.stage2, currentStage: this.state.currentStage + 1 });
+      }
+    }
+    if (item.status === 'enemy') {
+      playerInfo = { ...playerInfo, health: playerInfo.health - 10 };
+      this.setState({ enemyLife: this.state.enemyLife - 10 })
+      if (this.state.enemyLife === 0) {
+        shouldMove: true;
+        this.setState({ enemyLife: 20 })
+      } else {
+        playerInfo = { ...playerInfo, x: this.state.oldLocation.x, y: this.state.oldLocation.y, shouldMove: false }
+      }
+    }
+    if (item.status === 'jason') {
+      this.setState({bossLife:this.state.bossLife - 15})
+      playerInfo = { ...playerInfo, health: playerInfo.health - 25};
+      if (this.state.bossLife === 0) {
+        alert('YOU WON!!');
+        window.location.reload();
+      } else {
+        playerInfo = { ...playerInfo, x: this.state.oldLocation.x, y: this.state.oldLocation.y, shouldMove: false }
       }
     }
     return playerInfo
+  }
+
+  placeBossOnTheGrid(stage, grid) {
+    var validGrid = grid;
+    var nextStage = stage
+    var bossInfo = this.state.boss;
+    if (nextStage && nextStage === this.state.stages[2]) {
+      var boss = undefined;
+      while (!boss) {
+        var randomPlace = { x: Math.floor(Math.random() * 12), y: Math.floor(Math.random() * 12) };
+        var randomPlace = grid.find(item => {
+          return item.x === randomPlace.x && item.y === randomPlace.y && item.status === "pass"
+        });
+        boss = randomPlace ? randomPlace : undefined;
+      }
+      var doorFound = validGrid.find(item => item.status === "stage");
+      validGrid[validGrid.indexOf(doorFound)].status = "pass";
+      validGrid[validGrid.indexOf(boss)].status = "jason";
+    }
+    return validGrid;
   }
 
   placingDifferentIcons(item) {
     var nextStage = this.state.stages[this.state.currentStage + 1];
     var playerInfo = this.state.player;
     if (nextStage && nextStage.stage === this.state.stage2) {
-      this.placeBossOnTheGrid(playerInfo);      
-      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'crab.png', weapon: 'gun.png', boss: 'jason.png' };
+      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'crab.png', weapon: 'gun.png', boss: 'jason' };
       this.setState({ health: 'syringe', enemy: 'bat', weapon: 'fist', boss: 'jason', stage: stage.stage3 });
     }
 
     return playerInfo;
   }
 
-  placeBossOnTheGrid() {
-    var nextStage = this.state.stages[this.state.currentStage + 2];
-    var playerInfo = this.state.player;
-    if (nextStage && nextStage.stages === this.state.stage3) {
-      playerInfo = { ...playerInfo, boss:'jason.png' };      
-      this.setState({ boss: 'jason', stage: stage.stage3}) ;
-    }
-    return playerInfo;
-  }
 
-  checkForAliveNeighbors(object) {
+  checkNeighbors(object) {
     var valid = [object]
     var grid = this.state.grid;
     var allNeighbors = [
@@ -271,7 +313,12 @@ class App extends Component {
     ]
     allNeighbors.forEach(item => {
       var checkProperties = grid.find(cell => { return cell.x === item.x && cell.y === item.y });
-      valid.push(checkProperties);
+      if (checkProperties) {
+        valid.push(checkProperties);
+      } else {
+        checkProperties = { ...item, status: 'walls' }
+        valid.push(checkProperties);
+      }
     });
     valid.sort((a, b) => {
       if (a.x === b.x) return a.y - b.y;
@@ -311,7 +358,7 @@ class App extends Component {
               <div className='elementsInsideGrid'>
                 <span className='level'>Dungeon: </span>
                 <span className='health'>Health: {this.state.player.health}</span>
-                <span className='enemyLife'>Enemy: {this.state.player.enemy}</span>
+                <span className='enemyLife'>Enemy: {this.state.enemyLife}</span>
                 <span className='playerLife'>XP: {this.state.player.XP}</span>
                 <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
               </div>
@@ -371,7 +418,7 @@ class App extends Component {
                     if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
                       element.status = "pass"
                       console.log('status', element);
-                      
+
                     }
                     if (element.x === this.state.player.x && element.y === this.state.player.y) {
                       element.status = "playerBlock";
