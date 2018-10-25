@@ -3,40 +3,49 @@ import * as stage from './stages';
 import './App.css';
 
 class App extends Component {
+
   constructor() {
     super()
-    this.state = {
+    this.initialState = {
       isHidden: false,
       grid: [],
       status: '',
-      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 10, weapon: 5, boss: 50 },
+      player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 0, boss: 15, weaponPower: 0 },
       oldLocation: { x: 2, y: 2, player: "playerBlock", status: "playerBlock" },
       path: [],
       health: 'jam',
       weapon: 'strike',
+      weaponPower: 0,
       enemy: 'octopus',
       boss: 'jason',
-      door:'stage',
+      door: 'stage',
       dungeon: 1,
       enemyLife: 20,
-      bossLife:40,
+      bossLife: 15,
       hiddenGrid: [],
       stages: [stage.stage1, stage.stage2, stage.stage3],
       currentStage: 0,
-    }
+      xpLimit: 6
+
+    };
+    this.state = { ...this.initialState }
     this.grid = this.grid.bind(this);
     this.pathWays = this.pathWays.bind(this);
     this.creatingRandomEnemies = this.creatingRandomEnemies.bind(this);
     this.playerMovesInTheGrid = this.playerMovesInTheGrid.bind(this);
+    this.settingUp = this.settingUp.bind(this);
   }
-
-  componentDidMount() {
-    document.onkeydown = this.playerMovesInTheGrid;
+  settingUp() {
+    this.setState({ gameOver: false })
     var allDeadCells = this.grid();
     var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
     var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
     this.placeAllRandomFunctions(aliveAndDead.grid)
     this.setState({ grid: aliveAndDead.grid });
+  }
+  componentDidMount() {
+    document.onkeydown = this.playerMovesInTheGrid;
+    this.settingUp()
   }
 
   grid() {
@@ -55,14 +64,15 @@ class App extends Component {
 
   pathWays(deadGrid, paths) {
     var cells = deadGrid;
-
-    for (var i = 0; i < paths.length; i++) {
-      var cellFound = cells.find(element => element.x === paths[i].x && element.y === paths[i].y);
+    var creatingPath = paths;
+    console.log('paths :', creatingPath, deadGrid);
+    for (var i = 0; i < creatingPath.length; i++) {
+      var cellFound = cells.find(element => element.x === creatingPath[i].x && element.y === creatingPath[i].y);
       if (cells[cells.indexOf(cellFound)]) {
         cells[cells.indexOf(cellFound)].status = "walls";
       }
     }
-    return { grid: cells, path: paths, player: paths }
+    return { grid: cells, path: creatingPath, player: creatingPath }
   }
 
   creatingRandomEnemies(aliveCells) {
@@ -154,21 +164,21 @@ class App extends Component {
       }
 
     }
-    return { grid: playerRandom };
+    if (this.state.dungeon < 4) {
+      this.setState({ dungeon: this.state.dungeon + 1 })
+      return { grid: playerRandom };
+    }
   }
-    
   placeAllRandomFunctions(life) {
     var healthFunction = this.placeHealthOnTheGrid(life);
-    var xpLimit = 6;
-    if (this.state.player.XP === xpLimit++) {
-      this.placeDoorOnTheGrid(life);
-    } var weaponFunction = this.placeWeaponOnTheGrid(life);
+    var weaponFunction = this.placeWeaponOnTheGrid(life);
     return weaponFunction;
   }
 
   playerMovesInTheGrid(event) {
     var keys = this.state.player;
     var oldLoc = this.state.player;
+    var playerInfo = { ...this.state.player, shouldMove: true }
     var grid = this.state.grid;
     if (event.key === "ArrowDown") {
       keys = { x: keys.x + 1, y: keys.y }
@@ -185,7 +195,17 @@ class App extends Component {
     } else if (objectFound.status === 'walls') {
       keys = oldLoc
     }
-    console.log('object :', objectFound);
+    if (objectFound && objectFound.icon === 'strike' || objectFound && objectFound.icon === 'gun') {
+      playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 5 };
+      this.setState({ player: playerInfo });
+      if (this.state.enemyLife === 0) {
+        shouldMove: true;
+        this.setState({ enemyLife: 20 })
+      } else {
+        playerInfo = { ...playerInfo, x: this.state.oldLocation.x, y: this.state.oldLocation.y, shouldMove: false }
+      }
+    }
+
     var index = grid.findIndex(cell => cell.x === keys.x && cell.y === keys.y);
     var player = this.playerLifeIncreaseOrDecrease(grid[index]);
 
@@ -195,30 +215,25 @@ class App extends Component {
   }
 
   restartGame() {
-    var allDeadCells = this.grid();
-    var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[0]);
-    var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
-    this.placeAllRandomFunctions(aliveAndDead.grid)
-    this.placeDoorOnTheGrid(aliveAndDead.grid)
-    this.setState({ gameOver: false, currentStage: this.state.stages[0], grid: aliveAndDead.grid, player: { x: 2, y: 2, player: "playerBlock", status: "playerBlock", XP: 0, health: 50, enemy: 20, weapon: 5 } });
-
+    this.setState({ ...this.initialState });
+    this.settingUp();
   }
 
   playerLifeIncreaseOrDecrease(item) {
     var playerInfo = { ...this.state.player, shouldMove: true };
+
     var current = this.state.currentStage;
-    var xpLimit = 6;
     if (item.status === 'healthBlock') {
       playerInfo = { ...playerInfo, health: playerInfo.health + 5 }
     }
+    var limit = this.state.xpLimit;
     if (item.status === 'enemy') {
       playerInfo = { ...playerInfo, XP: playerInfo.XP + 2 };
-      if (playerInfo.XP >= xpLimit++) {
-        this.placeDoorOnTheGrid(this.state.grid);
+      if (playerInfo.XP == limit) {
+
+        this.state.dungeon < 4 ? this.placeDoorOnTheGrid(this.state.grid) : console.log("flsadj");
+        this.setState({ xpLimit: limit + 6 })
       }
-    }
-    if (item.status === 'weaponBlock') {
-      playerInfo = { ...playerInfo, weapon: playerInfo.weapon + 3 }
     }
 
     if (playerInfo.health <= 0) {
@@ -226,7 +241,6 @@ class App extends Component {
     }
     if (item.status === "stage") {
       if (this.state.currentStage <= 1) {
-        console.log("not yet the last stage");
         var allDeadCells = this.grid();
         var aliveAndDead = this.pathWays(allDeadCells, this.state.stages[this.state.currentStage]);
         var newGrid = this.creatingRandomEnemies(aliveAndDead.grid);
@@ -245,8 +259,9 @@ class App extends Component {
     }
     if (item.status === 'enemy') {
       playerInfo = { ...playerInfo, health: playerInfo.health - 10 };
-      this.setState({ enemyLife: this.state.enemyLife - 10 })
-      if (this.state.enemyLife === 0) {
+      var newEnemyLife = this.state.enemyLife - playerInfo.weapon;
+      this.setState({ enemyLife: newEnemyLife });
+      if (this.state.enemyLife <= 0) {
         shouldMove: true;
         this.setState({ enemyLife: 20 })
       } else {
@@ -254,8 +269,8 @@ class App extends Component {
       }
     }
     if (item.status === 'jason') {
-      this.setState({bossLife:this.state.bossLife - 15})
-      playerInfo = { ...playerInfo, health: playerInfo.health - 25};
+      this.setState({ bossLife: this.state.bossLife - 15 })
+      playerInfo = { ...playerInfo, health: playerInfo.health - 15 };
       if (this.state.bossLife === 0) {
         alert('YOU WON!!');
         window.location.reload();
@@ -280,8 +295,11 @@ class App extends Component {
         boss = randomPlace ? randomPlace : undefined;
       }
       var doorFound = validGrid.find(item => item.status === "stage");
-      validGrid[validGrid.indexOf(doorFound)].status = "pass";
       validGrid[validGrid.indexOf(boss)].status = "jason";
+      this.setState({ ...this.initialState, player: { ...this.initialState.player, x: this.state.player.x, y: this.state.player.y } });
+      this.settingUp();
+
+      // this.restartGame();
     }
     return validGrid;
   }
@@ -290,8 +308,8 @@ class App extends Component {
     var nextStage = this.state.stages[this.state.currentStage + 1];
     var playerInfo = this.state.player;
     if (nextStage && nextStage.stage === this.state.stage2) {
-      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'crab.png', weapon: 'gun.png', boss: 'jason' };
-      this.setState({ health: 'syringe', enemy: 'bat', weapon: 'fist', boss: 'jason', stage: stage.stage3 });
+      playerInfo = { ...playerInfo, health: 'health.png', enemy: 'crab.png', weapon: 'gun.png' };
+      this.setState({ health: 'syringe', enemy: 'crab', weapon: 'gun' });
     }
 
     return playerInfo;
@@ -338,7 +356,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div >
 
