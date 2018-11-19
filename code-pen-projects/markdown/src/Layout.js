@@ -13,18 +13,21 @@ export default class Layout extends React.Component {
 
     handleChange(e) {
         this.setState({ source: e.target.value });
-        
+
     }
 
     render() {
-       
+
         return (
             <div>
-                <h1> Markdown Previewer</h1>
+                <h1 className="header"> Markdown Previewer</h1>
                 <textarea onChange={this.handleChange} />
-                <p>{this.state.input} </p>
-                <ReactMarkdown source={this.state.source} /> 
-                { <footer>Pen By M.. Loppar</footer> }
+                <div className="container">
+                    <ReactMarkdown source={this.state.source} />
+                </div >
+                <div className="footer">
+                    <footer>By Mrs Lauper</footer>
+                </div>
             </div>
 
         );
