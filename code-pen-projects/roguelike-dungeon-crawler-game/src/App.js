@@ -233,7 +233,6 @@ class App extends Component {
       playerInfo = { ...playerInfo, XP: playerInfo.XP + 2 };
       if (playerInfo.XP >= limit+6 ) {
           this.placeDoorOnTheGrid(this.state.grid);
-
       }
     }
 
@@ -375,7 +374,6 @@ class App extends Component {
                 </div>
                 <div className='elementsInsideGrid'>
                   <span className='health'>Health: {this.state.player.health}</span>
-                  {/* <span className='enemyLife'>Enemy: {this.state.enemyLife}</span> */}
                   <span className='playerLife'>XP: {this.state.player.XP}</span>
                   <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
                 </div>
