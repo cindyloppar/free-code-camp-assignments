@@ -87,12 +87,13 @@ class App extends Component {
         randomArray.push(randomCell);
       }
     }
-
     for (var index = 0; index < randomArray.length; index++) {
       var findMatch = onlyAlive.find(element => element.x === randomArray[index].x && element.y === randomArray[index].y);
       if (onlyAlive[onlyAlive.indexOf(findMatch)]) {
         onlyAlive[onlyAlive.indexOf(findMatch)].status = 'enemy';
+
       }
+
     }
 
     return { grid: randomArray, enemies: randomArray };
@@ -153,7 +154,6 @@ class App extends Component {
       if (copyFromRandomPlacement.status === 'pass') {
         copyFromRandomPlacement.status = "stage";
         playerRandom.push(copyFromRandomPlacement);
-        console.log(playerRandom, alive)
       }
     }
 
@@ -166,9 +166,11 @@ class App extends Component {
     }
     if (this.state.dungeon < 4) {
       this.setState({ dungeon: this.state.dungeon + 1 })
-      return { grid: playerRandom };
     }
+    return { grid: playerRandom };
   }
+
+
   placeAllRandomFunctions(life) {
     var healthFunction = this.placeHealthOnTheGrid(life);
     var weaponFunction = this.placeWeaponOnTheGrid(life);
@@ -229,10 +231,9 @@ class App extends Component {
     var limit = this.state.xpLimit;
     if (item.status === 'enemy') {
       playerInfo = { ...playerInfo, XP: playerInfo.XP + 2 };
-      if (playerInfo.XP == limit) {
+      if (playerInfo.XP >= limit+6 ) {
+          this.placeDoorOnTheGrid(this.state.grid);
 
-        this.state.dungeon < 4 ? this.placeDoorOnTheGrid(this.state.grid) : console.log("flsadj");
-        this.setState({ xpLimit: limit + 6 })
       }
     }
 
@@ -289,7 +290,7 @@ class App extends Component {
       var boss = undefined;
       while (!boss) {
         var randomPlace = { x: Math.floor(Math.random() * 12), y: Math.floor(Math.random() * 12) };
-        var randomPlace = grid.find(item => {
+        randomPlace = grid.find(item => {
           return item.x === randomPlace.x && item.y === randomPlace.y && item.status === "pass"
         });
         boss = randomPlace ? randomPlace : undefined;
@@ -299,7 +300,6 @@ class App extends Component {
       this.setState({ ...this.initialState, player: { ...this.initialState.player, x: this.state.player.x, y: this.state.player.y } });
       this.settingUp();
 
-      // this.restartGame();
     }
     return validGrid;
   }
@@ -368,18 +368,19 @@ class App extends Component {
 
         {!this.state.gameOver && (
           <div>
-            <header>
-              <div className='heading'>
-                <h1>Roguelike Dungeon Crawler Game</h1>
-              </div>
-              <div className='elementsInsideGrid'>
-                <span className='level'>Dungeon: </span>
-                <span className='health'>Health: {this.state.player.health}</span>
-                <span className='enemyLife'>Enemy: {this.state.enemyLife}</span>
-                <span className='playerLife'>XP: {this.state.player.XP}</span>
-                <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
-              </div>
-            </header>
+            <center>
+              <header>
+                <div className='heading'>
+                  <h1>Roguelike Dungeon Crawler Game</h1>
+                </div>
+                <div className='elementsInsideGrid'>
+                  <span className='health'>Health: {this.state.player.health}</span>
+                  {/* <span className='enemyLife'>Enemy: {this.state.enemyLife}</span> */}
+                  <span className='playerLife'>XP: {this.state.player.XP}</span>
+                  <span className='playerLife'>Weapon: {this.state.player.weapon}</span>
+                </div>
+              </header>
+            </center>
             <div className="message">
               <span className='value'>Player: </span>
               <span id='playerBlock'></span>
@@ -392,7 +393,7 @@ class App extends Component {
               <span className='value'>Boss: </span>
               <span className='boss' id={this.state.boss}></span>
               <span className='value'>Next-Stage: </span>
-              <span className='stage'></span>
+              <span className='stage' id={this.state.door}></span>
             </div>
 
             <div>
@@ -402,30 +403,32 @@ class App extends Component {
 
             </div>
             {!this.state.isHidden && (
+              <center>
+                <div className="grid" >
+                  {this.state.grid.map(element => {
+                    if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
+                      element.status = "pass"
+                    }
+                    if (element.x === this.state.player.x && element.y === this.state.player.y) {
+                      element.status = "playerBlock";
+                    }
+                    if (element.status === 'healthBlock') {
+                      element.icon = this.state.health;
+                    } else if (element.status === 'weaponBlock') {
+                      element.icon = this.state.weapon;
+                    } else if (element.status === 'enemy') {
+                      element.icon = this.state.enemy;
+                    } else if (element.status === 'boss') {
+                      element.icon = this.state.boss;
+                    } else {
+                      element.icon = element.status;
+                    }
 
-              <div className="grid" >
-                {this.state.grid.map(element => {
-                  if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation.y) {
-                    element.status = "pass"
-                  }
-                  if (element.x === this.state.player.x && element.y === this.state.player.y) {
-                    element.status = "playerBlock";
-                  }
-                  if (element.status === 'healthBlock') {
-                    element.icon = this.state.health;
-                  } else if (element.status === 'weaponBlock') {
-                    element.icon = this.state.weapon;
-                  } else if (element.status === 'enemy') {
-                    element.icon = this.state.enemy;
-                  } else if (element.status === 'boss') {
-                    element.icon = this.state.boss;
-                  } else {
-                    element.icon = element.status;
-                  }
+                    return <span id={element.icon} onClick={() => this.grid(element)} className={element.status}></span>
+                  })}
+                </div>
 
-                  return <span id={element.icon} onClick={() => this.grid(element)} className={element.status}></span>
-                })}
-              </div>
+              </center>
             )}
 
             {this.state.isHidden && (
